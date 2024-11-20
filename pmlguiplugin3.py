@@ -8,12 +8,12 @@ Created on Mon Nov 18 09:39:43 2024
 from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QWidget, QTabWidget, QVBoxLayout, QLineEdit, QFileDialog, QLabel, QHBoxLayout
-import vispml
+from . import vispml
 import subprocess
 
 
 
-initial_dir = "/home/user/Documents"
+initial_dir = "/home/user/Desktop/"
 
 class Plugin(QMainWindow):
     
@@ -341,13 +341,7 @@ class TabsWidget(QWidget):
     def execute_vispml(self):
         
         self.visualize = vispml.results_pdb(vispml.read_pdb(self.file_pdb), vispml.normalize_flux(self.file_csv))
-        # print(self.file_pdb)
-        # print(vispml.read_pdb(self.file_pdb))
-        # print(self.file_csv)
-        # print(vispml.normalize_flux(self.file_csv))
-        # print(self.visualize)
-        
-        subprocess.run(["pymol", "results.pdb", "b-factor.pml"])
+        subprocess.run(["pymol", "results.pdb", r"C:\Users\Medizinische Chemie\Desktop\aliaa\b-factor.pml"])
         
 #______________________________________________________________________________
 if __name__ == '__main__':
@@ -355,9 +349,3 @@ if __name__ == '__main__':
     p = Plugin()
     p.show()
     app.exec_()
-
-
- 
-
-
-# C:\Users\Medizinische Chemie\.conda\envs\aliaa_env\Lib\site-packages\pymol\plugins\aliaa_gui
