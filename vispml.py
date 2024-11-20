@@ -37,7 +37,7 @@ def normalize_flux(csv_file):
     """
 
     df = pd.read_csv(csv_file)
-    df.loc[df['flux']!= 0, 'flux_norm'] =((range_min) + ((df['flux'] - df['flux'].min()) * (range_max - (range_min))/ (df['flux'].max() - df['flux'].min()))).round(4)
+    df.loc[df['flux']!= 0, 'flux_norm'] = ((range_min) + ((df['flux'] - df['flux'].min()) * (range_max - (range_min))/ (df['flux'].max() - df['flux'].min()))).round(4)
     df.loc[df['flux_norm'].isna(), 'flux_norm'] = (range_max - (- range_min)) / 2 #middle value
 
     
@@ -126,49 +126,9 @@ def results_pdb(pdb_list,csv_flux):
                              pdb_list[i][6],pdb_list[i][7],pdb_list[i][8],
                              pdb_list[i][9],pdb_list[i][10]))
     
-    lines = [
-    
-    "# Load the structure.\n",
-    "load results.pdb\n\n",
-    
-    "# Set the view to show as cartoon\n",
-    "show cartoon\n\n",
-    
-    "#Set background color to white\n"
-    "bg_color white\n\n",
-    
-    "# Color the beta factor red (low) to blue (high)\n",
-    "spectrum b, rainbow\n\n",
-    
-    "# Select atoms with B-factor equal to 0\n",
-    "select bfactor_zero, b < 0.0001  # Allows for slight floating-point precision issues\n\n",
-    
-    "# Color the selected atoms grey \n",
-    "color black, bfactor_zero \n\n",
-    
-    "# Color substrate grey\n",
-    "select substrate, not polymer\n",
-    "color grey, substrate"
-    
-    ]
-    
-    with open (r"C:\Users\Medizinische Chemie\Desktop\aliaa\b-factor.pml", "w") as b_pml:
-        b_pml.writelines(lines)
         
-    return mod_pdb,b_pml
-    
+    return mod_pdb
 
 # a = read_pdb(path_to_pdb)
 # b = normalize_flux(path_to_csv)
 # c = results_pdb(a,b)
-
-
-
-
-
-
-
-
-
-
-
