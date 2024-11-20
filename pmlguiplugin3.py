@@ -9,11 +9,11 @@ from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QWidget, QTabWidget, QVBoxLayout, QLineEdit, QFileDialog, QLabel, QHBoxLayout
 from . import vispml
-import subprocess
+from pymol import cmd
 
 
 
-initial_dir = "/home/user/Desktop/"
+initial_dir = "/home/user/Documents"
 
 class Plugin(QMainWindow):
     
@@ -339,11 +339,27 @@ class TabsWidget(QWidget):
 #______________________________________________________________________________
      
     def execute_vispml(self):
-        
-        self.visualize = vispml.results_pdb(vispml.read_pdb(self.file_pdb), vispml.normalize_flux(self.file_csv))
-        subprocess.run(["pymol", "results.pdb", r"C:\Users\Medizinische Chemie\Desktop\aliaa\b-factor.pml"])
-        
+
+        # Generate results in the current directory
+        self.visualize = vispml.results_pdb(vispml.read_pdb(self.file_pdb),vispml.normalize_flux(self.file_csv))
+    
+        # Load the generated PDB file in PyMOL
+        cmd.load("results.pdb")
+    
+        # Apply visualization settings directly in PyMOL
+        cmd.show("cartoon")
+        cmd.bg_color("white")
+        cmd.spectrum("b", "rainbow")
+    
+        # Select and color atoms with B-factor == 0
+        cmd.select("bfactor_zero", "b < 0.0001")  # Select atoms with zero B-factor
+        cmd.color("black", "bfactor_zero")
+    
+        # Color substrate (non-polymer residues) gray
+        cmd.select("substrate", "not polymer")
+        cmd.color("grey", "substrate")
 #______________________________________________________________________________
+
 if __name__ == '__main__':
     app = QApplication([])
     p = Plugin()
