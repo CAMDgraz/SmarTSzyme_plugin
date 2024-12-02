@@ -115,8 +115,124 @@ class TabsWidget(QWidget):
 #________________________________Tab 2_________________________________________
         
         # main layout for tab 2
-        self.mainlayout_2 = QVBoxLayout()        
+        self.mainlayout_2 = QHBoxLayout()        
         self.tab2.setLayout(self.mainlayout_2)
+    
+#................................qmmm.in.......................................
+
+        self.layout_first_column = QVBoxLayout()
+        self.mainlayout_2.addLayout(self.layout_first_column)
+        
+        self.mainlayout_2.addSpacing(10)  
+
+        self.labelqmmmin = QLabel("Costumizable Properties of qmmm.in Files", self)
+        self.layout_first_column.addWidget(self.labelqmmmin)
+        
+        self.select_ntslim = QLineEdit(self)
+        self.select_ntslim.setPlaceholderText("number of steps Default=10000")
+        # Add the input fields to the layout
+        self.layout_first_column.addWidget(self.select_ntslim)
+        
+        self.select_timestep = QLineEdit(self)
+        self.select_timestep.setPlaceholderText("timestep Default=0.0002")
+        self.layout_first_column.addWidget(self.select_timestep)
+        
+        self.select_temp = QLineEdit(self)
+        self.select_temp.setPlaceholderText("just one slot Default=300")
+        self.layout_first_column.addWidget(self.select_temp)
+        
+        self.select_qmmask = QLineEdit(self)
+        self.select_qmmask.setPlaceholderText("residues and atoms eg. :resid | :resid2")
+        self.layout_first_column.addWidget(self.select_qmmask)
+        
+        self.select_qmcharge = QLineEdit(self)
+        self.select_qmcharge.setPlaceholderText("Default: ERROR!!!!")
+        self.layout_first_column.addWidget(self.select_qmcharge)
+        
+        self.select_qmtheory = QComboBox(self)
+        self.select_qmtheory.addItem("DFTB3")
+        self.layout_first_column.addWidget(self.select_qmtheory)
+        
+        self.select_outputfile = QLineEdit(self)
+        self.select_outputfile.setPlaceholderText("smd_<VfATA>.txt")
+        self.layout_first_column.addWidget(self.select_outputfile)
+        
+        self.createQmmminButton = QPushButton("Create qmmm.in", self)
+        self.layout_first_column.addWidget(self.createQmmminButton)
+        
+        self.layout_first_column_line = QVBoxLayout()
+        self.mainlayout_2.addLayout(self.layout_first_column_line)
+        
+        # Create a vertical line
+        line1 = QFrame()
+        line1.setFrameShape(QFrame.VLine)  # Vertical line
+        line1.setFrameShadow(QFrame.Sunken)
+        line1.setStyleSheet("background-color: black; width: 5px;")  # Set width for a thick line
+        self.layout_first_column_line.addWidget(line1)
+
+        self.layout_first_column.addStretch()
+        
+        self.mainlayout_2.addSpacing(10)  
+        
+#.................................cv.in........................................
+        
+        self.layout_second_column = QVBoxLayout()
+        self.mainlayout_2.addLayout(self.layout_second_column)
+        
+        self.mainlayout_2.addSpacing(10)   
+        
+        self.labelcvin = QLabel("Costumizable Properties of cv.in Files", self)
+        self.layout_second_column.addWidget(self.labelcvin)
+
+        self.select_cv_type = QComboBox(self)
+        self.select_cv_type.addItem("DISTANCE")
+        self.layout_second_column.addWidget(self.select_cv_type)
+        
+        self.select_cv_i = QLineEdit(self)
+        self.select_cv_i.setPlaceholderText("atom numbers")
+        self.layout_second_column.addWidget(self.select_cv_i)
+        
+        self.select_path = QLineEdit(self)
+        self.select_path.setPlaceholderText("initial distance and final distance")
+        self.layout_second_column.addWidget(self.select_path)
+        
+        self.select_HARM = QLineEdit(self)
+        self.select_HARM.setPlaceholderText("harmonic constant Default=600")
+        self.layout_second_column.addWidget(self.select_HARM)
+        
+        self.createCvinButton = QPushButton("Create cv.in", self)
+        self.layout_second_column.addWidget(self.createCvinButton)
+        
+        self.layout_second_column_line = QVBoxLayout()
+        self.mainlayout_2.addLayout(self.layout_second_column_line)
+                
+        # Create a horizontal line
+        self.line2 = QFrame()
+        self.line2.setFrameShape(QFrame.VLine)
+        self.line2.setFrameShadow(QFrame.Sunken)
+        self.line2.setStyleSheet("background-color: black; height: 5px;")  # Thick line
+        self.layout_second_column_line.addWidget(self.line2)
+        
+        self.layout_second_column.addStretch()
+        
+        self.mainlayout_2.addSpacing(10)  
+        
+#.................................run.sh.......................................
+
+        self.layout_third_column = QVBoxLayout()
+        self.mainlayout_2.addLayout(self.layout_third_column)
+
+        self.labelrunsh = QLabel("Costumizable Properties of run.sh Files", self)
+        self.layout_third_column.addWidget(self.labelrunsh)
+
+        self.select_frame_number = QLineEdit(self)
+        self.select_frame_number.setPlaceholderText("Modify 'selected frame number'")
+        self.layout_third_column.addWidget(self.select_frame_number)
+
+        self.createRunshButton = QPushButton("Create run.sh", self)
+        self.layout_third_column.addWidget(self.createRunshButton)
+        
+        self.layout_third_column.addStretch()
         
 #______________________________________________________________________________
 
