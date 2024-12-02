@@ -8,7 +8,7 @@ from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import (QMainWindow, QApplication, QPushButton, QWidget, 
                              QTabWidget, QVBoxLayout, QLineEdit, QFileDialog,
-                             QLabel, QHBoxLayout, QMessageBox)
+                             QLabel, QHBoxLayout, QMessageBox, QFrame, QComboBox)
 from . import vispml
 from . import md_analysis as mda
 from pymol import cmd
