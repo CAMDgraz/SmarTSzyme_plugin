@@ -130,8 +130,9 @@ class TabsWidget(QWidget):
         
         self.select_ntslim = QLineEdit(self)
         self.select_ntslim.setPlaceholderText("number of steps Default=10000")
-        # Add the input fields to the layout
         self.layout_first_column.addWidget(self.select_ntslim)
+        print(self.select_ntslim.text())
+        
         
         self.select_timestep = QLineEdit(self)
         self.select_timestep.setPlaceholderText("timestep Default=0.0002")
@@ -159,6 +160,7 @@ class TabsWidget(QWidget):
         
         self.createQmmminButton = QPushButton("Create qmmm.in", self)
         self.layout_first_column.addWidget(self.createQmmminButton)
+        self.createQmmminButton.clicked.connect(self.write_qmmm_in)
         
         self.layout_first_column_line = QVBoxLayout()
         self.mainlayout_2.addLayout(self.layout_first_column_line)
@@ -202,6 +204,8 @@ class TabsWidget(QWidget):
         
         self.createCvinButton = QPushButton("Create cv.in", self)
         self.layout_second_column.addWidget(self.createCvinButton)
+        self.createCvinButton.clicked.connect(self.write_cv_in)
+
         
         self.layout_second_column_line = QVBoxLayout()
         self.mainlayout_2.addLayout(self.layout_second_column_line)
@@ -231,6 +235,8 @@ class TabsWidget(QWidget):
 
         self.createRunshButton = QPushButton("Create run.sh", self)
         self.layout_third_column.addWidget(self.createRunshButton)
+        self.createRunshButton.clicked.connect(self.write_run_sh)
+        
         
         self.layout_third_column.addStretch()
         
@@ -261,7 +267,7 @@ class TabsWidget(QWidget):
         self.mainlayout_3.addWidget(self.executeButton)
         self.executeButton.clicked.connect(self.execute_vispml)          
         
-#..............................................................................
+#______________________________________________________________________________
         
         # Add tabs to widget
         self.tabs_layout.addWidget(self.tabs)
@@ -338,10 +344,142 @@ class TabsWidget(QWidget):
         self.new_window_plot = MeasuresWindow(self.loadTraj)
         self.new_window_plot.show()
             
-#____________________________Methods for Tab 2_________________________________
+#______________________________Methods for Tab 2_______________________________
     
+    def write_qmmm_in(self):
+        
+        nstlim = self.select_ntslim.text()            
+        dt = self.select_timestep.text()                     
+        temp0 = self.select_temp.text()
+        tempi = self.select_temp.text()  
+        qmmask = self.select_qmmask.text()
+        qmcharge= self.select_qmcharge.text()
+        qm_theory= self.select_qmtheory.currentText()
+        output_file = self.select_outputfile.text()
+                            
+        qmmm_content = f"""\
+QMMM smd 2ps (10.000(nstlim)x0,0002(dt)=2ps time of QMMM simulation)    
+&cntrl
+ ntx = 1,                                       !Option to read initial coordinates, velocities and box size
+ irest = 0,                                     !Flag to restart
+ ntxo = 1,                                      !Format of the final coordinates
+ ntpr = 100,                                    !Print the progress every ntpr steps
+ ntwx = 100,                                    !Write coordinates every ntwx steps  
+ ntwv =-1,                                      !Print velocities steps  
+ ntf = 1,                                       !Force evaluation
+ ntb = 2,                                       !Application of periodic boundary conditions
+ dielc = 1.0,                                   !Dielectic constant
+ cut = 10.,                                     !Non-bonded cutoff
+ nsnb = 10,                                     !Frequency to update non-bonded list
+ imin = 0,                                      !Flag for minimization
+ ibelly = 0,                                    !Belly dynamics (frozen atoms)
+ iwrap = 1,                                     !Wrapping traj in a primary box
+ nstlim = {nstlim},                             !Number of MD to perform - change
+ dt = {dt},                                     !Time step - change 
+ temp0 = {temp0},                               !Reference temperature
+ tempi = {tempi},                               !Initial temperature
+ ntt = 3,                                       !Temperature scaling
+ gamma_ln=1.0,                                  !Collision frequency
+ vlimit = 20.0,                                 !maximun velocity
+ ntp = 1,                                       !Flag for constant pressure dynamic
+ ntc = 1,                                       !Flag for SHAKE (hydrohens in water molecules must shake)
+ tol = 0.00001,                                 !Tolerance for coordinates resetting shake  
+ pres0=1,                                       !Reference presure
+ comp=44.6,                                     !Compressibility of the system
+ jfastw=0,                                      !Routines for shake
+ nscm=1000,                                     !Remove translational and rotational center of mass move
+ ifqnt=1,                                       !Flag for qmmm
+ infe=1,                                        !Usage of non equilibrium method - must be there, because we want to run smd (steered molecular dynamics simulation)
+/
+&qmmm                   
+qmmask = '{qmmask}',                            !Atoms in the QM region
+qmcharge= {qmcharge},                           !Charge of the QM region
+qm_theory='{qm_theory}',                        !Theory for the QM region
+qmshake=0,                                      !SHAKE in the QM region
+writepdb=1,                                     !
+verbosity=0,                                    !
+qmcut=10.,                                      !
+dftb_telec=100,                                 !
+printcharges = 1,                               !
+printdipole = 1,                                !
+peptide_corr = 0,                               !
+dftb_slko_path='/usr/local/amber20/dat/slko/3ob-3-1',   !Only if dftb3 is used
+/         
+&smd                                            !smd flag - change the name
+ output_file = 'smd_{output_file}.txt'          !out file
+ output_freq = 50                               !out frequency
+ cv_file= 'cv.in'                               !collective variable file
+/
+"""
+        with open('qmmm.in', 'w') as self.qmmm: 
+            
+            self.qmmm.write(qmmm_content)
+            
+        print(f"{self.qmmm} has been successfully created.")
+        
+#...............................write cv.in....................................           
 
 
+    def write_cv_in(self):
+            
+        cv_type = self.select_cv_type.currentText()            
+        cv_i = self.select_cv_i.text()                     
+        path = self.select_path.text()
+        HARM = self.select_HARM.text() 
+                            
+        cv_content = f"""\
+cv_file 
+&colvar
+ cv_type='{cv_type}',
+ cv_ni= 2,     
+ cv_i= {cv_i},
+ npath=2,
+ path={path},
+ path_mode='LINES',
+ NHARM=1,
+ HARM={HARM},
+/
+"""
+        with open('cv.in', 'w') as self.cv: 
+            
+            self.cv.write(cv_content)
+            
+        print(f"{self.cv} has been successfully created.")
+            
+#................................write run.sh..................................          
+
+    def write_run_sh(self):
+    
+        select_frame_number = self.select_frame_number.text()
+
+         
+        runsh_content = f"""\#!/bin/sh
+#SBATCH --job-name=Vf_smd
+#SBATCH --partition=cpu
+#SBATCH --ntasks=4
+#SBATCH --ntasks-per-node=4
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=8GB
+
+MOL=$1
+
+# Sources
+source /software/amber22/amber.sh
+
+# Exports
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$AMBERHOME/lib
+export mpirun="/software/openmpi/bin/mpirun -np 4"
+export SANDER=$AMBERHOME/bin/sander
+
+# SMD
+$mpirun $SANDER -O -i qmmm.in -o $1.out -p $1.top -c $1.md{select_frame_number}.rst -r $1.qmmm.rst -x $1.qmmm.nc -ref $1.md{select_frame_number}.rst
+"""
+        with open('run.sh', 'w') as self.runsh: 
+            
+            self.runsh.write(runsh_content)
+            
+        print(f"{self.runsh} has been successfully created.")
+        
 #____________________________Methods for Tab 3_________________________________
 
     def open_pdb_file_dialog(self):
