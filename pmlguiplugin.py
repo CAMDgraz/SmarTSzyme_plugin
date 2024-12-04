@@ -348,13 +348,32 @@ class TabsWidget(QWidget):
     
     def write_qmmm_in(self):
         
-        nstlim = self.select_ntslim.text()            
-        dt = self.select_timestep.text()                     
-        temp0 = self.select_temp.text()
-        tempi = self.select_temp.text()  
+        if self.select_ntslim.text() == '':
+            nstlim = 10000
+        else:
+            nstlim = self.select_ntslim.text()         
+            
+        if self.select_timestep.text() == '':
+            dt = 0.0002
+        else:
+            dt = self.select_timestep.text()    
+
+        if self.select_temp.text() == '':
+            temp0 = 300
+            tempi = 300
+        else:
+            temp0 = self.select_temp.text()
+            tempi = self.select_temp.text()  
+            
         qmmask = self.select_qmmask.text()
-        qmcharge= self.select_qmcharge.text()
+        
+        if self.select_qmcharge.text() == '':
+            qmcharge = 'ERROR'
+        else:
+            qmcharge = self.select_qmcharge.text()
+
         qm_theory= self.select_qmtheory.currentText()
+        
         output_file = self.select_outputfile.text()
                             
         qmmm_content = f"""\
@@ -425,7 +444,11 @@ dftb_slko_path='/usr/local/amber20/dat/slko/3ob-3-1',   !Only if dftb3 is used
         cv_type = self.select_cv_type.currentText()            
         cv_i = self.select_cv_i.text()                     
         path = self.select_path.text()
-        HARM = self.select_HARM.text() 
+        
+        if self.select_HARM.text() == '':
+            HARM = 600
+        else: 
+            HARM = self.select_HARM.text() 
                             
         cv_content = f"""\
 cv_file 
