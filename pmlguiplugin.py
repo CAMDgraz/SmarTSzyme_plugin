@@ -8,7 +8,8 @@ from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import (QMainWindow, QApplication, QPushButton, QWidget, 
                              QTabWidget, QVBoxLayout, QLineEdit, QFileDialog,
-                             QLabel, QHBoxLayout, QMessageBox, QFrame, QComboBox)
+                             QLabel, QHBoxLayout, QMessageBox, QFrame, QComboBox,
+                             QSpacerItem, QSizePolicy)
 from . import vispml
 from . import md_analysis as mda
 from pymol import cmd
@@ -594,13 +595,36 @@ class MeasuresWindow(QWidget):
         
 #..............................................................................        
         
-        # layout for the left side of measures window
+        # layout for the right side of measures window
         self.right_layout = QVBoxLayout()
         self.measures_layout.addLayout(self.right_layout)
+    
+        self.right_pre_first_layout = QHBoxLayout()
+        self.right_layout.addLayout(self.right_pre_first_layout)    
         
+        self.description_label = QLabel("""
+To plot the distance between 2 atoms enter the atom numbers as follows:
+1,2
+
+To plot the angle between 3 atoms enter the atom numbers as follows:
+1,2,3
+
+To plot the dihedral between 4 atoms enter the atom numbers as follows:
+1,2,3,4                                """, self)
+        
+        
+        
+        spacer1 = QSpacerItem(0, 0, QSizePolicy.Maximum, QSizePolicy.Expanding)
+        self.right_pre_first_layout.addItem(spacer1)
+        
+        self.right_pre_first_layout.addWidget(self.description_label)
+         
         # layout for first line of right side of measures window
         self.right_first_layout = QHBoxLayout()
         self.right_layout.addLayout(self.right_first_layout)
+        
+        spacer2 = QSpacerItem(0, 0, QSizePolicy.Maximum, QSizePolicy.Expanding)
+        self.right_first_layout.addItem(spacer2)
         
         # select atoms in text field
         self.select_atoms = QLineEdit(self)
@@ -613,7 +637,6 @@ class MeasuresWindow(QWidget):
         # apply QRegExpValidator for both inputs (frames and atoms)
         validator_select_atoms = QRegExpValidator(regex, self.select_atoms)
         self.select_atoms.setValidator(validator_select_atoms)
-
         # add button to save atom selection
         self.addButton = QPushButton("Add", self)
         self.right_first_layout.addWidget(self.addButton)
@@ -623,12 +646,15 @@ class MeasuresWindow(QWidget):
         self.clearButton = QPushButton("Clear", self)
         self.right_first_layout.addWidget(self.clearButton)
         self.clearButton.clicked.connect(self.clear_atoms)
-        
+                
 #..............................................................................                
         
-        # layout for first line of right side of  measures window
+        # layout for second line of right side of  measures window
         self.right_second_layout = QHBoxLayout()
         self.right_layout.addLayout(self.right_second_layout)
+        
+        spacer3 = QSpacerItem(0, 0, QSizePolicy.Maximum, QSizePolicy.Expanding)
+        self.right_second_layout.addItem(spacer3)
         
         # plot button to plot atom selection
         self.plotButton = QPushButton("Plot", self)
@@ -639,7 +665,6 @@ class MeasuresWindow(QWidget):
         self.clearplotButton = QPushButton("Clear Plot", self)
         self.right_second_layout.addWidget(self.clearplotButton)
         self.clearplotButton.clicked.connect(self.clear_plot)
-
 #_________________________Methods for Measures Window__________________________
 
     def add_atoms(self):
