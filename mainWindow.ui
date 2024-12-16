@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>508</width>
+    <height>385</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>SmarTSzyme</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>481</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="label_title">
+     <property name="geometry">
+      <rect>
+       <x>15</x>
+       <y>10</y>
+       <width>451</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;SmarTSzyme&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Selection of position for engineering&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>230</y>
+      <width>481</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="mdtraj_button">
+       <property name="text">
+        <string>Load in MDTraj</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pymol_button">
+       <property name="text">
+        <string>Load in PyMol</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>140</y>
+      <width>481</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QLineEdit" name="edit_trajectory">
+       <property name="placeholderText">
+        <string>Select Trajectory</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="button_trajectory">
+       <property name="text">
+        <string>Select</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLineEdit" name="edit_topology">
+       <property name="placeholderText">
+        <string>Select Topology</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="button_topology">
+       <property name="text">
+        <string>Select</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QLabel" name="label_system">
+    <property name="geometry">
+     <rect>
+      <x>15</x>
+      <y>299</y>
+      <width>471</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>No system loaded</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>508</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuMeasures">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionMeasures"/>
+    <addaction name="actionSimula_Input"/>
+    <addaction name="actionReduce_results"/>
+   </widget>
+   <addaction name="menuMeasures"/>
+  </widget>
+  <action name="actionLoadTopTraj">
+   <property name="text">
+    <string>Top/Traj</string>
+   </property>
+  </action>
+  <action name="actionTrajetory">
+   <property name="text">
+    <string>Trajetory</string>
+   </property>
+  </action>
+  <action name="actionMeasures">
+   <property name="text">
+    <string>Measures</string>
+   </property>
+  </action>
+  <action name="actionSimula_Input">
+   <property name="text">
+    <string>Simula Input</string>
+   </property>
+  </action>
+  <action name="actionReduce_results">
+   <property name="text">
+    <string>Reduce results</string>
+   </property>
+  </action>
+  <action name="actionLoadReduce">
+   <property name="text">
+    <string>Reduce results</string>
+   </property>
+  </action>
+  <action name="actionaliaa">
+   <property name="text">
+    <string>aliaa</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
