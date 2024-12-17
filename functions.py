@@ -98,13 +98,13 @@ def plot_measure(type, traj, atoms, label, canvas, ax):
         elif type == 2:
             atoms_ = np.reshape(atoms_, (-1, 3))
             measure = md.compute_angles(traj, atoms_)
-            measure = math.degrees(measure)
-            ax.set_xlabel(r'Angle $(degrees)$')
+            #measure = math.degrees(measure)
+            ax.set_xlabel(r'Angle $(radians)$')
         elif type == 3:
             atoms_ = np.reshape(atoms_, (-1, 4))
             measure = md.compute_dihedrals(traj, atoms_)
-            measure = math.degrees(measure)
-            ax.set_xlabel(r'Dihedral $(degrees)$')
+            #measure = math.degrees(measure)
+            ax.set_xlabel(r'Dihedral $(radians)$')
         elif type == 4:
             measure = md.rmsd(traj, traj, frame=0, atom_indices=atoms_,
                               precentered=True)

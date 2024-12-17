@@ -5,7 +5,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 from matplotlib.figure import Figure
 
-from . import functions as fc
+import functions as fc
 import seaborn as sns
 import mdtraj as md
 import numpy as np
@@ -204,6 +204,7 @@ class MeasureWindow(QWidget):
                                                            'rmsd.csv'))
         
     def add(self, type):
+        # Distances
         if type == 1:
             selection = self.edit_atom1.text()
             sel_idx = fc.atoms_sel(self.traj, selection)
@@ -224,66 +225,67 @@ class MeasureWindow(QWidget):
             self.edit_atom1.setText('')
             self.edit_label1.setText('')
 
-        elif type == 2:
+        # Angles
+        if type == 2:
             selection = self.edit_atom2.text()
             sel_idx = fc.atoms_sel(self.traj, selection)
             if sel_idx.any():
                 if len(sel_idx) != 3:
                     fc.pop_error('Selection Error',
                                  f'The number of atoms is incorrect')
+            label = self.edit_label2.text()
+            if label != '':
+                self.edit_show2.insertPlainText(f'Atoms {sel_idx} -- {label}\n')
             else:
-                label = self.edit_label2.text()
-                if label != '':
-                    self.edit_show2.insertPlainText(f'Atoms {sel_idx} -- {label}\n')
-                else:
-                    label = f'Atoms {sel_idx}'
-                    self.edit_show2.insertPlainText(f'Atoms {sel_idx} -- {label}\n')
+                label = f'Atoms {sel_idx}'
+                self.edit_show2.insertPlainText(f'Atoms {sel_idx} -- {label}\n')
 
-                self.atoms2.append(sel_idx)
-                self.labels2.append(label)
+            self.atoms2.append(sel_idx)
+            self.labels2.append(label)
         
             self.edit_atom2.setText('')
-            self.edit_label2.setText('')
+            self.edit_label2.setText('') 
 
-        elif type == 3:
+        # Dihedrals
+        if type == 3:
             selection = self.edit_atom3.text()
             sel_idx = fc.atoms_sel(self.traj, selection)
             if sel_idx.any():
                 if len(sel_idx) != 4:
                     fc.pop_error('Selection Error',
                                  f'The number of atoms is incorrect')
+            label = self.edit_label3.text()
+            if label != '':
+                self.edit_show3.insertPlainText(f'Atoms {sel_idx} -- {label}\n')
             else:
-                label = self.edit_label3.text()
-                if label != '':
-                    self.edit_show3.insertPlainText(f'Atoms {sel_idx} -- {label}\n')
-                else:
-                    label = f'Atoms {sel_idx}'
-                    self.edit_show3.insertPlainText(f'Atoms {sel_idx} -- {label}\n')
+                label = f'Atoms {sel_idx}'
+                self.edit_show3.insertPlainText(f'Atoms {sel_idx} -- {label}\n')
 
-                self.atoms3.append(sel_idx)
-                self.labels3.append(label)
+            self.atoms3.append(sel_idx)
+            self.labels3.append(label)
         
             self.edit_atom3.setText('')
             self.edit_label3.setText('')
 
-        elif type == 4:
+        # RMSD
+        if type == 4:
             selection = self.edit_atom4.text()
             sel_idx = fc.atoms_sel(self.traj, selection)
             if sel_idx.any():
                 pass
+            label = self.edit_label4.text()
+            if label != '':
+                self.edit_show4.insertPlainText(f'Atoms {sel_idx} -- {label}\n')
             else:
-                label = self.edit_label4.text()
-                if label != '':
-                    self.edit_show4.insertPlainText(f'Atoms {sel_idx} -- {label}\n')
-                else:
-                    label = f'Atoms {sel_idx}'
-                    self.edit_show4.insertPlainText(f'Atoms {sel_idx} -- {label}\n')
+                label = f'Atoms {sel_idx}'
+                self.edit_show4.insertPlainText(f'Atoms {sel_idx} -- {label}\n')
 
-                self.atoms4.append(sel_idx)
-                self.labels4.append(label)
+            self.atoms4.append(sel_idx)
+            self.labels4.append(label)
         
             self.edit_atom4.setText('')
-            self.edit_label4.setText('')
+            self.edit_label4.setText('') 
+        
 
     def clear(self, type):
         if type == 1:
