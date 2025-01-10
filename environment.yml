@@ -1,0 +1,13 @@
+name: smarts_pymol
+channels:
+  - conda-forge
+dependencies:
+  - mdtraj=1.10.0
+  - numpy=1.26.4
+  - pandas=2.2.3
+  - pyqt=5.15.10
+  - python=3.12.3
+  - pip=24.3.1
+  - pip:
+      - matplotlib==3.9.2
+      - seaborn==0.13.2
