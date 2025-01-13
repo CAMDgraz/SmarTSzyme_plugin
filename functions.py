@@ -13,7 +13,7 @@ import numpy as np
 import seaborn as sns
 import math
 
-from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import (QMessageBox, QFileDialog)
 
 
 # Load systems =================================================================
@@ -24,6 +24,38 @@ valid_trajs = set(['arc', 'dcd', 'binpos', 'xtc', 'trr', 'hdf5', 'h5', 'ncdf',
                    'inpcrd', 'restrt', 'rst7', 'ncrst', 'lammpstrj', 'dtr',
                    'stk', 'gro', 'xyz.gz', 'xyz', 'tng', 'xml', 'mol2',
                    'hoomdxml', 'gsd'])
+
+def get_traj_top(type, edit_line):
+        initial_dir = "./"
+        ext_filter = "All files (*)"
+
+        
+        # Get path or open file dialog
+        if edit_line.text() == "":
+            file, _ = QFileDialog.getOpenFileName(None,
+                                                  "Load Trajectory File",
+                                                  initial_dir,
+                                                  ext_filter)
+            edit_line.setText(os.path.basename(file))
+        else:
+            file = edit_line.text()
+        
+        if file != "":
+            if type == 'traj':
+                # Check valid trajectry extension
+                if is_valid_traj(file):
+                    filename = file
+                else:
+                    edit_line.setText("")
+                    return
+            elif type == 'top':
+                # Check valid trajectry extension
+                if is_valid_top(file):
+                    filename = file
+                else:
+                    edit_line.setText("")
+                    return
+        return filename
 
 def is_valid_traj(traj, valid_trajs=valid_trajs):
     traj_ext = os.path.basename(traj).split('.')[-1] 
@@ -86,37 +118,33 @@ def atoms_sel(traj, selection):
     return sel_idx
 
 # Plots ========================================================================
+def validate_sel(traj, edit_line, natoms=None):
+    selection = f'index {edit_line.text()}'
+    sel_idx = atoms_sel(traj, selection)
+    if sel_idx.any():
+        if natoms:
+            if len(sel_idx) != natoms:
+                pop_error("Selection Error",
+                        f"The number of atoms is incorrect")
+    return sel_idx
 
-def plot_measure(type, traj, atoms, label, canvas, ax):
-    for atoms_, label_ in zip(atoms, label):
-        atoms_ = np.asarray(atoms_)
-        if type == 1:
-            atoms_ = np.reshape(atoms_, (-1, 2))
-            measure = md.compute_distances(traj, atoms_)
-            measure *= 10
-            ax.set_xlabel(r'Distance $(\AA)$')
-        elif type == 2:
-            atoms_ = np.reshape(atoms_, (-1, 3))
-            measure = md.compute_angles(traj, atoms_)
-            #measure = math.degrees(measure)
-            ax.set_xlabel(r'Angle $(radians)$')
-        elif type == 3:
-            atoms_ = np.reshape(atoms_, (-1, 4))
-            measure = md.compute_dihedrals(traj, atoms_)
-            #measure = math.degrees(measure)
-            ax.set_xlabel(r'Dihedral $(radians)$')
-        elif type == 4:
-            measure = md.rmsd(traj, traj, frame=0, atom_indices=atoms_,
-                              precentered=True)
-            measure *= 10
-            ax.set_xlabel(r'RMSD $(\AA)$')
-        sns.kdeplot(x=measure.T[0], ax=ax, label=label_)
-        ax.legend(loc='upper right')
-    canvas.draw()
+def measure(type, traj, atoms):
+    if type == 'distance':
+        atoms = np.reshape(atoms, (-1, 2))
+        measure = md.compute_distances(traj, atoms)
+        measure *= 10
+    elif type == 'angle':
+        atoms = np.reshape(atoms, (-1, 3))
+        measure = md.compute_angles(traj, atoms)
+    elif type == 'dihedral':
+        atoms = np.reshape(atoms, (-1, 4))
+        measure = md.compute_dihedrals(traj, atoms)
+    elif type == 'rmsd':
+        measure = md.rmsd(traj, traj, frame=0, atom_indices=atoms,
+                            precentered=True)
+        measure *= 10
 
-
-
-
+    return measure
 
 def range_traj(traj, first, last, stride):
     n_frames = traj.n_frames
@@ -147,6 +175,90 @@ def range_traj(traj, first, last, stride):
     return traj
 
 # QM/MM ========================================================================
+
+# Output =======================================================================
+def write_cv(traj, frame_id, cv_dict, outdir):
+    with open(f'{outdir}/cv.in', 'w') as f:
+        for cv in cv_dict['type']:
+            f.write('&colvar\n')
+            f.write(f" cv_type='{cv_dict['type'][frame_id]}',\n")
+            f.write(f' cv_ni={len(cv_dict['atoms'][frame_id])},\n')
+            f.write(f' cv_i=')
+            for atom in cv_dict['atoms'][frame_id]:
+                f.write(f'{atom},')
+            f.write(f'\n')
+            f.write(f' npath=2,\n')
+            f.write(f" path_mode='LINES'\n")
+            f.write(f' path=')
+            if cv == 'DISTANCE':
+                ipath = measure('distance', traj, cv_dict['atoms'][frame_id])
+            elif cv == 'ANGLE':
+                ipath = measure('angle', traj, cv_dict['atoms'][frame_id])
+            elif cv == 'LCOD':
+                ipath = 0
+                for r_id, r in enumerate(cv_dict['coeff'][frame_id]):
+                    measure_ = measure('distance', traj,
+                                       cv_dict['coeff'][frame_id][r_id:r_id+2])
+                    ipath += r*measure_
+            f.write(f' path={ipath},{cv_dict['fpath'][frame_id]},\n')
+            f.write(f' NHARM=1,\n')
+            f.write(f' HARM={cv_dict['harm'][frame_id]},\n/\n')
+                
+def write_qmmm(frame_id, cv_dict, qmmm_dict, outdir):
+    with open(f'{outdir}/qmmm.in', 'w') as f:
+        f.write('&cntrl\n')
+        f.write(f' ntx = 1,\n')                                       
+        f.write(f' irest = 0,\n')                                   
+        f.write(f' ntxo = 1,\n')                                      
+        f.write(f' ntpr = 100,\n')                                    
+        f.write(f' ntwx = 100,\n')                                     
+        f.write(f' ntwv =-1,\n')                                     
+        f.write(f' ntf = 1,\n')                                     
+        f.write(f' ntb = 2,\n')                                    
+        f.write(f' dielc = 1.0,\n')                                   
+        f.write(f' cut = 10.,\n')                                     
+        f.write(f' nsnb = 10,\n')                                     
+        f.write(f' imin = 0,\n')                                      
+        f.write(f' ibelly = 0,\n')                                    
+        f.write(f' iwrap = 1,\n')                                     
+        f.write(f' nstlim = {qmmm_dict['steps']},\n')                                
+        f.write(f' dt = {qmmm_dict['timesteps']},\n')                                   
+        f.write(f' temp0 = 300.0,\n')                                 
+        f.write(f' tempi = 300.0,\n')                                 
+        f.write(f' ntt = 3,\n')                                       
+        f.write(f' gamma_ln=1.0,\n')                                  
+        f.write(f' vlimit = 20.0,\n')                                 
+        f.write(f' ntp = 1,\n')                                 
+        f.write(f' ntc = 1,\n')                                       
+        f.write(f' tol = 0.00001,\n')                            
+        f.write(f' pres0=1,\n')                                       
+        f.write(f' comp=44.6,\n')                                     
+        f.write(f' jfastw=0,\n')                                      
+        f.write(f' nscm=1000,\n')                              
+        f.write(f' ifqnt=1,\n')                                       
+        f.write(f' infe=1,\n')                                        
+        f.write(f' /\n')
+        f.write(f' &qmmm\n')                   
+        f.write(f" qmmask = '{qmmm_dict['mask']}',\n")
+        f.write(f' qmcharge={qmmm_dict['charge']},\n')                                    
+        f.write(f" qm_theory='{qmmm_dict['theory']}',\n")                             
+        f.write(f' qmshake=0,\n')                                    
+        f.write(f' writepdb=1,\n')                                     
+        f.write(f' verbosity=0,\n')                                    
+        f.write(f' qmcut=10.,\n')                                      
+        f.write(f' dftb_telec=100,\n')                                 
+        f.write(f' printcharges = 1,\n')                               
+        f.write(f' printdipole = 1,\n')                                
+        f.write(f' peptide_corr = 0,\n')                               
+        f.write(f" dftb_slko_path='/usr/local/amber20/dat/slko/3ob-3-1',\n") 
+        f.write(f' /\n')         
+        f.write(f' &smd\n')                                                 
+        f.write(f" output_file = 'smd_out.txt'\n")                      
+        f.write(f' output_freq = 50\n')                                  
+        f.write(f" cv_file= 'cv.in'\n")                                 
+        f.write(f' /\n')
+
+    
 
 
 # Vizualisation ================================================================
