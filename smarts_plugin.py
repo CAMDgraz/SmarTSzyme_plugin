@@ -424,8 +424,8 @@ class SimulaWindow(QWidget):
             self.edit_atoms2.setEnabled(True)
             self.edit_cond.setEnabled(True)
             self.combo_cond.setEnabled(True)
-            self.button_add2.setEnable(True)
-            self.button_clear2.setEnable(True)
+            self.button_add2.setEnabled(True)
+            self.button_clear2.setEnabled(True)
         elif self.checkBox_manual.isChecked():
             # Disable automatic
             self.button_add2.setEnabled(False)
