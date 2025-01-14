@@ -153,7 +153,7 @@ class MeasureWindow(QWidget):
             sel_idx = fc.validate_sel(self.traj, self.edit_atom1, 2)
             label = self.edit_label1.text()
             if label == '':
-                label = f'sel {len(self.data_dict['distance'][1]) + 1}'
+                label = f"sel {len(self.data_dict['distance'][1]) + 1}"
             self.edit_show1.insertPlainText(f'Atoms {sel_idx} -- {label}\n')
 
             self.data_dict['distance'][0].append(sel_idx)
@@ -167,7 +167,7 @@ class MeasureWindow(QWidget):
             sel_idx = fc.validate_sel(self.traj, self.edit_atom2, 3)
             label = self.edit_label2.text()
             if label == '':
-                label = f'sel {len(self.data_dict['angle'][1]) + 1}'
+                label = f"sel {len(self.data_dict['angle'][1]) + 1}"
             self.edit_show2.insertPlainText(f'Atoms {sel_idx} -- {label}\n')
 
             self.data_dict['angle'][0].append(sel_idx)
@@ -181,7 +181,7 @@ class MeasureWindow(QWidget):
             sel_idx = fc.validate_sel(self.traj, self.edit_atom3, 4)
             label = self.edit_label3.text()
             if label == '':
-                label = f'sel {len(self.data_dict['dihedral'][1]) + 1}'
+                label = f"sel {len(self.data_dict['dihedral'][1]) + 1}"
             self.edit_show3.insertPlainText(f'Atoms {sel_idx} -- {label}\n')
 
             self.data_dict['dihedral'][0].append(sel_idx)
@@ -195,7 +195,7 @@ class MeasureWindow(QWidget):
             sel_idx = fc.validate_sel(self.traj, self.edit_atom4)
             label = self.edit_label4.text()
             if label == '':
-                label = f'sel {len(self.data_dict['rmsd'][1]) + 1}'
+                label = f"sel {len(self.data_dict['rmsd'][1]) + 1}"
             self.edit_show4.insertPlainText(f'Atoms {sel_idx} -- {label}\n')
 
             self.data_dict['rmsd'][0].append(sel_idx)
@@ -363,6 +363,7 @@ class SimulaWindow(QWidget):
                         'harm':[]}
         self.traj_file = ''
         self.top_file = ''
+        self.frames_sel = None
 
         # Combo boxes
         self.combo_cvtype.addItems(['DISTANCE', 'ANGLE', 'LCOD'])
@@ -493,7 +494,7 @@ class SimulaWindow(QWidget):
         atoms = np.asarray(atoms, dtype=int)
         fpath = float(self.edit_path.text().strip())
         cv_type = self.combo_cvtype.currentText()
-        coeff = None
+        coeff_flag = False
 
         if fpath == '':
             fc.pop_error("Error!!!", "Final path value needs to be entered")
@@ -522,6 +523,7 @@ class SimulaWindow(QWidget):
                 try:
                     coeff = self.edit_coeff.text().strip().split(' ')
                     coeff = np.asarray(coeff, dtype=float)
+                    coeff_flag = True
                 except ValueError:
                     fc.pop_error("Error!!!", "Coefficients must be supplied")
                     return
@@ -533,6 +535,7 @@ class SimulaWindow(QWidget):
         self.cv_dict['type'].append(cv_type)
         self.cv_dict['atoms'].append(atoms)
         self.cv_dict['fpath'].append(fpath)
+
         if self.edit_harm.text() != '':
             harm = float(self.edit_harm.text().strip())
         else:
@@ -543,7 +546,7 @@ class SimulaWindow(QWidget):
         self.edit_show1.insertPlainText(f'type = {cv_type}\n')
         self.edit_show1.insertPlainText(f'atoms = {atoms}\n')
         self.edit_show1.insertPlainText(f'final path = {fpath}\n')
-        if coeff and coeff.any():
+        if coeff_flag:
             self.edit_show1.insertPlainText(f'Coefficients = {coeff}\n')
         self.edit_show1.insertPlainText(f'Harmonic = {harm}\n/\n')
         
@@ -569,7 +572,7 @@ class SimulaWindow(QWidget):
     def sel_output(self):
         self.output_dir = str(QFileDialog.getExistingDirectory(self,
                                                                'Select output dir'))
-        print(self.output_dir)
+        self.edit_output.setText(self.output_dir)
 
     def generate(self):
         # Get qmmm.in params
@@ -586,17 +589,18 @@ class SimulaWindow(QWidget):
             fc.pop_error('Error!!!', "4")
             return
         
-        qmmm_dict = {'mask': self.edit_mask.strip(),
+        qmmm_dict = {'mask': self.edit_mask.text().strip(),
                      'theory': self.combo_theory.currentText(),
-                     'charge': int(self.edit_charge.split()),
-                     'steps': int(self.edit_steps.split()),
-                     'timestesp': int(self.edit_timestep.split())}
+                     'charge': int(self.edit_charge.text().strip()),
+                     'steps': int(self.edit_steps.text().strip()),
+                     'timestep': float(self.edit_timestep.text().strip())}
         
         # Write cv.in file
         for frame_id, frame in enumerate(self.frames_sel):
-            outdir = os.mkdir(f'{self.output_dir}/qmmm_{frame}')
+            os.mkdir(f'{self.output_dir}/qmmm_{frame}')
+            outdir = f'{self.output_dir}/qmmm_{frame}'
             fc.write_cv(self.traj, frame_id, self.cv_dict, outdir)
-            fc.write_qmmm(frame_id, self.cv_dict, qmmm_dict, outdir)
+            fc.write_qmmm(qmmm_dict, outdir)
         return
     
 

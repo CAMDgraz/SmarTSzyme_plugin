@@ -179,32 +179,34 @@ def range_traj(traj, first, last, stride):
 # Output =======================================================================
 def write_cv(traj, frame_id, cv_dict, outdir):
     with open(f'{outdir}/cv.in', 'w') as f:
-        for cv in cv_dict['type']:
+        for cv_id, cv in enumerate(cv_dict['type']):
             f.write('&colvar\n')
-            f.write(f" cv_type='{cv_dict['type'][frame_id]}',\n")
-            f.write(f' cv_ni={len(cv_dict['atoms'][frame_id])},\n')
+            f.write(f" cv_type='{cv_dict['type'][cv_id]}',\n")
+            f.write(f' cv_ni={len(cv_dict['atoms'][cv_id])},\n')
             f.write(f' cv_i=')
-            for atom in cv_dict['atoms'][frame_id]:
+            for atom in cv_dict['atoms'][cv_id]:
                 f.write(f'{atom},')
             f.write(f'\n')
             f.write(f' npath=2,\n')
             f.write(f" path_mode='LINES'\n")
-            f.write(f' path=')
             if cv == 'DISTANCE':
-                ipath = measure('distance', traj, cv_dict['atoms'][frame_id])
+                ipath = measure('distance', traj[frame_id], cv_dict['atoms'][cv_id])
             elif cv == 'ANGLE':
-                ipath = measure('angle', traj, cv_dict['atoms'][frame_id])
+                ipath = measure('angle', traj[frame_id], cv_dict['atoms'][cv_id])
             elif cv == 'LCOD':
                 ipath = 0
-                for r_id, r in enumerate(cv_dict['coeff'][frame_id]):
-                    measure_ = measure('distance', traj,
-                                       cv_dict['coeff'][frame_id][r_id:r_id+2])
+                f.write(f' cv_nr={len(cv_dict['coeff'])}\n')
+                for r_id, r in enumerate(cv_dict['coeff'][cv_id]):
+                    measure_ = measure('distance', traj[frame_id],
+                                       cv_dict['atoms'][cv_id][r_id*2:r_id*2+2])
                     ipath += r*measure_
-            f.write(f' path={ipath},{cv_dict['fpath'][frame_id]},\n')
+                    f.write(f' cv_r={r}\n') 
+
+            f.write(f' path={ipath[0][0]},{cv_dict['fpath'][cv_id]},\n')
             f.write(f' NHARM=1,\n')
-            f.write(f' HARM={cv_dict['harm'][frame_id]},\n/\n')
+            f.write(f' HARM={cv_dict['harm'][cv_id]},\n/\n')
                 
-def write_qmmm(frame_id, cv_dict, qmmm_dict, outdir):
+def write_qmmm(qmmm_dict, outdir):
     with open(f'{outdir}/qmmm.in', 'w') as f:
         f.write('&cntrl\n')
         f.write(f' ntx = 1,\n')                                       
@@ -222,7 +224,7 @@ def write_qmmm(frame_id, cv_dict, qmmm_dict, outdir):
         f.write(f' ibelly = 0,\n')                                    
         f.write(f' iwrap = 1,\n')                                     
         f.write(f' nstlim = {qmmm_dict['steps']},\n')                                
-        f.write(f' dt = {qmmm_dict['timesteps']},\n')                                   
+        f.write(f' dt = {qmmm_dict['timestep']},\n')                                   
         f.write(f' temp0 = 300.0,\n')                                 
         f.write(f' tempi = 300.0,\n')                                 
         f.write(f' ntt = 3,\n')                                       
