@@ -118,8 +118,7 @@ def atoms_sel(traj, selection):
     return sel_idx
 
 # Plots ========================================================================
-def validate_sel(traj, edit_line, natoms=None):
-    selection = f'index {edit_line.text()}'
+def validate_sel(traj, selection, natoms=None):
     sel_idx = atoms_sel(traj, selection)
     if sel_idx.any():
         if natoms:
@@ -140,8 +139,7 @@ def measure(type, traj, atoms):
         atoms = np.reshape(atoms, (-1, 4))
         measure = md.compute_dihedrals(traj, atoms)
     elif type == 'rmsd':
-        measure = md.rmsd(traj, traj, frame=0, atom_indices=atoms,
-                            precentered=True)
+        measure = md.rmsd(traj, traj, frame=0, atom_indices=atoms)
         measure *= 10
 
     return measure
@@ -202,7 +200,7 @@ def write_cv(traj, frame_id, cv_dict, outdir):
                     ipath += r*measure_
                     f.write(f' cv_r={r}\n') 
 
-            f.write(f' path={ipath[0][0]},{cv_dict['fpath'][cv_id]},\n')
+            f.write(f' path={ipath[0][0]:.4f},{cv_dict['fpath'][cv_id]:.4f},\n')
             f.write(f' NHARM=1,\n')
             f.write(f' HARM={cv_dict['harm'][cv_id]},\n/\n')
                 
@@ -247,18 +245,24 @@ def write_qmmm(qmmm_dict, outdir):
         f.write(f' qmshake=0,\n')                                    
         f.write(f' writepdb=1,\n')                                     
         f.write(f' verbosity=0,\n')                                    
-        f.write(f' qmcut=10.,\n')                                      
-        f.write(f' dftb_telec=100,\n')                                 
+        f.write(f' qmcut=10.,\n')                                         
         f.write(f' printcharges = 1,\n')                               
         f.write(f' printdipole = 1,\n')                                
         f.write(f' peptide_corr = 0,\n')                               
-        f.write(f" dftb_slko_path='/usr/local/amber20/dat/slko/3ob-3-1',\n") 
+        if qmmm_dict['theory'] == 'DFTB3':
+            f.write(f' dftb_telec=100,\n')
+            f.write(f" dftb_slko_path='/usr/local/amber20/dat/slko/3ob-3-1',\n")
+        elif qmmm_dict['theory'] == 'EXTERN':
+            f.write(f' qm_ewald = 0,\n') 
         f.write(f' /\n')         
         f.write(f' &smd\n')                                                 
         f.write(f" output_file = 'smd_out.txt'\n")                      
         f.write(f' output_freq = 50\n')                                  
         f.write(f" cv_file= 'cv.in'\n")                                 
         f.write(f' /\n')
+        if qmmm_dict['theory'] == 'EXTERN':
+            f.write(f'&EXTERNTHEORY\n')
+            f.write(f' Please write the corresponding parameters here\n/')
 
     
 

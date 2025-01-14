@@ -2,8 +2,9 @@
 
 # Imports
 from PyQt5 import uic
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import (QApplication, QWidget, QMainWindow, QButtonGroup,
-                             QFileDialog)
+                             QFileDialog, QLineEdit)
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 from matplotlib.figure import Figure
@@ -12,6 +13,8 @@ import functions as fc
 import seaborn as sns
 import numpy as np
 import os
+from pymol import cmd
+
 
 # General variables and functions ==============================================
 class MplCanvas(FigureCanvasQTAgg):
@@ -32,12 +35,11 @@ class MainWindow(QMainWindow):
         self.traj = None
         self.traj_file = ""
         self.top_file = ""
-    
+
         # Connections
         self.actionMeasures.triggered.connect(self.show_Measures)
         self.actionSimula_Input.triggered.connect(self.show_Simula)
-
-        self.mdtraj_button.clicked.connect(self.loadMDTraj)
+        #self.button_load.clicked.connect(self.load_system)
         self.button_trajectory.clicked.connect(self.load_file)
         self.button_topology.clicked.connect(self.load_file)
 
@@ -68,13 +70,23 @@ class MainWindow(QMainWindow):
         button_clicked = self.sender().objectName()
         if button_clicked == 'button_trajectory':
             self.traj_file = fc.get_traj_top('traj', self.edit_trajectory)
+            
         elif button_clicked == 'button_topology':
             self.top_file = fc.get_traj_top('top', self.edit_topology)
 
-    def loadMDTraj(self):
+    def load_system(self):
         self.traj = fc.load_traj(self.traj_file, self.top_file)      
         if self.traj:
             self.label_system.setText(str(self.traj))
+            #system_name = os.path.splitext(os.path.basename(self.top_file))
+            # pymol_objects = cmd.get_names('objects', 0)
+            # if system_name not in pymol_objects:
+            #     if not need_top:
+            #         cmd.load(self.traj_file)
+            #     else:
+            #         cmd.load(self.top_file)
+            #         cmd.load_traj(self.traj_file)
+                
 
 # Measures Window ==============================================================
 class MeasureWindow(QWidget):
@@ -150,7 +162,8 @@ class MeasureWindow(QWidget):
         
         # Distances
         if button_clicked == 'button_add1':
-            sel_idx = fc.validate_sel(self.traj, self.edit_atom1, 2)
+            sel_idx = fc.validate_sel(self.traj,
+                                      f'index {self.edit_atom1.text()}', 2)
             label = self.edit_label1.text()
             if label == '':
                 label = f"sel {len(self.data_dict['distance'][1]) + 1}"
@@ -164,7 +177,8 @@ class MeasureWindow(QWidget):
 
         # Angles
         if button_clicked == 'button_add2':
-            sel_idx = fc.validate_sel(self.traj, self.edit_atom2, 3)
+            sel_idx = fc.validate_sel(self.traj,
+                                      f'index {self.edit_atom2.text()}', 3)
             label = self.edit_label2.text()
             if label == '':
                 label = f"sel {len(self.data_dict['angle'][1]) + 1}"
@@ -178,7 +192,8 @@ class MeasureWindow(QWidget):
 
         # Dihedrals
         if button_clicked == 'button_add3':
-            sel_idx = fc.validate_sel(self.traj, self.edit_atom3, 4)
+            sel_idx = fc.validate_sel(self.traj,
+                                      f'index {self.edit_atom3.text()}', 4)
             label = self.edit_label3.text()
             if label == '':
                 label = f"sel {len(self.data_dict['dihedral'][1]) + 1}"
@@ -192,7 +207,7 @@ class MeasureWindow(QWidget):
 
         # RMSD
         if button_clicked == 'button_add4':
-            sel_idx = fc.validate_sel(self.traj, self.edit_atom4)
+            sel_idx = fc.validate_sel(self.traj, self.edit_atom4.text())
             label = self.edit_label4.text()
             if label == '':
                 label = f"sel {len(self.data_dict['rmsd'][1]) + 1}"
@@ -275,8 +290,8 @@ class MeasureWindow(QWidget):
                 atoms_ = np.asarray(atoms_)
                 atoms_ = np.reshape(atoms_, (-1, 2))
                 measure = fc.measure('distance', self.traj, atoms_)
-                self.ax1.set_xlabel(r'Distance $(\AA)$')
-                sns.kdeplot(x=measure.T[0], ax=ax, label=label_)
+                ax.set_xlabel(r'Distance $(\AA)$')
+                sns.kdeplot(x=measure.T[0], ax=ax, label=label_, fill=True)
 
         elif button_clicked == 'button_plot2':
             ax=self.ax2
@@ -289,8 +304,8 @@ class MeasureWindow(QWidget):
                 atoms_ = np.asarray(atoms_)
                 atoms_ = np.reshape(atoms_, (-1, 3))
                 measure = fc.measure('angle', self.traj, atoms_)
-                self.ax1.set_xlabel(r'Angle $(\AA)$')
-                sns.kdeplot(x=measure.T[0], ax=ax, label=label_)
+                ax.set_xlabel(r'Angle $(\AA)$')
+                sns.kdeplot(x=measure.T[0], ax=ax, label=label_, fill=True)
         
         elif button_clicked == 'button_plot3':
             ax=self.ax3
@@ -301,10 +316,10 @@ class MeasureWindow(QWidget):
             for atoms_, label_ in zip(self.data_dict['dihedral'][0],
                                       self.data_dict['dihedral'][1]):
                 atoms_ = np.asarray(atoms_)
-                atoms_ = np.reshape(atoms_, (-1, 3))
+                atoms_ = np.reshape(atoms_, (-1, 4))
                 measure = fc.measure('dihedral', self.traj, atoms_)
-                self.ax1.set_xlabel(r'Dihedral $(\AA)$')
-                sns.kdeplot(x=measure.T[0], ax=ax, label=label_)
+                ax.set_xlabel(r'Dihedral $(\AA)$')
+                sns.kdeplot(x=measure.T[0], ax=ax, label=label_, fill=True)
         
         elif button_clicked == 'button_plot4':
             ax=self.ax4
@@ -316,8 +331,10 @@ class MeasureWindow(QWidget):
                                       self.data_dict['rmsd'][1]):
                 atoms_ = np.asarray(atoms_)
                 measure = fc.measure('rmsd', self.traj, atoms_)
-                self.ax1.set_xlabel(r'RMSD $(\AA)$')
-                sns.kdeplot(x=measure.T[0], ax=ax, label=label_)
+                ax.set_ylabel(r'RMSD $(\AA)$')
+                ax.set_xlabel('Frames')
+                sns.lineplot(x=np.arange(self.traj.n_frames),
+                             y=measure, ax=ax, label=label_)
         
         ax.legend(loc='upper right')
         canvas.draw()
@@ -364,12 +381,15 @@ class SimulaWindow(QWidget):
         self.traj_file = ''
         self.top_file = ''
         self.frames_sel = None
+        self.edit_mask = QLineEdit()
 
         # Combo boxes
         self.combo_cvtype.addItems(['DISTANCE', 'ANGLE', 'LCOD'])
         self.combo_theory.addItems(['DFTB3', 'EXTERN'])
         self.combo_filter.addItems(['distance', 'angle', 'dihedral'])
         self.combo_cond.addItems(['>', '<', '>=', '<='])
+        self.combo_mask.addItems(['test', 'test2'])
+        self.combo_mask.setLineEdit(self.edit_mask)
                 
         # Connections
         self.button_add1.clicked.connect(self.add_cv)
@@ -383,12 +403,17 @@ class SimulaWindow(QWidget):
         self.button_originalTop.clicked.connect(self.load_file)
         self.button_originalTraj.clicked.connect(self.load_file)
         self.button_output.clicked.connect(self.sel_output)
+        self.button_addmask.clicked.connect(self.add_mask)
         
         # Group check_boxes
         self.group_checked = QButtonGroup()
         self.group_checked.addButton(self.checkBox_automatic)
         self.group_checked.addButton(self.checkBox_manual)
         self.group_checked.setExclusive(True)
+
+
+    def add_mask(self):
+        print(self.combo_mask.currentText())
 
     def onStateChanged(self):
         if self.checkBox_automatic.isChecked():
@@ -399,6 +424,8 @@ class SimulaWindow(QWidget):
             self.edit_atoms2.setEnabled(True)
             self.edit_cond.setEnabled(True)
             self.combo_cond.setEnabled(True)
+            self.button_add2.setEnable(True)
+            self.button_clear2.setEnable(True)
         elif self.checkBox_manual.isChecked():
             # Disable automatic
             self.button_add2.setEnabled(False)
@@ -413,8 +440,7 @@ class SimulaWindow(QWidget):
     
     def add_filter(self):
         filter_type = self.combo_filter.currentText()
-        atoms = self.edit_atoms2.text()
-        atoms = atoms.strip().split(' ')
+        atoms = self.edit_atoms2.text().strip().split()
         condition = self.combo_cond.currentText()
         condition_value = self.edit_cond.text()
 
@@ -490,16 +516,19 @@ class SimulaWindow(QWidget):
         return
     
     def add_cv(self):
-        atoms = self.edit_atoms.text().strip().split(' ')
-        atoms = np.asarray(atoms, dtype=int)
-        fpath = float(self.edit_path.text().strip())
+        atoms = self.edit_atoms.text().strip().split()
+        try:
+            atoms = np.asarray(atoms, dtype=int)
+        except:
+            fc.pop_error("Error!!!", "Could not read atoms")
+        try:
+            fpath = float(self.edit_path.text().strip())
+        except:
+            fc.pop_error("Error!!!", "Could not read final path")
+            return
         cv_type = self.combo_cvtype.currentText()
         coeff_flag = False
-
-        if fpath == '':
-            fc.pop_error("Error!!!", "Final path value needs to be entered")
-            return
-        
+      
         # Type of CV
         if cv_type == 'DISTANCE':
             if len(atoms) != 2:
@@ -589,19 +618,19 @@ class SimulaWindow(QWidget):
             fc.pop_error('Error!!!', "4")
             return
         
-        qmmm_dict = {'mask': self.edit_mask.text().strip(),
-                     'theory': self.combo_theory.currentText(),
-                     'charge': int(self.edit_charge.text().strip()),
-                     'steps': int(self.edit_steps.text().strip()),
-                     'timestep': float(self.edit_timestep.text().strip())}
+        # qmmm_dict = {'mask': self.edit_mask.text().strip(),
+        #              'theory': self.combo_theory.currentText(),
+        #              'charge': int(self.edit_charge.text().strip()),
+        #              'steps': int(self.edit_steps.text().strip()),
+        #              'timestep': float(self.edit_timestep.text().strip())}
         
         # Write cv.in file
-        for frame_id, frame in enumerate(self.frames_sel):
-            os.mkdir(f'{self.output_dir}/qmmm_{frame}')
-            outdir = f'{self.output_dir}/qmmm_{frame}'
-            fc.write_cv(self.traj, frame_id, self.cv_dict, outdir)
-            fc.write_qmmm(qmmm_dict, outdir)
-        return
+        # for frame_id, frame in enumerate(self.frames_sel):
+        #     os.mkdir(f'{self.output_dir}/qmmm_{frame}')
+        #     outdir = f'{self.output_dir}/qmmm_{frame}'
+        #     fc.write_cv(self.traj, frame_id, self.cv_dict, outdir)
+        #     fc.write_qmmm(qmmm_dict, outdir)
+        # return
     
 
         

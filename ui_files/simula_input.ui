@@ -31,13 +31,13 @@
     </attribute>
     <widget class="QPlainTextEdit" name="edit_show1">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
-       <x>410</x>
+       <x>510</x>
        <y>10</y>
-       <width>401</width>
+       <width>301</width>
        <height>471</height>
       </rect>
      </property>
@@ -46,10 +46,16 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>20</y>
-       <width>171</width>
+       <y>10</y>
+       <width>481</width>
        <height>19</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <bold>true</bold>
+      </font>
      </property>
      <property name="text">
       <string>Collective Variables</string>
@@ -59,8 +65,8 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>50</y>
-       <width>381</width>
+       <y>40</y>
+       <width>481</width>
        <height>157</height>
       </rect>
      </property>
@@ -110,7 +116,11 @@
        <widget class="QLineEdit" name="edit_coeff"/>
       </item>
       <item row="4" column="1">
-       <widget class="QLineEdit" name="edit_harm"/>
+       <widget class="QLineEdit" name="edit_harm">
+        <property name="text">
+         <string>600</string>
+        </property>
+       </widget>
       </item>
       <item row="0" column="1">
        <widget class="QComboBox" name="combo_cvtype"/>
@@ -120,8 +130,8 @@
     <widget class="QPushButton" name="button_add1">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>220</y>
+       <x>140</x>
+       <y>210</y>
        <width>84</width>
        <height>27</height>
       </rect>
@@ -133,8 +143,8 @@
     <widget class="QPushButton" name="button_clear1">
      <property name="geometry">
       <rect>
-       <x>110</x>
-       <y>220</y>
+       <x>240</x>
+       <y>210</y>
        <width>84</width>
        <height>27</height>
       </rect>
@@ -147,10 +157,16 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>260</y>
-       <width>171</width>
+       <y>250</y>
+       <width>481</width>
        <height>19</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <bold>true</bold>
+      </font>
      </property>
      <property name="text">
       <string>QM/MM parameters</string>
@@ -160,42 +176,63 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>290</y>
-       <width>381</width>
-       <height>157</height>
+       <y>280</y>
+       <width>481</width>
+       <height>191</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_12">
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="edit_steps">
         <property name="text">
-         <string>Steps</string>
+         <string>15000</string>
         </property>
        </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="edit_steps"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_9">
-        <property name="text">
-         <string>Charge</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="edit_mask"/>
-      </item>
-      <item row="2" column="1">
-       <widget class="QComboBox" name="combo_theory"/>
       </item>
       <item row="1" column="1">
-       <widget class="QLineEdit" name="edit_charge"/>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QCheckBox" name="checkBox_all">
+          <property name="font">
+           <font>
+            <pointsize>8</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>All</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_backbone">
+          <property name="font">
+           <font>
+            <pointsize>8</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Backbone</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_sidechain">
+          <property name="font">
+           <font>
+            <pointsize>8</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Sidechain</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_8">
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_18">
         <property name="text">
-         <string>Theory</string>
+         <string>Time step</string>
         </property>
        </widget>
       </item>
@@ -207,14 +244,55 @@
        </widget>
       </item>
       <item row="4" column="0">
-       <widget class="QLabel" name="label_18">
+       <widget class="QLabel" name="label_12">
         <property name="text">
-         <string>Time step</string>
+         <string>Steps</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="edit_timestep"/>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Charge</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="edit_charge"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>Theory</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLineEdit" name="edit_timestep">
+        <property name="text">
+         <string>0.0002</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="combo_theory"/>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="button_addmask">
+        <property name="text">
+         <string>Add mask</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QPushButton" name="button_clearmask">
+        <property name="text">
+         <string>Clear mask</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="combo_mask"/>
       </item>
      </layout>
     </widget>
@@ -297,7 +375,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>280</y>
+       <y>310</y>
        <width>181</width>
        <height>25</height>
       </rect>
@@ -310,7 +388,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>320</y>
+       <y>350</y>
        <width>361</width>
        <height>41</height>
       </rect>
@@ -341,6 +419,12 @@
        <height>19</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
      <property name="text">
       <string>Frame selection</string>
      </property>
@@ -349,39 +433,12 @@
      <property name="geometry">
       <rect>
        <x>410</x>
-       <y>320</y>
+       <y>310</y>
        <width>391</width>
-       <height>128</height>
+       <height>129</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout_4">
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_15">
-        <property name="text">
-         <string>Trajectory</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_17">
-        <property name="text">
-         <string>Topology</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLineEdit" name="edit_trajectory"/>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLineEdit" name="edit_topology"/>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_19">
-        <property name="text">
-         <string>Output path</string>
-        </property>
-       </widget>
-      </item>
       <item row="3" column="2">
        <layout class="QHBoxLayout" name="horizontalLayout_5">
         <item>
@@ -389,17 +446,13 @@
         </item>
        </layout>
       </item>
-      <item row="1" column="3">
-       <widget class="QPushButton" name="button_originalTraj">
-        <property name="text">
-         <string>Select</string>
-        </property>
-       </widget>
+      <item row="0" column="2">
+       <widget class="QLineEdit" name="edit_topology"/>
       </item>
-      <item row="3" column="3">
-       <widget class="QPushButton" name="button_output">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_17">
         <property name="text">
-         <string>Select</string>
+         <string>Topology</string>
         </property>
        </widget>
       </item>
@@ -410,20 +463,38 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="3">
+       <widget class="QPushButton" name="button_originalTraj">
+        <property name="text">
+         <string>Select</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_15">
+        <property name="text">
+         <string>Trajectory</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLineEdit" name="edit_trajectory"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_19">
+        <property name="text">
+         <string>Output path</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QPushButton" name="button_output">
+        <property name="text">
+         <string>Select</string>
+        </property>
+       </widget>
+      </item>
      </layout>
-    </widget>
-    <widget class="QPushButton" name="button_generate">
-     <property name="geometry">
-      <rect>
-       <x>590</x>
-       <y>460</y>
-       <width>84</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Generate</string>
-     </property>
     </widget>
     <widget class="QPlainTextEdit" name="edit_show2">
      <property name="enabled">
@@ -441,9 +512,9 @@
     <widget class="QPushButton" name="button_clear2">
      <property name="geometry">
       <rect>
-       <x>120</x>
+       <x>190</x>
        <y>240</y>
-       <width>84</width>
+       <width>91</width>
        <height>27</height>
       </rect>
      </property>
@@ -454,9 +525,9 @@
     <widget class="QPushButton" name="button_add2">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>90</x>
        <y>240</y>
-       <width>84</width>
+       <width>91</width>
        <height>27</height>
       </rect>
      </property>
@@ -467,9 +538,9 @@
     <widget class="QPushButton" name="button_frames">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>60</x>
        <y>460</y>
-       <width>101</width>
+       <width>111</width>
        <height>27</height>
       </rect>
      </property>
@@ -480,15 +551,48 @@
     <widget class="QPushButton" name="button_clear_frames">
      <property name="geometry">
       <rect>
-       <x>140</x>
+       <x>180</x>
        <y>460</y>
-       <width>111</width>
+       <width>121</width>
        <height>27</height>
       </rect>
      </property>
      <property name="text">
       <string>Clear selection</string>
      </property>
+    </widget>
+    <widget class="QWidget" name="horizontalLayoutWidget_3">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>450</y>
+       <width>391</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QLabel" name="label_20">
+        <property name="text">
+         <string>Generate files:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="button_generate">
+        <property name="text">
+         <string>QM/MM</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="button_generate_reduce">
+        <property name="text">
+         <string>Reduce</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </widget>
   </widget>
