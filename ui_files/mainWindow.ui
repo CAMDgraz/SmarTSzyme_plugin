@@ -54,6 +54,86 @@
      </item>
     </layout>
    </widget>
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>481</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>SmarTSzyme</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Selection of key residues for enzyme engineering</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>240</y>
+      <width>481</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QPushButton" name="button_load">
+       <property name="text">
+        <string>Load</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_system">
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
@@ -62,7 +142,7 @@
      <x>0</x>
      <y>0</y>
      <width>508</width>
-     <height>24</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMeasures">
@@ -70,44 +150,24 @@
      <string>Tools</string>
     </property>
     <addaction name="actionMeasures"/>
-    <addaction name="actionSimula_Input"/>
-    <addaction name="actionReduce_results"/>
+    <addaction name="actionSimula"/>
+    <addaction name="actionReduce"/>
    </widget>
    <addaction name="menuMeasures"/>
   </widget>
-  <action name="actionLoadTopTraj">
-   <property name="text">
-    <string>Top/Traj</string>
-   </property>
-  </action>
-  <action name="actionTrajetory">
-   <property name="text">
-    <string>Trajetory</string>
-   </property>
-  </action>
   <action name="actionMeasures">
    <property name="text">
     <string>Measures</string>
    </property>
   </action>
-  <action name="actionSimula_Input">
+  <action name="actionSimula">
    <property name="text">
-    <string>Simula Input</string>
+    <string>Simula</string>
    </property>
   </action>
-  <action name="actionReduce_results">
+  <action name="actionReduce">
    <property name="text">
-    <string>Reduce results</string>
-   </property>
-  </action>
-  <action name="actionLoadReduce">
-   <property name="text">
-    <string>Reduce results</string>
-   </property>
-  </action>
-  <action name="actionaliaa">
-   <property name="text">
-    <string>aliaa</string>
+    <string>Reduce</string>
    </property>
   </action>
  </widget>

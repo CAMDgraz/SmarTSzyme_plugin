@@ -46,17 +46,17 @@
        <x>570</x>
        <y>10</y>
        <width>241</width>
-       <height>126</height>
+       <height>261</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_8">
       <item>
-       <widget class="QLineEdit" name="edit_atom1">
-        <property name="text">
-         <string/>
+       <widget class="QComboBox" name="combo_atoms1">
+        <property name="editable">
+         <bool>true</bool>
         </property>
         <property name="placeholderText">
-         <string>Atom selection</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -70,45 +70,6 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QPushButton" name="button_add1">
-        <property name="text">
-         <string>Add</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="button_remove1">
-        <property name="text">
-         <string>Remove</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QPlainTextEdit" name="edit_show1">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>570</x>
-       <y>180</y>
-       <width>241</width>
-       <height>141</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QWidget" name="verticalLayoutWidget_10">
-     <property name="geometry">
-      <rect>
-       <x>570</x>
-       <y>330</y>
-       <width>241</width>
-       <height>141</height>
-      </rect>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_9">
       <item>
        <widget class="QPushButton" name="button_plot1">
         <property name="text">
@@ -132,19 +93,6 @@
       </item>
      </layout>
     </widget>
-    <widget class="QLabel" name="label">
-     <property name="geometry">
-      <rect>
-       <x>570</x>
-       <y>150</y>
-       <width>131</width>
-       <height>19</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string> Selection -- Label</string>
-     </property>
-    </widget>
    </widget>
    <widget class="QWidget" name="tab_angle">
     <attribute name="title">
@@ -167,17 +115,14 @@
        <x>570</x>
        <y>10</y>
        <width>241</width>
-       <height>126</height>
+       <height>261</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_5">
       <item>
-       <widget class="QLineEdit" name="edit_atom2">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="placeholderText">
-         <string>Atom selection</string>
+       <widget class="QComboBox" name="combo_atoms2">
+        <property name="editable">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -191,45 +136,6 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QPushButton" name="button_add2">
-        <property name="text">
-         <string>Add</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="button_remove2">
-        <property name="text">
-         <string>Remove</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QPlainTextEdit" name="edit_show2">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>570</x>
-       <y>180</y>
-       <width>241</width>
-       <height>141</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QWidget" name="verticalLayoutWidget_11">
-     <property name="geometry">
-      <rect>
-       <x>570</x>
-       <y>330</y>
-       <width>241</width>
-       <height>141</height>
-      </rect>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_10">
       <item>
        <widget class="QPushButton" name="button_plot2">
         <property name="text">
@@ -253,19 +159,6 @@
       </item>
      </layout>
     </widget>
-    <widget class="QLabel" name="label_2">
-     <property name="geometry">
-      <rect>
-       <x>570</x>
-       <y>150</y>
-       <width>131</width>
-       <height>19</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string> Selection -- Label</string>
-     </property>
-    </widget>
    </widget>
    <widget class="QWidget" name="tab_dihedral">
     <attribute name="title">
@@ -288,17 +181,14 @@
        <x>570</x>
        <y>10</y>
        <width>241</width>
-       <height>126</height>
+       <height>261</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_6">
       <item>
-       <widget class="QLineEdit" name="edit_atom3">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="placeholderText">
-         <string>Atom selection</string>
+       <widget class="QComboBox" name="combo_atoms3">
+        <property name="editable">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -312,45 +202,6 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QPushButton" name="button_add3">
-        <property name="text">
-         <string>Add</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="button_remove3">
-        <property name="text">
-         <string>Remove</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QPlainTextEdit" name="edit_show3">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>570</x>
-       <y>180</y>
-       <width>241</width>
-       <height>141</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QWidget" name="verticalLayoutWidget_12">
-     <property name="geometry">
-      <rect>
-       <x>570</x>
-       <y>330</y>
-       <width>241</width>
-       <height>141</height>
-      </rect>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_11">
       <item>
        <widget class="QPushButton" name="button_plot3">
         <property name="text">
@@ -374,19 +225,6 @@
       </item>
      </layout>
     </widget>
-    <widget class="QLabel" name="label_3">
-     <property name="geometry">
-      <rect>
-       <x>570</x>
-       <y>150</y>
-       <width>131</width>
-       <height>19</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string> Selection -- Label</string>
-     </property>
-    </widget>
    </widget>
    <widget class="QWidget" name="tab_rmsd">
     <attribute name="title">
@@ -401,28 +239,70 @@
        <height>481</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_4"/>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_7">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </widget>
-    <widget class="QWidget" name="verticalLayoutWidget_8">
+    <widget class="QWidget" name="verticalLayoutWidget_13">
      <property name="geometry">
       <rect>
        <x>570</x>
-       <y>10</y>
+       <y>30</y>
        <width>241</width>
-       <height>126</height>
+       <height>61</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_7">
+     <layout class="QVBoxLayout" name="verticalLayout_13">
       <item>
-       <widget class="QLineEdit" name="edit_atom4">
-        <property name="text">
-         <string/>
-        </property>
-        <property name="placeholderText">
-         <string>Atom selection</string>
+       <widget class="QComboBox" name="combo_atoms4">
+        <property name="editable">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QCheckBox" name="check_all">
+          <property name="text">
+           <string>All</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="check_back">
+          <property name="text">
+           <string>Backbone</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="check_noH">
+          <property name="text">
+           <string>noH</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="verticalLayoutWidget_5">
+     <property name="geometry">
+      <rect>
+       <x>570</x>
+       <y>100</y>
+       <width>241</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QLineEdit" name="edit_label4">
         <property name="text">
@@ -433,45 +313,6 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QPushButton" name="button_add4">
-        <property name="text">
-         <string>Add</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="button_remove4">
-        <property name="text">
-         <string>Remove</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QPlainTextEdit" name="edit_show4">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>570</x>
-       <y>180</y>
-       <width>241</width>
-       <height>141</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QWidget" name="verticalLayoutWidget_5">
-     <property name="geometry">
-      <rect>
-       <x>570</x>
-       <y>330</y>
-       <width>241</width>
-       <height>141</height>
-      </rect>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QPushButton" name="button_plot4">
         <property name="text">
@@ -494,19 +335,6 @@
        </widget>
       </item>
      </layout>
-    </widget>
-    <widget class="QLabel" name="label_4">
-     <property name="geometry">
-      <rect>
-       <x>570</x>
-       <y>150</y>
-       <width>131</width>
-       <height>19</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string> Selection -- Label</string>
-     </property>
     </widget>
    </widget>
   </widget>

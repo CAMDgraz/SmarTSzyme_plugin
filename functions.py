@@ -1,6 +1,6 @@
-"""
-Created on Mon Nov 18 09:39:43 2024
+#!/bin/python
 
+"""
 @author: Aliaa []
          Daniel Platero-Rochart [daniel.platero-rochart@medunigraz.at]
          Pedro A. Sanchez-Murcia [pedro.murcia@medunigraz.at]
@@ -10,11 +10,18 @@ import mdtraj as md
 import os
 import pandas as pd
 import numpy as np
-import seaborn as sns
-import math
+from pymol import cmd
+import heapq
 
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+from matplotlib.figure import Figure
 from PyQt5.QtWidgets import (QMessageBox, QFileDialog)
 
+#
+class MplCanvas(FigureCanvasQTAgg):
+    def __init__(self, parent=None, width=5, height=4, dpi=100):
+        self.fig = Figure(figsize=(width, height), dpi=dpi)
+        super().__init__(self.fig)
 
 # Load systems =================================================================
 valid_tops = set(['pdb', 'pdb.gz', 'h5', 'lh5', 'prmtop', 'parm7', 'prm7',
@@ -29,7 +36,6 @@ def get_traj_top(type, edit_line):
         initial_dir = "./"
         ext_filter = "All files (*)"
 
-        
         # Get path or open file dialog
         if edit_line.text() == "":
             file, _ = QFileDialog.getOpenFileName(None,
@@ -55,7 +61,8 @@ def get_traj_top(type, edit_line):
                 else:
                     edit_line.setText("")
                     return
-        return filename
+        
+            return filename
 
 def is_valid_traj(traj, valid_trajs=valid_trajs):
     traj_ext = os.path.basename(traj).split('.')[-1] 
@@ -83,25 +90,25 @@ def load_traj(traj_file, top_file):
     if traj_file == '':
         pop_error('Trajectory file',
                   f'No Trajectory file supplied')
-        return None
+        return None, None
     
     if need_for_top(traj_file) and not top_file:
         traj_ext = os.path.basename(traj_file).split('.')[-1]
         pop_error('Topology file',
             f'Trajectory file with extension {traj_ext} needs a topology file')
-        return None
+        return None, None
 
     elif need_for_top(traj_file) and top_file:
         traj = md.load(traj_file, top=top_file)
         traj.center_coordinates()
-        return traj
+        return traj, True
 
     elif not need_for_top(traj_file):
         traj = md.load(traj_file)
         traj.center_coordinates()
-        return traj
+        return traj, False
 
-# Atom and frame selection =====================================================
+# Selection =====================================================
 def atoms_sel(traj, selection):
     try:
         sel_idx = traj.topology.select(selection)
@@ -117,7 +124,41 @@ def atoms_sel(traj, selection):
 
     return sel_idx
 
-# Plots ========================================================================
+def get_mask_sel(mask_str, selection, idx):
+    qmmm_mask = []
+    mask_selection = 'index '
+    residues = set([atom.resi for atom in cmd.get_model(f'{mask_str}').atom])
+
+    if selection == 'all':
+        mask_selection = 'resid '
+        for resid in residues:
+            qmmm_mask_ = f':{str(resid)}'
+            qmmm_mask.append(qmmm_mask_)
+            mask_selection += f'{resid}+'
+
+    elif selection == 'backbone':
+        for resid in residues:
+            qmmm_mask_ = f':{str(resid)}@'
+            for atom in cmd.get_model(f'resid {resid}').atom:
+                if atom.name in ['N', 'H', 'CA', 'HA', 'C', 'O']:
+                    mask_selection += f'{str(atom.id)}+'
+                    qmmm_mask_ += f'{atom.name},'
+            qmmm_mask.append(qmmm_mask_)
+        
+    elif selection == 'sidechain':
+        for resid in residues:
+            qmmm_mask_ = f':{str(resid)}@'
+            for atom in cmd.get_model(f'resid {resid}').atom:
+                if atom.name not in ['N', 'H', 'CA', 'HA', 'C', 'O']:
+                    mask_selection += f'{str(atom.id)}+'
+                    qmmm_mask_ += f'{atom.name},'
+        qmmm_mask.append(qmmm_mask_)
+    
+    cmd.select(f'mask_{idx}', f'{mask_selection}')
+    cmd.show('sticks', f'mask_{idx}')
+
+    return qmmm_mask
+
 def validate_sel(traj, selection, natoms=None):
     sel_idx = atoms_sel(traj, selection)
     if sel_idx.any():
@@ -125,8 +166,10 @@ def validate_sel(traj, selection, natoms=None):
             if len(sel_idx) != natoms:
                 pop_error("Selection Error",
                         f"The number of atoms is incorrect")
+                sel_idx = ['']
     return sel_idx
 
+# Plots ========================================================================
 def measure(type, traj, atoms):
     if type == 'distance':
         atoms = np.reshape(atoms, (-1, 2))
@@ -135,44 +178,16 @@ def measure(type, traj, atoms):
     elif type == 'angle':
         atoms = np.reshape(atoms, (-1, 3))
         measure = md.compute_angles(traj, atoms)
+        measure = np.rad2deg(measure)
     elif type == 'dihedral':
         atoms = np.reshape(atoms, (-1, 4))
         measure = md.compute_dihedrals(traj, atoms)
+        measure = np.rad2deg(measure)
     elif type == 'rmsd':
         measure = md.rmsd(traj, traj, frame=0, atom_indices=atoms)
         measure *= 10
 
     return measure
-
-def range_traj(traj, first, last, stride):
-    n_frames = traj.n_frames
-    first_range = range(0, n_frames)
-    last_range = range(first + 1, n_frames+1)
-
-    if last is not None:
-        stride_range = range(1, last - first)
-    else:
-        stride_range = range(1, n_frames - first)
-
-    if first not in first_range:
-        raise ValueError('\n\n>>> First frame must be in the interval'
-                         ' [{}, {}]'.format(first_range.start + 1,
-                                            first_range.stop))
-    if last and (last not in last_range):
-        raise ValueError('\n\n>>> Last frame must be in the interval'
-                         ' [{}, {}]'.format(last_range.start + 1,
-                                            last_range.stop))
-    if stride not in stride_range:
-        raise ValueError('\n\n>>> Stride must be in the interval'
-                         ' [{}, {}]'.format(stride_range.start,
-                                            stride_range.stop))
-    sliced = slice(first, last, stride)
-    if sliced not in [slice(0, n_frames, 1), slice(0, None, 1)]:
-        return traj.slice(sliced)
-
-    return traj
-
-# QM/MM ========================================================================
 
 # Output =======================================================================
 def write_cv(traj, frame_id, cv_dict, outdir):
@@ -194,12 +209,15 @@ def write_cv(traj, frame_id, cv_dict, outdir):
             elif cv == 'LCOD':
                 ipath = 0
                 f.write(f' cv_nr={len(cv_dict['coeff'])}\n')
+                f.write(f' cv_r=')
                 for r_id, r in enumerate(cv_dict['coeff'][cv_id]):
                     measure_ = measure('distance', traj[frame_id],
                                        cv_dict['atoms'][cv_id][r_id*2:r_id*2+2])
                     ipath += r*measure_
-                    f.write(f' cv_r={r}\n') 
-
+                    f.write(f'{r},')
+                f.write(f'\n')
+                f.write(f' path={ipath[0][0]:.4f},{-ipath[0][0]:.4f},\n')
+            
             f.write(f' path={ipath[0][0]:.4f},{cv_dict['fpath'][cv_id]:.4f},\n')
             f.write(f' NHARM=1,\n')
             f.write(f' HARM={cv_dict['harm'][cv_id]},\n/\n')
@@ -238,8 +256,14 @@ def write_qmmm(qmmm_dict, outdir):
         f.write(f' ifqnt=1,\n')                                       
         f.write(f' infe=1,\n')                                        
         f.write(f' /\n')
-        f.write(f' &qmmm\n')                   
-        f.write(f" qmmask = '{qmmm_dict['mask']}',\n")
+        f.write(f' &qmmm\n')
+        f.write(f" qmmask = '")
+        for mask in qmmm_dict['mask']:
+            if mask == qmmm_dict['mask'][-1]:
+                f.write(f"{mask}")
+            else:
+                f.write(f"{mask} |")
+        f.write(f"',\n")
         f.write(f' qmcharge={qmmm_dict['charge']},\n')                                    
         f.write(f" qm_theory='{qmmm_dict['theory']}',\n")                             
         f.write(f' qmshake=0,\n')                                    
@@ -264,6 +288,44 @@ def write_qmmm(qmmm_dict, outdir):
             f.write(f'&EXTERNTHEORY\n')
             f.write(f' Please write the corresponding parameters here\n/')
 
+def write_sh(frames, outdir):
+    with open(f'{outdir}/prepare.sh', 'w') as f:
+        f.write('#!/bin/bash\n\n')
+        f.write(f'declare -a arr=(')
+        for frame in frames:
+            f.write(f'"{frame}" ')
+        f.write(')\n')
+        f.write('for frame in "${arr[@]}"\ndo\n')
+        f.write('cp qmmm.in ./qmmm_${frame}/\n')
+        f.write('cp TOPFILE ./qmmm_${frame}/top_qmmm.top\ndone\n')
+    with open(f'{outdir}/run.sh', 'w') as f:
+        f.write('#!/bin/bash\n\n')
+        f.write(f'declare -a arr=(')
+        for frame in frames:
+            f.write(f'"{frame}" ')
+        f.write(')\n')
+        f.write('for frame in "${arr[@]}"\ndo\n')
+        f.write('cd qmmm_${i}/\n')
+        f.write('sbatch run_${i}.sh\ndone\n')
+
+def write_run(frame, outdir):
+    with open(f'{outdir}/run_{frame}.sh', 'w') as f:
+        f.write('#!/bin/bash\n\n')
+        f.write('export amberpath=/PATH/TO/AMBER\n')
+        f.write('export openmpi=/PATH/TO/OPENMPI\n')
+        f.write('source ${amberpath}/amber.sh\n')
+        f.write('export SANDER=${amberpath}/bin/sander.MPI\n')
+        f.write('export PATH=${openmpi}/bin${PATH:+:${PATH}}\n')
+        f.write('export LD_LIBRARY_PATH=${openmpi}/')
+        f.write('lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}\n\n')
+        f.write('# Run sMD\n')
+        f.write(f'mpirun -np 2 ${{SANDER}} -O -i qmmm.in -o frame_{frame}.out')
+        f.write(f' -p top_qmmm.top -c frame_{frame}.rst')
+        f.write(f' -r frame_{frame}.qmmm.rst -x traj_qmmm.nc')
+        f.write(f' -ref frame_{frame}.rst')
+
+def save_rst(traj, frame, outdir):
+    traj[frame-1].save_amberrst7(f'{outdir}/frame_{frame}.rst')
     
 
 
@@ -359,6 +421,11 @@ def results_pdb(pdb_list,csv_flux):
             if j+1 == pdb_list[i][4]:
                 pdb_list[i][9] = csv_flux[j]
     
+    try:
+        os.remove('results.pdb')
+    except OSError:
+        pass
+
     with open('results.pdb', 'w') as mod_pdb: 
         for i in range(len(pdb_list)):
             pdb_list[i][0] = pdb_list[i][0].ljust(6)
@@ -380,6 +447,145 @@ def results_pdb(pdb_list,csv_flux):
     
         
     return mod_pdb
+
+# sMD results ==================================================================
+def exponential_average(works, time_vect, njobs, T, kb):
+    """
+    Perform exponential average
+
+    Parameters:
+        works : np.array
+            Array containing the pulling works of the trajectories
+        time_vect : np.array
+            Array containing the time values (0:time:time_step)
+        njobs : int
+            Number of sMD trajectories
+        T : float
+            Temperature of the simulations
+        kb : float
+            Boltzmann constant
+    Return:
+        energy : np.array
+            Array containing the energies resulting from JE
+        avg_work : np.array
+            Array containing the average work for each time step
+
+    """
+    avg_work = np.zeros(len(time_vect))
+    exp_work = np.zeros(len(time_vect))
+    for work_vect in works:
+        exp = np.exp(-work_vect/(kb*T))
+        exp_work += exp
+        avg_work += work_vect
+
+    avg_work = avg_work/njobs
+    avg_exp_work = exp_work/njobs
+    energy = -kb*T*np.log(avg_exp_work)
+
+    return energy, avg_work
+
+
+def cumulant_expansion(works, time_vect, njobs, T, kb):
+    """
+    Unbiased 2nd order cumulant expansion
+
+    Parameters:
+        works : np.array
+            Array containing the pulling works of the trajectories
+        njobs : int
+            Number of sMD trajectories
+        T : float
+            Temperature of the simulations
+        kb : float
+            Boltzmann constant
+
+    Return:
+        energy : np.array
+            Array containing the energies resulting from JE
+        avg_work : np.array
+            Array containing the average work for each time step
+
+    """
+    M = np.shape(works)[0]
+    mean = np.mean(works, axis=0)                                   # <W>
+    beta = 1/(kb*T)                                                 # ß
+    mean_cuad = np.mean(works**2, axis=0)                           # <W^2>
+    energy = mean - (beta/2)*(M/(M-1))*(mean_cuad - mean**2)        # F
+
+    avg_work = np.zeros(len(time_vect))
+    for work_vect in works:
+        avg_work += work_vect
+
+    avg_work = avg_work/njobs
+
+    return energy, avg_work
+
+
+def find_maximum(energy, time_vect):
+    """
+    Find energy maximum value using a gradient approach
+
+    Parameters:
+        energy : np.array
+            Array containing the enrgies resulting from JE
+        time_vect : np.array
+            Array containing the time values (0:time:time_step)
+
+    Return:
+        m_energy : float
+            Maximum energy value
+        m_step : float
+            Time step where the m_energy is found
+
+    """
+    maximum = []
+    heapq.heapify(maximum)
+
+    gradients = np.gradient(energy, time_vect)
+    for grad in range(0, len(gradients) - 1):
+        if (gradients[grad] > 0) and (gradients[grad+1] < 0):
+            heapq.heappush(maximum, (energy[grad], grad))
+
+    try:
+        m_energy, m_step = heapq.nlargest(1, maximum)[0]
+    except IndexError:
+        m_energy, m_step = None, None
+    return m_energy, m_step
+
+
+def check_jobs(jobs, time, time_step):
+    """
+    Function for check incomplete or missing jobs
+
+    Parameters:
+        jobs : list
+            List containing the path to the output files of the sMD
+        time : float
+            Simulation time in ps
+        time_step : float
+            Time step used in the simulations
+
+    Return:
+        incomplete_jobs : list
+            List containing the path to the incomplete or missing output files
+            of the sMD
+
+    """
+    length_QMMM = len(np.arange(0, time, time_step))
+
+    incomplete_jobs = []
+    for job in jobs:
+        try:
+            job_ = pd.read_csv(job, delim_whitespace=True, skiprows=3,
+                               header=None, nrows=length_QMMM)
+        except pd.errors.EmptyDataError:
+            incomplete_jobs.append(job)
+        except FileNotFoundError:
+            incomplete_jobs.append(job)
+        if len(job_) != length_QMMM:
+            incomplete_jobs.append(job)
+
+    return incomplete_jobs
 
 # Errors =======================================================================
 def pop_error(title, message):
