@@ -5,19 +5,26 @@
          Daniel Platero-Rochart [daniel.platero-rochart@medunigraz.at]
          Pedro A. Sanchez-Murcia [pedro.murcia@medunigraz.at]
 """
-# Imports
+# Imports ======================================================================
+# PyQt5
 from PyQt5 import uic
-from PyQt5.QtWidgets import (QWidget, QButtonGroup,QFileDialog, QLineEdit, QShortcut)
 from PyQt5.QtGui import QKeySequence
-
-from . import functions as fc
-import numpy as np
-import os
-from pymol import cmd
-import pandas as pd
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
+from PyQt5.QtWidgets import (QWidget, QButtonGroup,QFileDialog, QShortcut)
 
+# Plugin specific
+from . import functions as fc
 
+# Generals
+import os
+import numpy as np
+import pandas as pd
+from pymol import cmd
+
+# for testing
+# import functions as fc
+
+# Simula Window ================================================================
 class SimulaWindow(QWidget):
     def __init__(self, traj):
         super().__init__()
@@ -32,7 +39,7 @@ class SimulaWindow(QWidget):
         self.traj = traj
         self.traj_file = ''
         self.top_file = ''
-        self.frames_sel = None
+        self.frames_sel = []
         self.mask_list = []
         self.qmmm_list = ''
 
@@ -68,7 +75,7 @@ class SimulaWindow(QWidget):
         self.group_jarz.setExclusive(True)
 
         # Canvas
-        self.canvas1 = fc.MplCanvas(self, width=5, height=4, dpi=100)
+        self.canvas1 = fc.MplCanvas(self, dpi=100)
         toolbar1 = NavigationToolbar2QT(self.canvas1, self)
         self.verticalLayout_4.addWidget(toolbar1)
         self.verticalLayout_4.addWidget(self.canvas1)
@@ -151,7 +158,7 @@ class SimulaWindow(QWidget):
                 fpath = None
                 fpath_flag = False
             else:
-                fc.pop_error("Error!!!", "Could not read final value of the path")
+                fc.pop_error("Error!!!", "Could not read final path")
                 return
 
         try:
@@ -245,7 +252,7 @@ class SimulaWindow(QWidget):
     
     def sel_output(self):
         self.output_dir = str(QFileDialog.getExistingDirectory(self,
-                                                               'Select output dir'))
+                                                        'Select output dir'))
         self.edit_output.setText(self.output_dir)
 
     def load_file(self):
@@ -267,7 +274,9 @@ class SimulaWindow(QWidget):
         try:
             selection_str = 'index '
             if selection_raw in cmd.get_names('selections', 0):
-                atoms = np.asarray([atom.id for atom in cmd.get_model(selection_raw).atom], dtype=int)
+                atoms = np.asarray([atom.id for atom in
+                                    cmd.get_model(selection_raw).atom],
+                                    dtype=int)
                 for atom in atoms:
                     selection_str += f'{str(int(atom) - 1)} '
             else:
@@ -289,7 +298,7 @@ class SimulaWindow(QWidget):
         
 
         if condition_value == '':
-            fc.pop_error("Error!!!", "No value for condition have been provided")
+            fc.pop_error("Error!!!", "No condition have been provided")
             return
         self.edit_cond.setText("")
         
@@ -347,7 +356,7 @@ class SimulaWindow(QWidget):
     
     def clear_frames(self):
         self.label_selected.setText("")
-        self.fames_sel = None
+        self.fames_sel = []
         
     def generate(self):
         # Get qmmm.in params
@@ -373,15 +382,19 @@ class SimulaWindow(QWidget):
                      'timestep': timestep}
         
         # Write cv.in file
+        if len(self.frames_sel) == 0:
+            fc.pop_error("Error!!!", "No frames selected")
+            return
+        
         for frame_id, frame in enumerate(self.frames_sel):
             os.mkdir(f'{self.output_dir}/qmmm_{frame}')
             outdir = f'{self.output_dir}/qmmm_{frame}'
             fc.save_rst(self.traj, frame, outdir)
             fc.write_cv(self.traj, frame_id, self.cv_dict, outdir)
-            fc.write_run(frame, outdir)
+        fc.write_run(self.output_dir)
         fc.write_qmmm(qmmm_dict, self.output_dir)
         fc.write_sh(self.frames_sel, self.output_dir)
-        fc.pop_error("Info", "Generation Terminated")
+        fc.pop_message("Info", "Files have been generated")
         return
 
     # Tab sMD results
@@ -397,6 +410,7 @@ class SimulaWindow(QWidget):
     
     def calc_jarz(self):
         kb = 0.001982923700 # boltzman constant
+
         if self.qmmm_list == '':
             fc.pop_error("Error!!!", "No qmmm list provided")
             return

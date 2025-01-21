@@ -6,22 +6,26 @@
          Pedro A. Sanchez-Murcia [pedro.murcia@medunigraz.at]
 """
 
-import mdtraj as md
-import os
-import pandas as pd
-import numpy as np
-from pymol import cmd
-import heapq
-
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+# Imports ======================================================================
+# PyQt5
 from matplotlib.figure import Figure
 from PyQt5.QtWidgets import (QMessageBox, QFileDialog)
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 
-#
+# General
+import os
+import heapq
+import numpy as np
+import mdtraj as md
+import pandas as pd
+from pymol import cmd
+
+# MPL canvas ===================================================================
 class MplCanvas(FigureCanvasQTAgg):
-    def __init__(self, parent=None, width=5, height=4, dpi=100):
-        self.fig = Figure(figsize=(width, height), dpi=dpi)
+    def __init__(self, parent=None, dpi=100): 
+        self.fig = Figure(dpi=100)
         super().__init__(self.fig)
+        
 
 # Load systems =================================================================
 valid_tops = set(['pdb', 'pdb.gz', 'h5', 'lh5', 'prmtop', 'parm7', 'prm7',
@@ -108,7 +112,7 @@ def load_traj(traj_file, top_file):
         traj.center_coordinates()
         return traj, False
 
-# Selection =====================================================
+# Selection ====================================================================
 def atoms_sel(traj, selection):
     try:
         sel_idx = traj.topology.select(selection)
@@ -297,7 +301,9 @@ def write_sh(frames, outdir):
         f.write(')\n')
         f.write('for frame in "${arr[@]}"\ndo\n')
         f.write('cp qmmm.in ./qmmm_${frame}/\n')
-        f.write('cp TOPFILE ./qmmm_${frame}/top_qmmm.top\ndone\n')
+        f.write('cp TOPFILE ./qmmm_${frame}/top_qmmm.top\n')
+        f.write('cp run_job.sh ./qmmm_${frame}/\n')
+        f.write('done\n')
     with open(f'{outdir}/run.sh', 'w') as f:
         f.write('#!/bin/bash\n\n')
         f.write(f'declare -a arr=(')
@@ -306,10 +312,10 @@ def write_sh(frames, outdir):
         f.write(')\n')
         f.write('for frame in "${arr[@]}"\ndo\n')
         f.write('cd qmmm_${i}/\n')
-        f.write('sbatch run_${i}.sh\ndone\n')
+        f.write('sbatch run_job.sh ${i}\ndone\n')
 
-def write_run(frame, outdir):
-    with open(f'{outdir}/run_{frame}.sh', 'w') as f:
+def write_run(outdir):
+    with open(f'{outdir}/run_job.sh', 'w') as f:
         f.write('#!/bin/bash\n\n')
         f.write('export amberpath=/PATH/TO/AMBER\n')
         f.write('export openmpi=/PATH/TO/OPENMPI\n')
@@ -319,15 +325,13 @@ def write_run(frame, outdir):
         f.write('export LD_LIBRARY_PATH=${openmpi}/')
         f.write('lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}\n\n')
         f.write('# Run sMD\n')
-        f.write(f'mpirun -np 2 ${{SANDER}} -O -i qmmm.in -o frame_{frame}.out')
-        f.write(f' -p top_qmmm.top -c frame_{frame}.rst')
-        f.write(f' -r frame_{frame}.qmmm.rst -x traj_qmmm.nc')
-        f.write(f' -ref frame_{frame}.rst')
+        f.write('mpirun -np 2 ${{SANDER}} -O -i qmmm.in -o frame_$1.out')
+        f.write(' -p top_qmmm.top -c frame_$1.rst')
+        f.write(' -r frame_$1.qmmm.rst -x traj_qmmm.nc')
+        f.write(' -ref frame_$1.rst')
 
 def save_rst(traj, frame, outdir):
     traj[frame-1].save_amberrst7(f'{outdir}/frame_{frame}.rst')
-    
-
 
 # Vizualisation ================================================================
 def normalize_flux(csv_file):
@@ -355,8 +359,6 @@ def normalize_flux(csv_file):
     df.loc[df['flux']!= 0, 'flux_norm'] = ((range_min) + ((df['flux'] - df['flux'].min()) * (range_max - (range_min))/ (df['flux'].max() - df['flux'].min()))).round(4)
     df.loc[df['flux_norm'].isna(), 'flux_norm'] = (range_max - (- range_min)) / 2 #middle value
 
-    
-    
     return df['flux_norm']
         
 def read_pdb(pdb_file):
@@ -446,7 +448,7 @@ def results_pdb(pdb_list,csv_flux):
                              pdb_list[i][9],pdb_list[i][10]))
     
         
-    return mod_pdb
+    return 'results.pdb'
 
 # sMD results ==================================================================
 def exponential_average(works, time_vect, njobs, T, kb):
@@ -587,10 +589,17 @@ def check_jobs(jobs, time, time_step):
 
     return incomplete_jobs
 
-# Errors =======================================================================
+# Errors and messages ==========================================================
 def pop_error(title, message):
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Critical)
+        msg.setWindowTitle(title)
+        msg.setText(message)
+        msg.exec_()
+
+def pop_message(title, message):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
         msg.setWindowTitle(title)
         msg.setText(message)
         msg.exec_()

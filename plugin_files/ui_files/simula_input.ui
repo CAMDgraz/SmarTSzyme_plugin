@@ -719,9 +719,9 @@
     <widget class="QLabel" name="label_20">
      <property name="geometry">
       <rect>
-       <x>450</x>
+       <x>570</x>
        <y>10</y>
-       <width>361</width>
+       <width>241</width>
        <height>31</height>
       </rect>
      </property>
@@ -739,9 +739,9 @@
     <widget class="QWidget" name="verticalLayoutWidget_3">
      <property name="geometry">
       <rect>
-       <x>450</x>
+       <x>570</x>
        <y>410</y>
-       <width>361</width>
+       <width>241</width>
        <height>80</height>
       </rect>
      </property>
@@ -758,9 +758,9 @@
     <widget class="QWidget" name="gridLayoutWidget_5">
      <property name="geometry">
       <rect>
-       <x>450</x>
+       <x>570</x>
        <y>50</y>
-       <width>361</width>
+       <width>241</width>
        <height>101</height>
       </rect>
      </property>
@@ -783,6 +783,11 @@
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
          <widget class="QCheckBox" name="check_cumulant">
+          <property name="font">
+           <font>
+            <pointsize>7</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>Cumulant</string>
           </property>
@@ -790,6 +795,11 @@
         </item>
         <item>
          <widget class="QCheckBox" name="check_exponential">
+          <property name="font">
+           <font>
+            <pointsize>7</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>Exponential</string>
           </property>
@@ -825,7 +835,7 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>421</width>
+       <width>551</width>
        <height>481</height>
       </rect>
      </property>
@@ -834,9 +844,9 @@
     <widget class="QLabel" name="label_ts">
      <property name="geometry">
       <rect>
-       <x>453</x>
+       <x>573</x>
        <y>170</y>
-       <width>361</width>
+       <width>241</width>
        <height>20</height>
       </rect>
      </property>

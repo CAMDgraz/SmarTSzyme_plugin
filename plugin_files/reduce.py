@@ -5,18 +5,27 @@
          Daniel Platero-Rochart [daniel.platero-rochart@medunigraz.at]
          Pedro A. Sanchez-Murcia [pedro.murcia@medunigraz.at]
 """
-# Imports
+# Imports ======================================================================
+# PyQt5
 from PyQt5 import uic
-from PyQt5.QtWidgets import (QWidget, QFileDialog,)
+from PyQt5.QtWidgets import (QWidget, QFileDialog)
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
-from pymol import cmd
+
+# Plugin specific
 from . import functions as fc
+
+# Generals
 import os
 import heapq
-import pandas as pd
 import numpy as np
+import pandas as pd
 import seaborn as sns
+from pymol import cmd
 
+# for testing
+# import functions as fc
+
+# Reduce Window ================================================================
 class ReduceWindow(QWidget):
     def __init__(self, traj):
         super().__init__()
@@ -28,14 +37,14 @@ class ReduceWindow(QWidget):
         self.pdb = ''
         self.csv = ''
 
-        self.canvas1 = fc.MplCanvas(self, width=5, height=4, dpi=100)
+        self.canvas1 = fc.MplCanvas(self, dpi=100)
         toolbar1 = NavigationToolbar2QT(self.canvas1, self)
         self.verticalLayout_5.addWidget(toolbar1)
         self.verticalLayout_5.addWidget(self.canvas1)
         self.ax1 = self.canvas1.fig.add_subplot(111)
 
 
-        # Conections
+        # Conections ===========================================================
         self.button_pdb.clicked.connect(self.load_file)
         self.button_csv.clicked.connect(self.load_file)
         self.button_pymol.clicked.connect(self.show_pymol)
@@ -69,7 +78,8 @@ class ReduceWindow(QWidget):
     def show_pymol(self):
         norm_csv = fc.normalize_flux(self.csv)
         nest_pdb = fc.read_pdb(self.pdb)
-        cmd.load(fc.results_pdb(nest_pdb, norm_csv))
+        result_pdb = fc.results_pdb(nest_pdb, norm_csv)
+        cmd.load(result_pdb)
     
     def plot(self):
         for_plotting = []
@@ -78,7 +88,6 @@ class ReduceWindow(QWidget):
             csv_df = pd.read_csv(self.csv)
             residues = np.asarray(csv_df.residue)
             fluxes = np.asarray(csv_df.flux)
-            #fluxes = (2*(fluxes-fluxes.min())/(fluxes.max() - fluxes.min())) - 1
             stab_index = np.where(fluxes < 0)[0]
             destab_index = np.where(fluxes > 0)[0]
         except:

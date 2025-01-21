@@ -5,29 +5,26 @@
          Daniel Platero-Rochart [daniel.platero-rochart@medunigraz.at]
          Pedro A. Sanchez-Murcia [pedro.murcia@medunigraz.at]
 """
-# Imports
+# Imports ======================================================================
+# PyQt5
 from PyQt5 import uic
-from PyQt5 import QtCore
-from PyQt5.QtWidgets import (QApplication, QWidget, QMainWindow, QButtonGroup,
-                             QFileDialog, QLineEdit, QShortcut)
-from PyQt5.QtGui import QKeySequence
-# from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
-# from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
-# from matplotlib.figure import Figure
+from PyQt5.QtWidgets import (QApplication, QMainWindow)
 
-from . import functions as fc
-#import functions as fc
-#import seaborn as sns
-import numpy as np
-import os
-from pymol import cmd
-from . import measures
+# Plugin specific
 from . import simula
 from . import reduce
+from . import measures
+from . import functions as fc
 
+# Generals
+import os
+from pymol import cmd
 
-# General variables and functions ==============================================
-
+# for testing
+# import functions as fc
+# import measures
+# import reduce
+# import simula
 
 # Main Window ==================================================================
 class MainWindow(QMainWindow):
