@@ -170,7 +170,7 @@ def validate_sel(traj, selection, natoms=None):
             if len(sel_idx) != natoms:
                 pop_error("Selection Error",
                         f"The number of atoms is incorrect")
-                sel_idx = ['']
+                sel_idx = []
     return sel_idx
 
 # Plots ========================================================================
@@ -221,8 +221,8 @@ def write_cv(traj, frame_id, cv_dict, outdir):
                     f.write(f'{r},')
                 f.write(f'\n')
                 f.write(f' path={ipath[0][0]:.4f},{-ipath[0][0]:.4f},\n')
-            
-            f.write(f' path={ipath[0][0]:.4f},{cv_dict['fpath'][cv_id]:.4f},\n')
+            else:
+                f.write(f' path={ipath[0][0]:.4f},{cv_dict['fpath'][cv_id]:.4f},\n')
             f.write(f' NHARM=1,\n')
             f.write(f' HARM={cv_dict['harm'][cv_id]},\n/\n')
                 

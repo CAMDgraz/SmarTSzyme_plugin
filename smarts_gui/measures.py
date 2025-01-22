@@ -39,6 +39,8 @@ class MeasureWindow(QWidget):
         self.out_path = './'
         self.data_dict = {'distance':[[], []], 'angle':[[], []],
                           'dihedral':[[], []], 'rmsd':[[], []]}
+        self.original_ang = []
+        self.original_dih = []
 
         # Canvas for each measure ==============================================
         # Distance
@@ -69,6 +71,10 @@ class MeasureWindow(QWidget):
         self.verticalLayout_4.addWidget(self.canvas4)
         self.ax4 = self.canvas4.fig.add_subplot(111)
 
+        # Combo Boxes
+        self.combo_switch1.addItems([str(item) for item in np.arange(1, 4)])
+        self.combo_switch2.addItems([str(item) for item in np.arange(1, 7)])
+
         # Connections ==========================================================
         self.button_clear1.clicked.connect(self.clear)
         self.button_clear2.clicked.connect(self.clear)
@@ -80,9 +86,11 @@ class MeasureWindow(QWidget):
         self.button_plot3.clicked.connect(self.add_plot)
         self.button_plot4.clicked.connect(self.add_plot)
 
+        self.combo_switch1.currentIndexChanged.connect(self.switch_atoms)
+        self.combo_switch2.currentIndexChanged.connect(self.switch_atoms)
+
         self.check_all.stateChanged.connect(self.state_checkbox)
         self.check_back.stateChanged.connect(self.state_checkbox)
-        self.check_noH.stateChanged.connect(self.state_checkbox)
 
         self.button_csv1.clicked.connect(self.to_csv)
         self.button_csv2.clicked.connect(self.to_csv)
@@ -112,45 +120,35 @@ class MeasureWindow(QWidget):
         if sender == 'check_all':
             if self.check_all.isChecked():
                 self.check_back.setChecked(False)
-                self.check_noH.setChecked(False)
         elif sender == 'check_back':
             if self.check_back.isChecked():
                 self.check_all.setChecked(False)
-                self.check_noH.setChecked(False)
-        elif sender == 'check_noH':
-            if self.check_noH.isChecked():
-                self.check_all.setChecked(False)
-                self.check_back.setChecked(False)
-        return
 
     def add_plot(self):
 
         button_clicked = self.sender().objectName()
-
+        atoms_sel = []
         # Distances
         if button_clicked == 'button_plot1':
             selection_raw = self.combo_atoms1.currentText()
-            selection_str = 'index '
             if selection_raw in cmd.get_names('selections', 0):
                 atoms = np.asarray([atom.id for atom in
                                     cmd.get_model(selection_raw).atom],
                                     dtype=int)
                 for atom in atoms:
-                    selection_str += f'{str(int(atom) - 1)} '
+                    atoms_sel.append(int(atom) - 1)
             else:
                 for atom in selection_raw.strip().split():
-                    selection_str += f'{str(int(atom) - 1)} '
+                    atoms_sel.append(int(atom) - 1)
             
-            sel_idx = fc.validate_sel(self.traj,
-                                          f'{selection_str}', 2)
-            if len(sel_idx) != 2:
+            if len(atoms_sel) != 2:
                 return 
             
             label = self.edit_label1.text()
             if label == '':
-                label = f"sel{len(self.data_dict['distance'][1]) + 1}"
+                label = f"dist{len(self.data_dict['distance'][1]) + 1}"
 
-            self.data_dict['distance'][0].append(sel_idx)
+            self.data_dict['distance'][0].append(np.asarray(atoms_sel))
             self.data_dict['distance'][1].append(label)
         
             self.edit_label1.setText('')
@@ -160,26 +158,25 @@ class MeasureWindow(QWidget):
         # Angles
         if button_clicked == 'button_plot2':
             selection_raw = self.combo_atoms2.currentText()
-            selection_str = 'index '
+            
             if selection_raw in cmd.get_names('selections', 0):
                 atoms = np.asarray([atom.id for atom in
                                     cmd.get_model(selection_raw).atom],
                                     dtype=int)
                 for atom in atoms:
-                    selection_str += f'{str(int(atom) - 1)} '
+                    atoms_sel.append(int(atom) - 1)
             else:
                 for atom in selection_raw.strip().split():
-                    selection_str += f'{str(int(atom) - 1)} '
-            sel_idx = fc.validate_sel(self.traj,
-                                      f'{selection_str}', 3)
-            if len(sel_idx) != 3:
+                    atoms_sel.append(int(atom) - 1)
+            if len(atoms_sel) != 3:
                 return 
             
             label = self.edit_label2.text()
             if label == '':
-                label = f"sel{len(self.data_dict['angle'][1]) + 1}"
+                label = f"ang{len(self.data_dict['angle'][1]) + 1}"
 
-            self.data_dict['angle'][0].append(sel_idx)
+            self.original_ang = np.asarray(atoms_sel)
+            self.data_dict['angle'][0].append(np.asarray(atoms_sel))
             self.data_dict['angle'][1].append(label)
         
             self.edit_label2.setText('')
@@ -188,26 +185,24 @@ class MeasureWindow(QWidget):
         # Dihedrals
         if button_clicked == 'button_plot3':
             selection_raw = self.combo_atoms3.currentText()
-            selection_str = 'index '
             if selection_raw in cmd.get_names('selections', 0):
                 atoms = np.asarray([atom.id for atom in
                                     cmd.get_model(selection_raw).atom],
                                     dtype=int)
                 for atom in atoms:
-                    selection_str += f'{str(int(atom) - 1)} '
+                    atoms_sel.append(int(atom) - 1)
             else:
                 for atom in selection_raw.strip().split():
-                    selection_str += f'{str(int(atom) - 1)} '
-            sel_idx = fc.validate_sel(self.traj,
-                                      f'{selection_str}', 4)
-            if len(sel_idx) != 4:
+                    atoms_sel.append(int(atom) - 1)
+            if len(atoms_sel) != 4:
                 return
             
             label = self.edit_label3.text()
             if label == '':
-                label = f"sel{len(self.data_dict['dihedral'][1]) + 1}"
+                label = f"dihed{len(self.data_dict['dihedral'][1]) + 1}"
 
-            self.data_dict['dihedral'][0].append(sel_idx)
+            self.original_dih = np.asarray(atoms_sel)
+            self.data_dict['dihedral'][0].append(np.asarray(atoms_sel))
             self.data_dict['dihedral'][1].append(label)
         
             self.edit_label3.setText('')
@@ -220,8 +215,6 @@ class MeasureWindow(QWidget):
                 selection_str = 'all'
             elif self.check_back.isChecked():
                 selection_str = 'backbone'
-            elif self.check_noH.isChecked():
-                selection_str = 'name = noH '
             else:
                 selection_raw = self.combo_atoms4.currentText()
                 if selection_raw in cmd.get_names('selections', 0):
@@ -232,19 +225,20 @@ class MeasureWindow(QWidget):
                     for atom in atoms:
                         selection_str += f'{str(int(atom) - 1)} '
                 else:
-                    for keyword in selection_raw.strip():
+                    selection_str = ''
+                    for keyword in selection_raw.strip().split():
                         try:
                             selection_str += f'{int(keyword) - 1} '
                         except: 
                             selection_str += f'{keyword} '
             
             sel_idx = fc.validate_sel(self.traj, selection_str)
-            if len(sel_idx) == 1:
+            if len(sel_idx) == 0:
                 return 
             
             label = self.edit_label4.text()
             if label == '':
-                label = f"sel{len(self.data_dict['rmsd'][1]) + 1}"
+                label = f"rmsd{len(self.data_dict['rmsd'][1]) + 1}"
 
             self.data_dict['rmsd'][0].append(sel_idx)
             self.data_dict['rmsd'][1].append(label)
@@ -253,8 +247,36 @@ class MeasureWindow(QWidget):
             
             self.check_all.setChecked(False)
             self.check_back.setChecked(False)
-            self.check_noH.setChecked(False)
             self.plot_measure('rmsd')
+
+    def switch_atoms(self):
+        sender = self.sender().objectName()
+
+        angle_comb = [[0, 1, 2], [1, 2, 0], [2, 0, 1]]
+        dihedral_comb = [[0, 1, 2, 3], [1, 2, 3, 0], [2, 3, 0, 1],
+                         [3, 0, 1, 2], [0, 1, 2, 3], [1, 2, 0, 3]]
+        if sender == 'combo_switch1':
+            comb_index = int(self.combo_switch1.currentText()) - 1
+            try:
+                label = self.data_dict['angle'][1][-1]
+            except:
+                return
+            cmd.delete(label)
+            atoms = self.data_dict['angle'][0].pop()
+            new_order = self.original_ang[angle_comb[comb_index]]
+            self.data_dict['angle'][0].append(new_order)
+            self.plot_measure('angle')
+        elif sender == 'combo_switch2':
+            comb_index = int(self.combo_switch2.currentText()) - 1
+            try:
+                label = self.data_dict['dihedral'][1][-1]
+            except:
+                return
+            cmd.delete(label)
+            atoms = self.data_dict['dihedral'][0].pop()
+            new_order = self.original_dih[dihedral_comb[comb_index]]
+            self.data_dict['dihedral'][0].append(new_order)
+            self.plot_measure('dihedral')
 
     def plot_measure(self, sender):
 
@@ -263,7 +285,7 @@ class MeasureWindow(QWidget):
             canvas = self.canvas1
             ax.clear()
             canvas.draw()
-        
+
             for atoms_, label_ in zip(self.data_dict['distance'][0],
                                       self.data_dict['distance'][1]):
                 atoms_ = np.asarray(atoms_)
@@ -332,18 +354,28 @@ class MeasureWindow(QWidget):
         button_clicked = self.sender().objectName()
 
         if button_clicked == 'button_clear1':
+            for label in self.data_dict['distance'][1]:
+                cmd.delete(label)
             self.data_dict['distance'] = [[], []]
             canvas = self.canvas1
             ax=self.ax1
         elif button_clicked == 'button_clear2':
+            for label in self.data_dict['angle'][1]:
+                cmd.delete(label)
             self.data_dict['angle'] = [[], []]
+            self.original_ang = []
             canvas = self.canvas2
             ax=self.ax2
         elif button_clicked == 'button_clear3':
+            for label in self.data_dict['dihedral'][1]:
+                cmd.delete(label)
             self.data_dict['dihedral'] = [[], []]
+            self.original_dih = []
             canvas = self.canvas3
             ax=self.ax3
         elif button_clicked == 'button_clear4':
+            for label in self.data_dict['rmsd'][1]:
+                cmd.delete(label)
             self.data_dict['rmsd'] = [[], []]
             canvas = self.canvas4
             ax=self.ax4
@@ -398,3 +430,4 @@ class MeasureWindow(QWidget):
         all_measures_df = pd.DataFrame(np.asarray(all_measures).T,
                                        columns=labels)
         all_measures_df.to_csv(csv_file, index=False)
+        fc.pop_message("Info", "CSV file done")

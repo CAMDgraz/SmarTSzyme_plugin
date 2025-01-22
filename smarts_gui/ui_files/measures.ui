@@ -144,6 +144,20 @@
        </widget>
       </item>
       <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Angle No.</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="combo_switch1"/>
+        </item>
+       </layout>
+      </item>
+      <item>
        <widget class="QPushButton" name="button_csv2">
         <property name="text">
          <string>Export csv</string>
@@ -210,6 +224,20 @@
        </widget>
       </item>
       <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Dihedral No.</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="combo_switch2"/>
+        </item>
+       </layout>
+      </item>
+      <item>
        <widget class="QPushButton" name="button_csv3">
         <property name="text">
          <string>Export csv</string>
@@ -271,13 +299,6 @@
          <widget class="QCheckBox" name="check_back">
           <property name="text">
            <string>Backbone</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="check_noH">
-          <property name="text">
-           <string>noH</string>
           </property>
          </widget>
         </item>

@@ -80,6 +80,7 @@ class ReduceWindow(QWidget):
         nest_pdb = fc.read_pdb(self.pdb)
         result_pdb = fc.results_pdb(nest_pdb, norm_csv)
         cmd.load(result_pdb)
+        cmd.spectrum('b', selection='results')
     
     def plot(self):
         for_plotting = []
