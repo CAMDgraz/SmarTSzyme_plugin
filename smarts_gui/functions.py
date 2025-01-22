@@ -325,7 +325,7 @@ def write_run(outdir):
         f.write('export LD_LIBRARY_PATH=${openmpi}/')
         f.write('lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}\n\n')
         f.write('# Run sMD\n')
-        f.write('mpirun -np 2 ${{SANDER}} -O -i qmmm.in -o frame_$1.out')
+        f.write('mpirun -np 2 ${SANDER} -O -i qmmm.in -o frame_$1.out')
         f.write(' -p top_qmmm.top -c frame_$1.rst')
         f.write(' -r frame_$1.qmmm.rst -x traj_qmmm.nc')
         f.write(' -ref frame_$1.rst')
