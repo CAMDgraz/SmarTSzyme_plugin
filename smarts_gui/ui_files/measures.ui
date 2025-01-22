@@ -185,7 +185,7 @@
       <item>
        <widget class="QLineEdit" name="edit_atoms3">
         <property name="placeholderText">
-         <string>Aoms id</string>
+         <string>Atoms id</string>
         </property>
        </widget>
       </item>

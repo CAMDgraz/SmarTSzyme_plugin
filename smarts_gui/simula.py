@@ -30,7 +30,8 @@ class SimulaWindow(QWidget):
         super().__init__()
         uifile = os.path.join(os.path.dirname(__file__),
                               'ui_files/simula_input.ui')
-        uic.loadUi(uifile, self)   
+        uic.loadUi(uifile, self) 
+        self.resize(850,550)  
 
         # Init variables =======================================================
         self.conditions_dict = {'type':[], 'atoms':[], 'symbol': [], 'value':[]}

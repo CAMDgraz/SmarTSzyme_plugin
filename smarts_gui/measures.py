@@ -24,7 +24,7 @@ import seaborn as sns
 from pymol import cmd
 
 # for testing
-#import functions as fc
+# import functions as fc
 
 # Measures Windows =============================================================
 class MeasureWindow(QWidget):
@@ -33,6 +33,7 @@ class MeasureWindow(QWidget):
         uifile = os.path.join(os.path.dirname(__file__),
                               'ui_files/measures.ui')
         uic.loadUi(uifile, self)
+        self.resize(850,550) 
 
         # Init variables
         self.traj = traj
@@ -71,10 +72,6 @@ class MeasureWindow(QWidget):
         self.verticalLayout_4.addWidget(self.canvas4)
         self.ax4 = self.canvas4.fig.add_subplot(111)
 
-        # Combo Boxes
-        self.combo_switch1.addItems([str(item) for item in np.arange(1, 4)])
-        self.combo_switch2.addItems([str(item) for item in np.arange(1, 7)])
-
         # Connections ==========================================================
         self.button_clear1.clicked.connect(self.clear)
         self.button_clear2.clicked.connect(self.clear)
@@ -85,9 +82,6 @@ class MeasureWindow(QWidget):
         self.button_plot2.clicked.connect(self.add_plot)
         self.button_plot3.clicked.connect(self.add_plot)
         self.button_plot4.clicked.connect(self.add_plot)
-
-        self.combo_switch1.currentIndexChanged.connect(self.switch_atoms)
-        self.combo_switch2.currentIndexChanged.connect(self.switch_atoms)
 
         self.check_all.stateChanged.connect(self.state_checkbox)
         self.check_back.stateChanged.connect(self.state_checkbox)
@@ -219,37 +213,6 @@ class MeasureWindow(QWidget):
             self.check_all.setChecked(False)
             self.check_back.setChecked(False)
             self.plot_measure('rmsd')
-
-    def switch_atoms(self):
-        sender = self.sender().objectName()
-
-        angle_comb = [[0, 1, 2], [1, 2, 0], [2, 0, 1]]
-        dihedral_comb = [[0, 1, 2, 3], [1, 2, 3, 0], [2, 3, 0, 1],
-                         [3, 0, 1, 2], [2, 1, 3, 0], [1, 2, 0, 3]]
-        if sender == 'combo_switch1':
-            comb_index = int(self.combo_switch1.currentText()) - 1
-            try:
-                label = self.data_dict['angle'][1][-1]
-            except:
-                return
-            cmd.delete(label)
-            atoms = self.data_dict['angle'][0].pop()
-            new_order = self.original_ang[angle_comb[comb_index]]
-            print(new_order)
-            self.data_dict['angle'][0].append(new_order)
-            self.plot_measure('angle')
-        elif sender == 'combo_switch2':
-            comb_index = int(self.combo_switch2.currentText()) - 1
-            try:
-                label = self.data_dict['dihedral'][1][-1]
-            except:
-                return
-            cmd.delete(label)
-            atoms = self.data_dict['dihedral'][0].pop()
-            new_order = self.original_dih[dihedral_comb[comb_index]]
-            print(new_order)
-            self.data_dict['dihedral'][0].append(new_order)
-            self.plot_measure('dihedral')
 
     def plot_measure(self, sender):
 

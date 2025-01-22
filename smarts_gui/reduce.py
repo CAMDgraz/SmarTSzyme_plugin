@@ -32,6 +32,7 @@ class ReduceWindow(QWidget):
         uifile = os.path.join(os.path.dirname(__file__),
                               'ui_files/reduce_results.ui')
         uic.loadUi(uifile, self) 
+        self.resize(850,550) 
 
         # Init variables
         self.pdb = ''
