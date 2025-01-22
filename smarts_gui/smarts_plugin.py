@@ -33,7 +33,6 @@ class MainWindow(QMainWindow):
         uifile = os.path.join(os.path.dirname(__file__),
                               'ui_files/mainWindow.ui')
         uic.loadUi(uifile, self)
-        self.resize(500,400)
         self.show()
 
         # Init variables

@@ -9,7 +9,7 @@
 # Imports ======================================================================
 # PyQt5
 from PyQt5 import uic
-from PyQt5.QtWidgets import (QWidget, QShortcut)
+from PyQt5.QtWidgets import (QMainWindow, QShortcut)
 from PyQt5.QtGui import QKeySequence
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 
@@ -27,13 +27,12 @@ from pymol import cmd
 # import functions as fc
 
 # Measures Windows =============================================================
-class MeasureWindow(QWidget):
+class MeasureWindow(QMainWindow):
     def __init__(self, traj):
         super().__init__()
         uifile = os.path.join(os.path.dirname(__file__),
                               'ui_files/measures.ui')
         uic.loadUi(uifile, self)
-        self.resize(850,550) 
 
         # Init variables
         self.traj = traj
@@ -54,22 +53,22 @@ class MeasureWindow(QWidget):
         # Angle
         self.canvas2 = fc.MplCanvas(self, dpi=100)
         toolbar2 = NavigationToolbar2QT(self.canvas2, self)
-        self.verticalLayout_2.addWidget(toolbar2)
-        self.verticalLayout_2.addWidget(self.canvas2)
+        self.verticalLayout_3.addWidget(toolbar2)
+        self.verticalLayout_3.addWidget(self.canvas2)
         self.ax2 = self.canvas2.fig.add_subplot(111)
 
         # Dihedral
         self.canvas3 = fc.MplCanvas(self, dpi=100)
         toolbar3 = NavigationToolbar2QT(self.canvas3, self)
-        self.verticalLayout_3.addWidget(toolbar3)
-        self.verticalLayout_3.addWidget(self.canvas3)
+        self.verticalLayout_5.addWidget(toolbar3)
+        self.verticalLayout_5.addWidget(self.canvas3)
         self.ax3 = self.canvas3.fig.add_subplot(111)
 
         # RMSD
         self.canvas4 = fc.MplCanvas(self, dpi=100)
         toolbar4 = NavigationToolbar2QT(self.canvas4, self)
-        self.verticalLayout_4.addWidget(toolbar4)
-        self.verticalLayout_4.addWidget(self.canvas4)
+        self.verticalLayout_9.addWidget(toolbar4)
+        self.verticalLayout_9.addWidget(self.canvas4)
         self.ax4 = self.canvas4.fig.add_subplot(111)
 
         # Connections ==========================================================
