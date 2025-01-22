@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>836</width>
-    <height>547</height>
+    <width>971</width>
+    <height>645</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>834</width>
-    <height>547</height>
+    <width>850</width>
+    <height>600</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -170,7 +170,7 @@
            </layout>
           </item>
           <item>
-           <widget class="QPlainTextEdit" name="edit_show1_2">
+           <widget class="QPlainTextEdit" name="edit_show1">
             <property name="enabled">
              <bool>false</bool>
             </property>
@@ -372,7 +372,7 @@
            </layout>
           </item>
           <item>
-           <widget class="QPlainTextEdit" name="edit_show2_2">
+           <widget class="QPlainTextEdit" name="edit_show2">
             <property name="enabled">
              <bool>false</bool>
             </property>
