@@ -254,7 +254,7 @@ class MeasureWindow(QWidget):
 
         angle_comb = [[0, 1, 2], [1, 2, 0], [2, 0, 1]]
         dihedral_comb = [[0, 1, 2, 3], [1, 2, 3, 0], [2, 3, 0, 1],
-                         [3, 0, 1, 2], [0, 1, 2, 3], [1, 2, 0, 3]]
+                         [3, 0, 1, 2], [2, 1, 3, 0], [1, 2, 0, 3]]
         if sender == 'combo_switch1':
             comb_index = int(self.combo_switch1.currentText()) - 1
             try:
@@ -264,6 +264,7 @@ class MeasureWindow(QWidget):
             cmd.delete(label)
             atoms = self.data_dict['angle'][0].pop()
             new_order = self.original_ang[angle_comb[comb_index]]
+            print(new_order)
             self.data_dict['angle'][0].append(new_order)
             self.plot_measure('angle')
         elif sender == 'combo_switch2':
@@ -275,6 +276,7 @@ class MeasureWindow(QWidget):
             cmd.delete(label)
             atoms = self.data_dict['dihedral'][0].pop()
             new_order = self.original_dih[dihedral_comb[comb_index]]
+            print(new_order)
             self.data_dict['dihedral'][0].append(new_order)
             self.plot_measure('dihedral')
 
