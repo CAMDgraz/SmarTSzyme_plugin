@@ -103,15 +103,6 @@ class MeasureWindow(QWidget):
 
     # Functions ================================================================
     def update_pymol_names(self):
-        self.combo_atoms1.clear()
-        self.combo_atoms1.addItems(cmd.get_names('selections', 0))
-
-        self.combo_atoms2.clear()
-        self.combo_atoms2.addItems(cmd.get_names('selections', 0))
-
-        self.combo_atoms3.clear()
-        self.combo_atoms3.addItems(cmd.get_names('selections', 0))
-
         self.combo_atoms4.clear()
         self.combo_atoms4.addItems(cmd.get_names('selections', 0))
 
@@ -130,15 +121,8 @@ class MeasureWindow(QWidget):
         atoms_sel = []
         # Distances
         if button_clicked == 'button_plot1':
-            selection_raw = self.combo_atoms1.currentText()
-            if selection_raw in cmd.get_names('selections', 0):
-                atoms = np.asarray([atom.id for atom in
-                                    cmd.get_model(selection_raw).atom],
-                                    dtype=int)
-                for atom in atoms:
-                    atoms_sel.append(int(atom) - 1)
-            else:
-                for atom in selection_raw.strip().split():
+            selection_raw = self.edit_atoms1.text()
+            for atom in selection_raw.strip().split():
                     atoms_sel.append(int(atom) - 1)
             
             if len(atoms_sel) != 2:
@@ -157,17 +141,10 @@ class MeasureWindow(QWidget):
 
         # Angles
         if button_clicked == 'button_plot2':
-            selection_raw = self.combo_atoms2.currentText()
+            selection_raw = self.edit_atoms2.text()
+            for atom in selection_raw.strip().split():
+                atoms_sel.append(int(atom) - 1)
             
-            if selection_raw in cmd.get_names('selections', 0):
-                atoms = np.asarray([atom.id for atom in
-                                    cmd.get_model(selection_raw).atom],
-                                    dtype=int)
-                for atom in atoms:
-                    atoms_sel.append(int(atom) - 1)
-            else:
-                for atom in selection_raw.strip().split():
-                    atoms_sel.append(int(atom) - 1)
             if len(atoms_sel) != 3:
                 return 
             
@@ -184,16 +161,10 @@ class MeasureWindow(QWidget):
 
         # Dihedrals
         if button_clicked == 'button_plot3':
-            selection_raw = self.combo_atoms3.currentText()
-            if selection_raw in cmd.get_names('selections', 0):
-                atoms = np.asarray([atom.id for atom in
-                                    cmd.get_model(selection_raw).atom],
-                                    dtype=int)
-                for atom in atoms:
-                    atoms_sel.append(int(atom) - 1)
-            else:
-                for atom in selection_raw.strip().split():
-                    atoms_sel.append(int(atom) - 1)
+            selection_raw = self.edit_atoms3.text()
+            for atom in selection_raw.strip().split():
+                atoms_sel.append(int(atom) - 1)
+            
             if len(atoms_sel) != 4:
                 return
             

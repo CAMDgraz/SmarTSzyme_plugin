@@ -51,12 +51,9 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_8">
       <item>
-       <widget class="QComboBox" name="combo_atoms1">
-        <property name="editable">
-         <bool>true</bool>
-        </property>
+       <widget class="QLineEdit" name="edit_atoms1">
         <property name="placeholderText">
-         <string/>
+         <string>Atoms id</string>
         </property>
        </widget>
       </item>
@@ -120,9 +117,9 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_5">
       <item>
-       <widget class="QComboBox" name="combo_atoms2">
-        <property name="editable">
-         <bool>true</bool>
+       <widget class="QLineEdit" name="edit_atoms2">
+        <property name="placeholderText">
+         <string>Atoms id</string>
         </property>
        </widget>
       </item>
@@ -142,20 +139,6 @@
          <string>Plot</string>
         </property>
        </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Angle No.</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="combo_switch1"/>
-        </item>
-       </layout>
       </item>
       <item>
        <widget class="QPushButton" name="button_csv2">
@@ -200,9 +183,9 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_6">
       <item>
-       <widget class="QComboBox" name="combo_atoms3">
-        <property name="editable">
-         <bool>true</bool>
+       <widget class="QLineEdit" name="edit_atoms3">
+        <property name="placeholderText">
+         <string>Aoms id</string>
         </property>
        </widget>
       </item>
@@ -222,20 +205,6 @@
          <string>Plot</string>
         </property>
        </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Dihedral No.</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="combo_switch2"/>
-        </item>
-       </layout>
       </item>
       <item>
        <widget class="QPushButton" name="button_csv3">
