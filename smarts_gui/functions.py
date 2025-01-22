@@ -194,7 +194,7 @@ def measure(type, traj, atoms):
     return measure
 
 # Output =======================================================================
-def write_cv(traj, frame_id, cv_dict, outdir):
+def write_cv(traj, frame, cv_dict, outdir):
     with open(f'{outdir}/cv.in', 'w') as f:
         for cv_id, cv in enumerate(cv_dict['type']):
             f.write('&colvar\n')
@@ -207,15 +207,17 @@ def write_cv(traj, frame_id, cv_dict, outdir):
             f.write(f' npath=2,\n')
             f.write(f" path_mode='LINES'\n")
             if cv == 'DISTANCE':
-                ipath = measure('distance', traj[frame_id], cv_dict['atoms'][cv_id])
+                ipath = measure('distance', traj[frame - 1],
+                                cv_dict['atoms'][cv_id])
             elif cv == 'ANGLE':
-                ipath = measure('angle', traj[frame_id], cv_dict['atoms'][cv_id])
+                ipath = measure('angle', traj[frame - 1],
+                                cv_dict['atoms'][cv_id])
             elif cv == 'LCOD':
                 ipath = 0
-                f.write(f' cv_nr={len(cv_dict['coeff'])}\n')
+                f.write(f' cv_nr={len(cv_dict['coeff'][cv_id])}\n')
                 f.write(f' cv_r=')
                 for r_id, r in enumerate(cv_dict['coeff'][cv_id]):
-                    measure_ = measure('distance', traj[frame_id],
+                    measure_ = measure('distance', traj[frame - 1],
                                        cv_dict['atoms'][cv_id][r_id*2:r_id*2+2])
                     ipath += r*measure_
                     f.write(f'{r},')
@@ -331,7 +333,7 @@ def write_run(outdir):
         f.write(' -ref frame_$1.rst')
 
 def save_rst(traj, frame, outdir):
-    traj[frame-1].save_amberrst7(f'{outdir}/frame_{frame}.rst')
+    traj[frame - 1].save_amberrst7(f'{outdir}/frame_{frame}.rst')
 
 # Vizualisation ================================================================
 def normalize_flux(csv_file):

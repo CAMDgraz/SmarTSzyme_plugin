@@ -393,11 +393,11 @@ class SimulaWindow(QMainWindow):
             fc.pop_error("Error!!!", "No frames selected")
             return
         
-        for frame_id, frame in enumerate(self.frames_sel):
+        for frame in enumerate(self.frames_sel):
             os.mkdir(f'{self.output_dir}/qmmm_{frame}')
             outdir = f'{self.output_dir}/qmmm_{frame}'
             fc.save_rst(self.traj, frame, outdir)
-            fc.write_cv(self.traj, frame_id, self.cv_dict, outdir)
+            fc.write_cv(self.traj, frame, self.cv_dict, outdir)
         fc.write_run(self.output_dir)
         fc.write_qmmm(qmmm_dict, self.output_dir)
         fc.write_sh(self.frames_sel, self.output_dir)
