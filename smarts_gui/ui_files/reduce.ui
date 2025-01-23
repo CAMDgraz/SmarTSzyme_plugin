@@ -91,7 +91,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QPlainTextEdit" name="edit_show1"/>
+       <widget class="QPlainTextEdit" name="edit_show1">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QLabel" name="label_8">
@@ -101,7 +105,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QPlainTextEdit" name="edit_show2"/>
+       <widget class="QPlainTextEdit" name="edit_show2">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <layout class="QGridLayout" name="gridLayout_2">

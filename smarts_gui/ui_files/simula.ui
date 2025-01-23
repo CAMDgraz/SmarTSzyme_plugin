@@ -485,6 +485,9 @@
             </item>
             <item row="1" column="1">
              <widget class="QLineEdit" name="edit_atoms2">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="placeholderText">
                <string>Atoms id</string>
               </property>
@@ -590,22 +593,11 @@
            </spacer>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_17">
-            <item>
-             <widget class="QPushButton" name="button_frames">
-              <property name="text">
-               <string>Select frames</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="button_clear_frames">
-              <property name="text">
-               <string>Clear selection</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <widget class="QPushButton" name="button_frames">
+            <property name="text">
+             <string>Select frames</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -797,13 +789,13 @@
              <widget class="QLabel" name="label_46">
               <property name="minimumSize">
                <size>
-                <width>80</width>
+                <width>100</width>
                 <height>30</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>80</width>
+                <width>100</width>
                 <height>30</height>
                </size>
               </property>
@@ -816,13 +808,13 @@
              <widget class="QLabel" name="label_47">
               <property name="minimumSize">
                <size>
-                <width>80</width>
+                <width>100</width>
                 <height>30</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>80</width>
+                <width>100</width>
                 <height>30</height>
                </size>
               </property>
@@ -837,13 +829,13 @@
                <widget class="QCheckBox" name="check_cumulant">
                 <property name="minimumSize">
                  <size>
-                  <width>50</width>
+                  <width>100</width>
                   <height>30</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>80</width>
+                  <width>100</width>
                   <height>30</height>
                  </size>
                 </property>
@@ -861,13 +853,13 @@
                <widget class="QCheckBox" name="check_exponential">
                 <property name="minimumSize">
                  <size>
-                  <width>50</width>
+                  <width>100</width>
                   <height>30</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>80</width>
+                  <width>100</width>
                   <height>30</height>
                  </size>
                 </property>
@@ -925,13 +917,13 @@
              <widget class="QLabel" name="label_48">
               <property name="minimumSize">
                <size>
-                <width>80</width>
+                <width>100</width>
                 <height>30</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>80</width>
+                <width>100</width>
                 <height>30</height>
                </size>
               </property>
@@ -959,13 +951,13 @@
            <widget class="QPushButton" name="button_calculate">
             <property name="minimumSize">
              <size>
-              <width>280</width>
+              <width>300</width>
               <height>30</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>280</width>
+              <width>300</width>
               <height>30</height>
              </size>
             </property>

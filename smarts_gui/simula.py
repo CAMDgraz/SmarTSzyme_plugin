@@ -95,7 +95,6 @@ class SimulaWindow(QMainWindow):
         self.button_add2.clicked.connect(self.add_filter)
         self.button_clear2.clicked.connect(self.clear_filters)
         self.button_frames.clicked.connect(self.select_frames)
-        self.button_clear_frames.clicked.connect(self.clear_frames)
         self.button_originalTop.clicked.connect(self.load_file)
         self.button_originalTraj.clicked.connect(self.load_file)
         self.button_output.clicked.connect(self.sel_output)
@@ -114,10 +113,10 @@ class SimulaWindow(QMainWindow):
     def current_cv(self):
         if self.combo_cvtype.currentText() != 'LCOD':
             self.edit_coeff.setEnabled(False)
-            self.edit_path.setPlaceholderText = "Final value of the CV"
+            self.edit_path.setPlaceholderText("Final value of the CV")
         else:
             self.edit_coeff.setEnabled(True)
-            self.edit_path.setPlaceholderText = "Not required"
+            self.edit_path.setPlaceholderText("Not required")
 
     def add_cv(self):
         cv_type = self.combo_cvtype.currentText()
@@ -331,6 +330,7 @@ class SimulaWindow(QMainWindow):
     def select_frames(self):    
         self.traj, need_top = fc.load_traj(self.traj_file, self.top_file)
         self.frames_sel = []
+        self.label_selected.setText("")
         if not self.traj:
             fc.pop_error("Error!!!", "Load the topology and trajectory files")
             return
@@ -369,10 +369,7 @@ class SimulaWindow(QMainWindow):
     def clear_mask(self):
         self.mask_list = []
         self.edit_show2.clear()
-    
-    def clear_frames(self):
-        self.label_selected.setText("")
-        self.fames_sel = []
+
         
     def generate(self):
         # Get qmmm.in params
