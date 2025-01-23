@@ -1,9 +1,9 @@
 #!/bin/python
 
 """
-@author: Aliaa []
-         Daniel Platero-Rochart [daniel.platero-rochart@medunigraz.at]
-         Pedro A. Sanchez-Murcia [pedro.murcia@medunigraz.at]
+@authors: Aliaa Abd Elhalim [aliaa.abdelhalim@edu.fh-joanneum.at]
+          Daniel Platero-Rochart [daniel.platero-rochart@medunigraz.at]
+          Pedro A. Sanchez-Murcia [pedro.murcia@medunigraz.at]
 """
 # Imports ======================================================================
 # PyQt5
@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import (QMainWindow, QFileDialog)
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 
 # Plugin specific
-from . import functions as fc
+# from . import functions as fc
 
 # Generals
 import os
@@ -23,7 +23,7 @@ import seaborn as sns
 from pymol import cmd
 
 # for testing
-# import functions as fc
+import functions as fc
 
 # Reduce Window ================================================================
 class ReduceWindow(QMainWindow):

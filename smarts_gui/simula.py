@@ -1,9 +1,9 @@
 #!/bin/python
 
 """
-@author: Aliaa []
-         Daniel Platero-Rochart [daniel.platero-rochart@medunigraz.at]
-         Pedro A. Sanchez-Murcia [pedro.murcia@medunigraz.at]
+@authors: Aliaa Abd Elhalim [aliaa.abdelhalim@edu.fh-joanneum.at]
+          Daniel Platero-Rochart [daniel.platero-rochart@medunigraz.at]
+          Pedro A. Sanchez-Murcia [pedro.murcia@medunigraz.at]
 """
 # Imports ======================================================================
 # PyQt5
@@ -13,7 +13,7 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 from PyQt5.QtWidgets import (QMainWindow, QButtonGroup,QFileDialog, QShortcut)
 
 # Plugin specific
-from . import functions as fc
+# from . import functions as fc
 
 # Generals
 import os
@@ -22,7 +22,7 @@ import pandas as pd
 from pymol import cmd
 
 # for testing
-# import functions as fc
+import functions as fc
 
 # Simula Window ================================================================
 class SimulaWindow(QMainWindow):
@@ -50,6 +50,7 @@ class SimulaWindow(QMainWindow):
         self.combo_filter.addItems(['distance', 'angle', 'dihedral'])
         self.combo_cond.addItems(['>', '<', '>=', '<='])
         self.combo_mask.addItems(cmd.get_names('selections', 0))
+        self.edit_coeff.setEnabled(False)
 
         # Refresh shortcut
         self.refresh = QShortcut(QKeySequence('F5'), self)
@@ -85,6 +86,7 @@ class SimulaWindow(QMainWindow):
         self.button_clear1.clicked.connect(self.clear_cv)
         self.button_addmask.clicked.connect(self.add_mask)
         self.button_clearmask.clicked.connect(self.clear_mask)
+        self.combo_cvtype.currentIndexChanged.connect(self.current_cv)
 
         # Tab Frames
         self.button_generate.clicked.connect(self.generate)
@@ -109,6 +111,14 @@ class SimulaWindow(QMainWindow):
         self.combo_mask.addItems(cmd.get_names('selections', 0))
     
     # Tab sMD
+    def current_cv(self):
+        if self.combo_cvtype.currentText() != 'LCOD':
+            self.edit_coeff.setEnabled(False)
+            self.edit_path.setPlaceholderText = "Final value of the CV"
+        else:
+            self.edit_coeff.setEnabled(True)
+            self.edit_path.setPlaceholderText = "Not required"
+
     def add_cv(self):
         cv_type = self.combo_cvtype.currentText()
         coeff_flag = False
@@ -118,7 +128,6 @@ class SimulaWindow(QMainWindow):
         selection_raw = self.edit_atoms1.text()
         try:
             for atom in selection_raw.strip().split():
-                print(atom)
                 atoms_sel.append(int(atom) - 1)
             atoms_sel = np.asarray(atoms_sel)
 
@@ -301,8 +310,7 @@ class SimulaWindow(QMainWindow):
         except:
             fc.pop_error("Error!!!", "Could not read atoms")
             return
-        
-        
+        self.edit_atom2.setText("")
 
         if condition_value == '':
             fc.pop_error("Error!!!", "No condition have been provided")
@@ -322,6 +330,7 @@ class SimulaWindow(QMainWindow):
     
     def select_frames(self):    
         self.traj, need_top = fc.load_traj(self.traj_file, self.top_file)
+        self.frames_sel = []
         if not self.traj:
             fc.pop_error("Error!!!", "Load the topology and trajectory files")
             return
@@ -393,7 +402,7 @@ class SimulaWindow(QMainWindow):
             fc.pop_error("Error!!!", "No frames selected")
             return
         
-        for frame in enumerate(self.frames_sel):
+        for frame in self.frames_sel:
             os.mkdir(f'{self.output_dir}/qmmm_{frame}')
             outdir = f'{self.output_dir}/qmmm_{frame}'
             fc.save_rst(self.traj, frame, outdir)

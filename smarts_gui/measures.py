@@ -1,9 +1,9 @@
 #!/bin/python
 
 """
-@author: Aliaa []
-         Daniel Platero-Rochart [daniel.platero-rochart@medunigraz.at]
-         Pedro A. Sanchez-Murcia [pedro.murcia@medunigraz.at]
+@authors: Aliaa Abd Elhalim [aliaa.abdelhalim@edu.fh-joanneum.at]
+          Daniel Platero-Rochart [daniel.platero-rochart@medunigraz.at]
+          Pedro A. Sanchez-Murcia [pedro.murcia@medunigraz.at]
 """
 
 # Imports ======================================================================
@@ -14,7 +14,7 @@ from PyQt5.QtGui import QKeySequence
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 
 # Plugin specific
-from . import functions as fc
+# from . import functions as fc
 
 # General
 import os
@@ -24,7 +24,7 @@ import seaborn as sns
 from pymol import cmd
 
 # for testing
-# import functions as fc
+import functions as fc
 
 # Measures Windows =============================================================
 class MeasureWindow(QMainWindow):
