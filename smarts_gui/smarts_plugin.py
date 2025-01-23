@@ -11,20 +11,20 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import (QApplication, QMainWindow)
 
 # Plugin specific
-# from . import simula
-# from . import reduce
-# from . import measures
-# from . import functions as fc
+from . import simula
+from . import reduce
+from . import measures
+from . import functions as fc
 
 # Generals
 import os
 from pymol import cmd
 
 # for testing
-import functions as fc
-import measures
-import reduce
-import simula
+# import functions as fc
+# import measures
+# import reduce
+# import simula
 
 # Main Window ==================================================================
 class MainWindow(QMainWindow):

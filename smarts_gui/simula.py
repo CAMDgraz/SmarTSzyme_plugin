@@ -13,7 +13,7 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 from PyQt5.QtWidgets import (QMainWindow, QButtonGroup,QFileDialog, QShortcut)
 
 # Plugin specific
-# from . import functions as fc
+from . import functions as fc
 
 # Generals
 import os
@@ -22,7 +22,7 @@ import pandas as pd
 from pymol import cmd
 
 # for testing
-import functions as fc
+# import functions as fc
 
 # Simula Window ================================================================
 class SimulaWindow(QMainWindow):
