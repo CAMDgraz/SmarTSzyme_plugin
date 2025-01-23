@@ -2,7 +2,9 @@
 """
 Created on Wed Nov 20 16:46:31 2024
 
-@author: aliaa
+@authors: Aliaa Abd Elhalim [aliaa.abdelhalim@edu.fh-joanneum.at]
+          Daniel Platero-Rochart [daniel.platero-rochart@medunigraz.at]
+          Pedro A. Sanchez-Murcia [pedro.murcia@medunigraz.at]
 """
 
 from pymol.plugins import addmenuitemqt

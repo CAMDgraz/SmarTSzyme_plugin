@@ -170,7 +170,7 @@ def validate_sel(traj, selection, natoms=None):
             if len(sel_idx) != natoms:
                 pop_error("Selection Error",
                         f"The number of atoms is incorrect")
-                sel_idx = ['']
+                sel_idx = []
     return sel_idx
 
 # Plots ========================================================================
@@ -194,7 +194,7 @@ def measure(type, traj, atoms):
     return measure
 
 # Output =======================================================================
-def write_cv(traj, frame_id, cv_dict, outdir):
+def write_cv(traj, frame, cv_dict, outdir):
     with open(f'{outdir}/cv.in', 'w') as f:
         for cv_id, cv in enumerate(cv_dict['type']):
             f.write('&colvar\n')
@@ -207,66 +207,71 @@ def write_cv(traj, frame_id, cv_dict, outdir):
             f.write(f' npath=2,\n')
             f.write(f" path_mode='LINES'\n")
             if cv == 'DISTANCE':
-                ipath = measure('distance', traj[frame_id], cv_dict['atoms'][cv_id])
+                ipath = measure('distance', traj[frame - 1],
+                                cv_dict['atoms'][cv_id])
             elif cv == 'ANGLE':
-                ipath = measure('angle', traj[frame_id], cv_dict['atoms'][cv_id])
+                ipath = measure('angle', traj[frame - 1],
+                                cv_dict['atoms'][cv_id])
             elif cv == 'LCOD':
                 ipath = 0
-                f.write(f' cv_nr={len(cv_dict['coeff'])}\n')
+                f.write(f' cv_nr={len(cv_dict['coeff'][cv_id])}\n')
                 f.write(f' cv_r=')
                 for r_id, r in enumerate(cv_dict['coeff'][cv_id]):
-                    measure_ = measure('distance', traj[frame_id],
-                                       cv_dict['atoms'][cv_id][r_id*2:r_id*2+2])
+                    atoms = cv_dict['atoms'][cv_id][r_id*2:r_id*2+2] - 1
+                    measure_ = measure('distance', traj[frame - 1],
+                                       atoms)
                     ipath += r*measure_
                     f.write(f'{r},')
                 f.write(f'\n')
+            if not cv_dict['fpath'][cv_id]:
                 f.write(f' path={ipath[0][0]:.4f},{-ipath[0][0]:.4f},\n')
-            
-            f.write(f' path={ipath[0][0]:.4f},{cv_dict['fpath'][cv_id]:.4f},\n')
+            else:
+                f.write(f' path={ipath[0][0]:.4f},{cv_dict['fpath'][cv_id]:.4f},\n')
             f.write(f' NHARM=1,\n')
             f.write(f' HARM={cv_dict['harm'][cv_id]},\n/\n')
                 
 def write_qmmm(qmmm_dict, outdir):
     with open(f'{outdir}/qmmm.in', 'w') as f:
+        f.write('QMMM sMD\n')
         f.write('&cntrl\n')
-        f.write(f' ntx = 1,\n')                                       
-        f.write(f' irest = 0,\n')                                   
-        f.write(f' ntxo = 1,\n')                                      
-        f.write(f' ntpr = 100,\n')                                    
-        f.write(f' ntwx = 100,\n')                                     
-        f.write(f' ntwv =-1,\n')                                     
-        f.write(f' ntf = 1,\n')                                     
-        f.write(f' ntb = 2,\n')                                    
-        f.write(f' dielc = 1.0,\n')                                   
-        f.write(f' cut = 10.,\n')                                     
-        f.write(f' nsnb = 10,\n')                                     
-        f.write(f' imin = 0,\n')                                      
-        f.write(f' ibelly = 0,\n')                                    
-        f.write(f' iwrap = 1,\n')                                     
-        f.write(f' nstlim = {qmmm_dict['steps']},\n')                                
-        f.write(f' dt = {qmmm_dict['timestep']},\n')                                   
-        f.write(f' temp0 = 300.0,\n')                                 
-        f.write(f' tempi = 300.0,\n')                                 
-        f.write(f' ntt = 3,\n')                                       
+        f.write(f' ntx=1,\n')                                       
+        f.write(f' irest=0,\n')                                   
+        f.write(f' ntxo=1,\n')                                      
+        f.write(f' ntpr=100,\n')                                    
+        f.write(f' ntwx=100,\n')                                     
+        f.write(f' ntwv=-1,\n')                                     
+        f.write(f' ntf=1,\n')                                     
+        f.write(f' ntb=2,\n')                                    
+        f.write(f' dielc=1.0,\n')                                   
+        f.write(f' cut=10.,\n')                                     
+        f.write(f' nsnb=10,\n')                                     
+        f.write(f' imin=0,\n')                                      
+        f.write(f' ibelly=0,\n')                                    
+        f.write(f' iwrap=1,\n')                                     
+        f.write(f' nstlim={qmmm_dict['steps']},\n')                                
+        f.write(f' dt={qmmm_dict['timestep']},\n')                                   
+        f.write(f' temp0=300.0,\n')                                 
+        f.write(f' tempi=300.0,\n')                                 
+        f.write(f' ntt=3,\n')                                       
         f.write(f' gamma_ln=1.0,\n')                                  
-        f.write(f' vlimit = 20.0,\n')                                 
-        f.write(f' ntp = 1,\n')                                 
-        f.write(f' ntc = 1,\n')                                       
-        f.write(f' tol = 0.00001,\n')                            
+        f.write(f' vlimit=20.0,\n')                                 
+        f.write(f' ntp=1,\n')                                 
+        f.write(f' ntc=1,\n')                                       
+        f.write(f' tol=0.00001,\n')                            
         f.write(f' pres0=1,\n')                                       
         f.write(f' comp=44.6,\n')                                     
         f.write(f' jfastw=0,\n')                                      
         f.write(f' nscm=1000,\n')                              
         f.write(f' ifqnt=1,\n')                                       
         f.write(f' infe=1,\n')                                        
-        f.write(f' /\n')
-        f.write(f' &qmmm\n')
-        f.write(f" qmmask = '")
+        f.write(f'/\n')
+        f.write(f'&qmmm\n')
+        f.write(f" qmmask='")
         for mask in qmmm_dict['mask']:
             if mask == qmmm_dict['mask'][-1]:
                 f.write(f"{mask}")
             else:
-                f.write(f"{mask} |")
+                f.write(f"{mask}|")
         f.write(f"',\n")
         f.write(f' qmcharge={qmmm_dict['charge']},\n')                                    
         f.write(f" qm_theory='{qmmm_dict['theory']}',\n")                             
@@ -274,20 +279,20 @@ def write_qmmm(qmmm_dict, outdir):
         f.write(f' writepdb=1,\n')                                     
         f.write(f' verbosity=0,\n')                                    
         f.write(f' qmcut=10.,\n')                                         
-        f.write(f' printcharges = 1,\n')                               
-        f.write(f' printdipole = 1,\n')                                
-        f.write(f' peptide_corr = 0,\n')                               
+        f.write(f' printcharges=1,\n')                               
+        f.write(f' printdipole=1,\n')                                
+        f.write(f' peptide_corr=0,\n')                               
         if qmmm_dict['theory'] == 'DFTB3':
             f.write(f' dftb_telec=100,\n')
             f.write(f" dftb_slko_path='/usr/local/amber20/dat/slko/3ob-3-1',\n")
         elif qmmm_dict['theory'] == 'EXTERN':
-            f.write(f' qm_ewald = 0,\n') 
-        f.write(f' /\n')         
-        f.write(f' &smd\n')                                                 
-        f.write(f" output_file = 'smd_out.txt'\n")                      
-        f.write(f' output_freq = 50\n')                                  
-        f.write(f" cv_file= 'cv.in'\n")                                 
-        f.write(f' /\n')
+            f.write(f' qm_ewald=0,\n') 
+        f.write(f'/\n')         
+        f.write(f'&smd\n')                                                 
+        f.write(f" output_file='smd_qmmm.txt'\n")                      
+        f.write(f' output_freq=50\n')                                  
+        f.write(f" cv_file='cv.in'\n")                                 
+        f.write(f'/\n')
         if qmmm_dict['theory'] == 'EXTERN':
             f.write(f'&EXTERNTHEORY\n')
             f.write(f' Please write the corresponding parameters here\n/')
@@ -325,13 +330,13 @@ def write_run(outdir):
         f.write('export LD_LIBRARY_PATH=${openmpi}/')
         f.write('lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}\n\n')
         f.write('# Run sMD\n')
-        f.write('mpirun -np 2 ${{SANDER}} -O -i qmmm.in -o frame_$1.out')
+        f.write('mpirun -np 2 ${SANDER} -O -i qmmm.in -o frame_$1.out')
         f.write(' -p top_qmmm.top -c frame_$1.rst')
         f.write(' -r frame_$1.qmmm.rst -x traj_qmmm.nc')
         f.write(' -ref frame_$1.rst')
 
 def save_rst(traj, frame, outdir):
-    traj[frame-1].save_amberrst7(f'{outdir}/frame_{frame}.rst')
+    traj[frame - 1].save_amberrst7(f'{outdir}/frame_{frame}.rst')
 
 # Vizualisation ================================================================
 def normalize_flux(csv_file):

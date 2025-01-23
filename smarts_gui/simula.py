@@ -1,19 +1,19 @@
 #!/bin/python
 
 """
-@author: Aliaa []
-         Daniel Platero-Rochart [daniel.platero-rochart@medunigraz.at]
-         Pedro A. Sanchez-Murcia [pedro.murcia@medunigraz.at]
+@authors: Aliaa Abd Elhalim [aliaa.abdelhalim@edu.fh-joanneum.at]
+          Daniel Platero-Rochart [daniel.platero-rochart@medunigraz.at]
+          Pedro A. Sanchez-Murcia [pedro.murcia@medunigraz.at]
 """
 # Imports ======================================================================
 # PyQt5
 from PyQt5 import uic
 from PyQt5.QtGui import QKeySequence
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
-from PyQt5.QtWidgets import (QWidget, QButtonGroup,QFileDialog, QShortcut)
+from PyQt5.QtWidgets import (QMainWindow, QButtonGroup,QFileDialog, QShortcut)
 
 # Plugin specific
-from . import functions as fc
+# from . import functions as fc
 
 # Generals
 import os
@@ -22,15 +22,15 @@ import pandas as pd
 from pymol import cmd
 
 # for testing
-# import functions as fc
+import functions as fc
 
 # Simula Window ================================================================
-class SimulaWindow(QWidget):
+class SimulaWindow(QMainWindow):
     def __init__(self, traj):
         super().__init__()
         uifile = os.path.join(os.path.dirname(__file__),
-                              'ui_files/simula_input.ui')
-        uic.loadUi(uifile, self)   
+                              'ui_files/simula.ui')
+        uic.loadUi(uifile, self) 
 
         # Init variables =======================================================
         self.conditions_dict = {'type':[], 'atoms':[], 'symbol': [], 'value':[]}
@@ -50,8 +50,7 @@ class SimulaWindow(QWidget):
         self.combo_filter.addItems(['distance', 'angle', 'dihedral'])
         self.combo_cond.addItems(['>', '<', '>=', '<='])
         self.combo_mask.addItems(cmd.get_names('selections', 0))
-        self.combo_atoms1.addItems(cmd.get_names('selections', 0))
-        self.combo_atoms2.addItems(cmd.get_names('selections', 0))
+        self.edit_coeff.setEnabled(False)
 
         # Refresh shortcut
         self.refresh = QShortcut(QKeySequence('F5'), self)
@@ -77,8 +76,8 @@ class SimulaWindow(QWidget):
         # Canvas
         self.canvas1 = fc.MplCanvas(self, dpi=100)
         toolbar1 = NavigationToolbar2QT(self.canvas1, self)
-        self.verticalLayout_4.addWidget(toolbar1)
-        self.verticalLayout_4.addWidget(self.canvas1)
+        self.verticalLayout_14.addWidget(toolbar1)
+        self.verticalLayout_14.addWidget(self.canvas1)
         self.ax1 = self.canvas1.fig.add_subplot(111)  
                 
         # Connections ==========================================================
@@ -87,6 +86,7 @@ class SimulaWindow(QWidget):
         self.button_clear1.clicked.connect(self.clear_cv)
         self.button_addmask.clicked.connect(self.add_mask)
         self.button_clearmask.clicked.connect(self.clear_mask)
+        self.combo_cvtype.currentIndexChanged.connect(self.current_cv)
 
         # Tab Frames
         self.button_generate.clicked.connect(self.generate)
@@ -95,7 +95,6 @@ class SimulaWindow(QWidget):
         self.button_add2.clicked.connect(self.add_filter)
         self.button_clear2.clicked.connect(self.clear_filters)
         self.button_frames.clicked.connect(self.select_frames)
-        self.button_clear_frames.clicked.connect(self.clear_frames)
         self.button_originalTop.clicked.connect(self.load_file)
         self.button_originalTraj.clicked.connect(self.load_file)
         self.button_output.clicked.connect(self.sel_output)
@@ -109,42 +108,38 @@ class SimulaWindow(QWidget):
     def update_pymol_names(self):
         self.combo_mask.clear()
         self.combo_mask.addItems(cmd.get_names('selections', 0))
-        self.combo_atoms1.clear()
-        self.combo_atoms1.addItems(cmd.get_names('selections', 0))
-        self.combo_atoms2.clear()
-        self.combo_atoms2.addItems(cmd.get_names('selections', 0))
     
     # Tab sMD
+    def current_cv(self):
+        if self.combo_cvtype.currentText() != 'LCOD':
+            self.edit_coeff.setEnabled(False)
+            self.edit_path.setPlaceholderText("Final value of the CV")
+        else:
+            self.edit_coeff.setEnabled(True)
+            self.edit_path.setPlaceholderText("Not required")
+
     def add_cv(self):
         cv_type = self.combo_cvtype.currentText()
         coeff_flag = False
         fpath_flag = True
+        atoms_sel = []
 
-        selection_raw = self.combo_atoms1.currentText()
+        selection_raw = self.edit_atoms1.text()
         try:
-            selection_str = 'index '
-            if selection_raw in cmd.get_names('selections', 0):
-                atoms = np.asarray([atom.id for atom in
-                                    cmd.get_model(selection_raw).atom],
-                                    dtype=int)
-                for atom in atoms:
-                    selection_str += f'{str(int(atom) - 1)} '
-            else:
-                for atom in selection_raw.strip().split():
-                    selection_str += f'{str(int(atom) - 1)} '
-            sel_idx = fc.validate_sel(self.traj,
-                                      f'{selection_str}', None)
+            for atom in selection_raw.strip().split():
+                atoms_sel.append(int(atom) - 1)
+            atoms_sel = np.asarray(atoms_sel)
 
-            if cv_type == 'DISTANCE' and len(sel_idx) != 2:
+            if cv_type == 'DISTANCE' and len(atoms_sel) != 2:
                 fc.pop_error("Error!!!", "Wrong number of atoms")
                 return
-            elif cv_type == 'ANGLE' and len(sel_idx) != 3:
+            elif cv_type == 'ANGLE' and len(atoms_sel) != 3:
                 fc.pop_error("Error!!!", "Wrong number of atoms")
                 return
-            elif cv_type == 'DIHEDRAL' and len(sel_idx) != 4:
+            elif cv_type == 'DIHEDRAL' and len(atoms_sel) != 4:
                 fc.pop_error("Error!!!", "Wrong number of atoms")
                 return
-            elif cv_type == 'LCOD' and len(sel_idx)%2 != 0:
+            elif cv_type == 'LCOD' and len(atoms_sel)%2 != 0:
                 fc.pop_error("Error!!!", "Wrong number of atoms")
                 return 
         except:
@@ -164,9 +159,9 @@ class SimulaWindow(QWidget):
         try:
             coeff = np.asarray(self.edit_coeff.text().strip().split(),
                                dtype=float)
-            if cv_type == 'LCOD' and len(coeff) != len(atoms)//2:
+            if cv_type == 'LCOD' and len(coeff) != len(atoms_sel)//2:
                 fc.pop_error("Error!!!", "Wrong number of coefficients")
-            elif cv_type == 'LCOD' and len(coeff) == len(atoms)//2:
+            elif cv_type == 'LCOD' and len(coeff) == len(atoms_sel)//2:
                 coeff_flag = True
         except:
             if cv_type != 'LCOD':
@@ -182,14 +177,14 @@ class SimulaWindow(QWidget):
             
 
         self.cv_dict['type'].append(cv_type)
-        self.cv_dict['atoms'].append(sel_idx + 1)
+        self.cv_dict['atoms'].append(atoms_sel + 1)
         self.cv_dict['fpath'].append(fpath)
         self.cv_dict['coeff'].append(coeff)
         self.cv_dict['harm'].append(harm)
 
         # Print collective variables
         self.edit_show1.insertPlainText(f'type = {cv_type}\n')
-        self.edit_show1.insertPlainText(f'atoms = {atoms}\n')
+        self.edit_show1.insertPlainText(f'atoms = {atoms_sel + 1}\n')
         if fpath_flag:
             self.edit_show1.insertPlainText(f'final path = {fpath}\n')
         if coeff_flag:
@@ -201,6 +196,30 @@ class SimulaWindow(QWidget):
         self.edit_coeff.setText("")
         self.edit_harm.setText("")
 
+        # Show in pymol
+        if cv_type == 'DISTANCE':
+            cmd.distance(f'cv_{len(self.cv_dict['type'])}',
+                         f'index {atoms_sel[0] + 1}',
+                         f'index {atoms_sel[1] + 1}')
+        elif cv_type == 'ANGLE':
+            cmd.angle(f'cv_{len(self.cv_dict['type'])}',
+                         f'index {atoms_sel[0] + 1}',
+                         f'index {atoms_sel[1] + 1}',
+                         f'index {atoms_sel[2] + 1}')
+        elif cv_type == 'DIHEDRAL':
+            cmd.dihedral(f'cv_{len(self.cv_dict['type'])}',
+                         f'index {atoms_sel[0] + 1}',
+                         f'index {atoms_sel[1] + 1}',
+                         f'index {atoms_sel[2] + 1}',
+                         f'index {atoms_sel[3] + 1}')
+        elif cv_type == 'LCOD':
+            cmd.distance(f'cv_{len(self.cv_dict['type'])}_1',
+                         f'index {atoms_sel[0] + 1}',
+                         f'index {atoms_sel[1] + 1}')
+            cmd.distance(f'cv_{len(self.cv_dict['type'])}_2',
+                         f'index {atoms_sel[2] + 1}',
+                         f'index {atoms_sel[3] + 1}')
+    
     def add_mask(self):
         mask_str = self.combo_mask.currentText().strip()
         
@@ -215,17 +234,19 @@ class SimulaWindow(QWidget):
                                         len(self.mask_list) + 1)
         
         self.mask_list.extend(qmmm_mask)
-        self.edit_show2.insertPlainText(f'Mask {len(self.mask_list)}:')
+        self.edit_show2.insertPlainText(f'Mask:')
         self.edit_show2.insertPlainText(f'{qmmm_mask}\n')
 
     def clear_cv(self):
         self.cv_dict = {'type':[], 'atoms':[], 'coeff':[], 'fpath':[],
                         'harm':[]}
         self.edit_show1.clear()
+        cmd.delete('cv_*')
     
     def clear_mask(self):
         self.mask_list = []
         self.edit_show2.clear()
+        cmd.delete('mask_*')
 
     # Tab Frames
     def onStateChanged(self):
@@ -234,7 +255,7 @@ class SimulaWindow(QWidget):
             self.edit_frames.setEnabled(False)
             # Enable automatic
             self.combo_filter.setEnabled(True)
-            self.combo_atoms2.setEnabled(True)
+            self.edit_atoms2.setEnabled(True)
             self.edit_cond.setEnabled(True)
             self.combo_cond.setEnabled(True)
             self.button_add2.setEnabled(True)
@@ -244,7 +265,7 @@ class SimulaWindow(QWidget):
             self.button_add2.setEnabled(False)
             self.button_clear2.setEnabled(False)
             self.combo_filter.setEnabled(False)
-            self.combo_atoms2.setEnabled(False)
+            self.edit_atoms2.setEnabled(False)
             self.edit_cond.setEnabled(False)
             self.combo_cond.setEnabled(False)
             # Enable manual
@@ -269,33 +290,26 @@ class SimulaWindow(QWidget):
         filter_type = self.combo_filter.currentText()
         condition = self.combo_cond.currentText()
         condition_value = self.edit_cond.text()
-
-        selection_raw = self.combo_atoms2.currentText()
+        selection_raw = self.edit_atoms2.text()
+        atoms_sel = []
         try:
-            selection_str = 'index '
-            if selection_raw in cmd.get_names('selections', 0):
-                atoms = np.asarray([atom.id for atom in
-                                    cmd.get_model(selection_raw).atom],
-                                    dtype=int)
-                for atom in atoms:
-                    selection_str += f'{str(int(atom) - 1)} '
-            else:
-                for atom in selection_raw.strip().split():
-                    selection_str += f'{str(int(atom) - 1)} '
+            for atom in selection_raw.strip().split():
+                atoms_sel.append(int(atom) - 1)
+            atoms_sel = np.asarray(atoms_sel)
 
-            if filter_type == 'distance':
-                sel_idx = fc.validate_sel(self.traj,
-                                          f'{selection_str}', 2)
-            elif filter_type == 'angle':
-                sel_idx = fc.validate_sel(self.traj,
-                                          f'{selection_str}', 3)
-            elif filter_type == 'dihedral':
-                sel_idx = fc.validate_sel(self.traj,
-                                          f'{selection_str}', 4)
+            if filter_type == 'distance' and len(atoms_sel) != 2:
+                fc.pop_error('Error!!!', 'Wrong number of atoms')
+                return
+            elif filter_type == 'angle'and len(atoms_sel) != 3:
+                fc.pop_error('Error!!!', 'Wrong number of atoms')
+                return
+            elif filter_type == 'dihedral'and len(atoms_sel) != 4:
+                fc.pop_error('Error!!!', 'Wrong number of atoms')
+                return
         except:
             fc.pop_error("Error!!!", "Could not read atoms")
-        
-        
+            return
+        self.edit_atom2.setText("")
 
         if condition_value == '':
             fc.pop_error("Error!!!", "No condition have been provided")
@@ -304,17 +318,19 @@ class SimulaWindow(QWidget):
         
         # Save conditions
         self.conditions_dict['type'].append(filter_type)
-        self.conditions_dict['atoms'].append(sel_idx)
+        self.conditions_dict['atoms'].append(atoms_sel)
         self.conditions_dict['symbol'].append(condition)
         self.conditions_dict['value'].append(condition_value)
 
         self.edit_show3.insertPlainText(f"Filter: {filter_type}\n")
-        self.edit_show3.insertPlainText(f"Atoms: {sel_idx + 1}\n")
+        self.edit_show3.insertPlainText(f"Atoms: {atoms_sel + 1}\n")
         self.edit_show3.insertPlainText(f"Condition: {condition}")
         self.edit_show3.insertPlainText(f"{condition_value}\n/\n")
     
     def select_frames(self):    
         self.traj, need_top = fc.load_traj(self.traj_file, self.top_file)
+        self.frames_sel = []
+        self.label_selected.setText("")
         if not self.traj:
             fc.pop_error("Error!!!", "Load the topology and trajectory files")
             return
@@ -353,10 +369,7 @@ class SimulaWindow(QWidget):
     def clear_mask(self):
         self.mask_list = []
         self.edit_show2.clear()
-    
-    def clear_frames(self):
-        self.label_selected.setText("")
-        self.fames_sel = []
+
         
     def generate(self):
         # Get qmmm.in params
@@ -386,11 +399,11 @@ class SimulaWindow(QWidget):
             fc.pop_error("Error!!!", "No frames selected")
             return
         
-        for frame_id, frame in enumerate(self.frames_sel):
+        for frame in self.frames_sel:
             os.mkdir(f'{self.output_dir}/qmmm_{frame}')
             outdir = f'{self.output_dir}/qmmm_{frame}'
             fc.save_rst(self.traj, frame, outdir)
-            fc.write_cv(self.traj, frame_id, self.cv_dict, outdir)
+            fc.write_cv(self.traj, frame, self.cv_dict, outdir)
         fc.write_run(self.output_dir)
         fc.write_qmmm(qmmm_dict, self.output_dir)
         fc.write_sh(self.frames_sel, self.output_dir)

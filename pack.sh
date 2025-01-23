@@ -1,4 +1,4 @@
 #!/bin/bash
 
 rm plugin.zip
-zip -r plugin.zip plugin_files/
+zip -r plugin.zip smarts_gui/

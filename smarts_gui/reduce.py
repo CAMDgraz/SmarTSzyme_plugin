@@ -1,18 +1,18 @@
 #!/bin/python
 
 """
-@author: Aliaa []
-         Daniel Platero-Rochart [daniel.platero-rochart@medunigraz.at]
-         Pedro A. Sanchez-Murcia [pedro.murcia@medunigraz.at]
+@authors: Aliaa Abd Elhalim [aliaa.abdelhalim@edu.fh-joanneum.at]
+          Daniel Platero-Rochart [daniel.platero-rochart@medunigraz.at]
+          Pedro A. Sanchez-Murcia [pedro.murcia@medunigraz.at]
 """
 # Imports ======================================================================
 # PyQt5
 from PyQt5 import uic
-from PyQt5.QtWidgets import (QWidget, QFileDialog)
+from PyQt5.QtWidgets import (QMainWindow, QFileDialog)
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 
 # Plugin specific
-from . import functions as fc
+# from . import functions as fc
 
 # Generals
 import os
@@ -23,15 +23,16 @@ import seaborn as sns
 from pymol import cmd
 
 # for testing
-# import functions as fc
+import functions as fc
 
 # Reduce Window ================================================================
-class ReduceWindow(QWidget):
+class ReduceWindow(QMainWindow):
     def __init__(self, traj):
         super().__init__()
         uifile = os.path.join(os.path.dirname(__file__),
-                              'ui_files/reduce_results.ui')
+                              'ui_files/reduce.ui')
         uic.loadUi(uifile, self) 
+        self.resize(850,550) 
 
         # Init variables
         self.pdb = ''
@@ -39,8 +40,8 @@ class ReduceWindow(QWidget):
 
         self.canvas1 = fc.MplCanvas(self, dpi=100)
         toolbar1 = NavigationToolbar2QT(self.canvas1, self)
-        self.verticalLayout_5.addWidget(toolbar1)
-        self.verticalLayout_5.addWidget(self.canvas1)
+        self.verticalLayout_2.addWidget(toolbar1)
+        self.verticalLayout_2.addWidget(self.canvas1)
         self.ax1 = self.canvas1.fig.add_subplot(111)
 
 
@@ -80,6 +81,7 @@ class ReduceWindow(QWidget):
         nest_pdb = fc.read_pdb(self.pdb)
         result_pdb = fc.results_pdb(nest_pdb, norm_csv)
         cmd.load(result_pdb)
+        cmd.spectrum('b', selection='results')
     
     def plot(self):
         for_plotting = []
