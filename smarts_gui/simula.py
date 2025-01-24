@@ -309,7 +309,7 @@ class SimulaWindow(QMainWindow):
         except:
             fc.pop_error("Error!!!", "Could not read atoms")
             return
-        self.edit_atom2.setText("")
+        self.edit_atoms2.setText("")
 
         if condition_value == '':
             fc.pop_error("Error!!!", "No condition have been provided")

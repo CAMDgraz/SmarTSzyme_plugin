@@ -207,11 +207,13 @@ def write_cv(traj, frame, cv_dict, outdir):
             f.write(f' npath=2,\n')
             f.write(f" path_mode='LINES'\n")
             if cv == 'DISTANCE':
+                atoms = cv_dict['atoms'][cv_id] - 1
                 ipath = measure('distance', traj[frame - 1],
-                                cv_dict['atoms'][cv_id])
+                                atoms)
             elif cv == 'ANGLE':
+                atoms = cv_dict['atoms'][cv_id] - 1
                 ipath = measure('angle', traj[frame - 1],
-                                cv_dict['atoms'][cv_id])
+                                atoms)
             elif cv == 'LCOD':
                 ipath = 0
                 f.write(f' cv_nr={len(cv_dict['coeff'][cv_id])}\n')
