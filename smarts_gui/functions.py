@@ -318,8 +318,8 @@ def write_sh(frames, outdir):
             f.write(f'"{frame}" ')
         f.write(')\n')
         f.write('for frame in "${arr[@]}"\ndo\n')
-        f.write('cd qmmm_${i}/\n')
-        f.write('sbatch run_job.sh ${i}\n')
+        f.write('cd qmmm_${frame}/\n')
+        f.write('sbatch run_job.sh ${frame}\n')
         f.write('cd ..\ndone\n')
 
 def write_run(outdir):
