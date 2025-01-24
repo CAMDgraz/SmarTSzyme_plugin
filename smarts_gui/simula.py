@@ -407,7 +407,7 @@ class SimulaWindow(QMainWindow):
         fc.write_run(self.output_dir)
         fc.write_qmmm(qmmm_dict, self.output_dir)
         fc.write_sh(self.frames_sel, self.output_dir)
-        fc.pop_message("Info", "Files have been generated")
+        fc.pop_message("Info", "Files have been generated, modify them accordingly")
         return
 
     # Tab sMD results
