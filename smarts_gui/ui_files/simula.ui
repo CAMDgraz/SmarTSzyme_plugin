@@ -935,7 +935,7 @@
            </layout>
           </item>
           <item>
-           <widget class="QLabel" name="label_7">
+           <widget class="QLabel" name="label_ts">
             <property name="font">
              <font>
               <pointsize>15</pointsize>
