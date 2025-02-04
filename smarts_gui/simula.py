@@ -8,7 +8,7 @@
 # Imports ======================================================================
 # PyQt5
 from PyQt5 import uic
-from PyQt5.QtGui import QKeySequence
+from PyQt5.QtGui import QKeySequence, QTextCursor
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 from PyQt5.QtWidgets import (QMainWindow, QButtonGroup,QFileDialog, QShortcut)
 
@@ -183,6 +183,7 @@ class SimulaWindow(QMainWindow):
         self.cv_dict['harm'].append(harm)
 
         # Print collective variables
+        self.edit_show1.moveCursor(QTextCursor.End)
         self.edit_show1.insertPlainText(f'type = {cv_type}\n')
         self.edit_show1.insertPlainText(f'atoms = {atoms_sel + 1}\n')
         if fpath_flag:
@@ -234,6 +235,7 @@ class SimulaWindow(QMainWindow):
                                         len(self.mask_list) + 1)
         
         self.mask_list.extend(qmmm_mask)
+        self.edit_show2.moveCursor(QTextCursor.End)
         self.edit_show2.insertPlainText(f'Mask:')
         self.edit_show2.insertPlainText(f'{qmmm_mask}\n')
 
@@ -322,6 +324,7 @@ class SimulaWindow(QMainWindow):
         self.conditions_dict['symbol'].append(condition)
         self.conditions_dict['value'].append(condition_value)
 
+        self.edit_show3.moveCursor(QTextCursor.End)
         self.edit_show3.insertPlainText(f"Filter: {filter_type}\n")
         self.edit_show3.insertPlainText(f"Atoms: {atoms_sel + 1}\n")
         self.edit_show3.insertPlainText(f"Condition: {condition}")

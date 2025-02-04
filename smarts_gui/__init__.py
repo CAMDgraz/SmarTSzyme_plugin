@@ -21,4 +21,4 @@ def launch_plugin():
 # PyMOL plugin initialization
 def __init_plugin__(app=None):
     # Add the plugin to the PyMOL menu
-    addmenuitemqt("SmarTSzyme", launch_plugin)
+    addmenuitemqt("SmarTSzyme v1.0", launch_plugin)
