@@ -31,8 +31,7 @@ class ReduceWindow(QMainWindow):
         super().__init__()
         uifile = os.path.join(os.path.dirname(__file__),
                               'ui_files/reduce.ui')
-        uic.loadUi(uifile, self) 
-        self.resize(850,550) 
+        uic.loadUi(uifile, self)
 
         # Init variables
         self.pdb = ''

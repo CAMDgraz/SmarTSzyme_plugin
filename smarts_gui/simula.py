@@ -30,7 +30,7 @@ class SimulaWindow(QMainWindow):
         super().__init__()
         uifile = os.path.join(os.path.dirname(__file__),
                               'ui_files/simula.ui')
-        uic.loadUi(uifile, self) 
+        uic.loadUi(uifile, self)
 
         # Init variables =======================================================
         self.conditions_dict = {'type':[], 'atoms':[], 'symbol': [], 'value':[]}
