@@ -49,6 +49,8 @@ class MeasureWindow(QMainWindow):
         self.verticalLayout_1.addWidget(toolbar1)
         self.verticalLayout_1.addWidget(self.canvas1)
         self.ax1 = self.canvas1.fig.add_subplot(111)
+        self.ax1.set_xlabel(r'Distance $(\AA)$')
+        self.ax1.set_ylabel(r'Density')
 
         # Angle
         self.canvas2 = fc.MplCanvas(self, dpi=100)
@@ -56,6 +58,8 @@ class MeasureWindow(QMainWindow):
         self.verticalLayout_3.addWidget(toolbar2)
         self.verticalLayout_3.addWidget(self.canvas2)
         self.ax2 = self.canvas2.fig.add_subplot(111)
+        self.ax2.set_xlabel(r'Angle $(degrees)$')
+        self.ax2.set_ylabel(r'Density')
 
         # Dihedral
         self.canvas3 = fc.MplCanvas(self, dpi=100)
@@ -63,6 +67,8 @@ class MeasureWindow(QMainWindow):
         self.verticalLayout_5.addWidget(toolbar3)
         self.verticalLayout_5.addWidget(self.canvas3)
         self.ax3 = self.canvas3.fig.add_subplot(111)
+        self.ax3.set_xlabel(r'Dihedral $(degrees)$')
+        self.ax3.set_ylabel(r'Density')
 
         # RMSD
         self.canvas4 = fc.MplCanvas(self, dpi=100)
@@ -70,6 +76,8 @@ class MeasureWindow(QMainWindow):
         self.verticalLayout_9.addWidget(toolbar4)
         self.verticalLayout_9.addWidget(self.canvas4)
         self.ax4 = self.canvas4.fig.add_subplot(111)
+        self.ax4.set_xlabel(r'RMSD $(\AA)$')
+        self.ax4.set_ylabel(r'Frame')
 
         # Connections ==========================================================
         self.button_clear1.clicked.connect(self.clear)
@@ -226,7 +234,6 @@ class MeasureWindow(QMainWindow):
                 atoms_ = np.asarray(atoms_)
                 atoms_ = np.reshape(atoms_, (-1, 2))
                 measure = fc.measure('distance', self.traj, atoms_)
-                ax.set_xlabel(r'Distance $(\AA)$')
                 sns.kdeplot(x=measure.T[0], ax=ax, label=label_, fill=True)
                 cmd.distance(label_, f'index {atoms_[0][0] + 1}',
                              f'index {atoms_[0][1] + 1}')
@@ -242,7 +249,6 @@ class MeasureWindow(QMainWindow):
                 atoms_ = np.asarray(atoms_)
                 atoms_ = np.reshape(atoms_, (-1, 3))
                 measure = fc.measure('angle', self.traj, atoms_)
-                ax.set_xlabel(r'Angle $(\AA)$')
                 sns.kdeplot(x=measure.T[0], ax=ax, label=label_, fill=True)
                 cmd.angle(label_, f'index {atoms_[0][0] + 1}',
                           f'index {atoms_[0][1] + 1}',
@@ -259,7 +265,6 @@ class MeasureWindow(QMainWindow):
                 atoms_ = np.asarray(atoms_)
                 atoms_ = np.reshape(atoms_, (-1, 4))
                 measure = fc.measure('dihedral', self.traj, atoms_)
-                ax.set_xlabel(r'Dihedral $(\AA)$')
                 sns.kdeplot(x=measure.T[0], ax=ax, label=label_, fill=True)
                 cmd.dihedral(label_, f'index {atoms_[0][0] + 1}',
                              f'index {atoms_[0][1] + 1}',
@@ -276,8 +281,6 @@ class MeasureWindow(QMainWindow):
                                       self.data_dict['rmsd'][1]):
                 atoms_ = np.asarray(atoms_)
                 measure = fc.measure('rmsd', self.traj, atoms_)
-                ax.set_ylabel(r'RMSD $(\AA)$')
-                ax.set_xlabel('Frames')
                 sns.lineplot(x=np.arange(self.traj.n_frames),
                              y=measure, ax=ax, label=label_)
         

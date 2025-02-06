@@ -88,7 +88,7 @@
              </size>
             </property>
             <property name="placeholderText">
-             <string>Atoms id</string>
+             <string>Atoms id (e.g. 1 2)</string>
             </property>
            </widget>
           </item>
@@ -238,7 +238,7 @@
              </size>
             </property>
             <property name="placeholderText">
-             <string>Atoms id</string>
+             <string>Atoms id (e.g. 1 2)</string>
             </property>
            </widget>
           </item>
@@ -388,7 +388,7 @@
              </size>
             </property>
             <property name="placeholderText">
-             <string>Atoms id</string>
+             <string>Atoms id (e.g. 1 2)</string>
             </property>
            </widget>
           </item>
@@ -541,6 +541,24 @@
               </property>
               <property name="editable">
                <bool>true</bool>
+              </property>
+              <property name="placeholderText">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="font">
+               <font>
+                <pointsize>7</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>MDTraj selection syntax or PyMOL selections</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
               </property>
              </widget>
             </item>

@@ -123,7 +123,7 @@
               <item row="3" column="1">
                <widget class="QLineEdit" name="edit_coeff">
                 <property name="placeholderText">
-                 <string>Coefficients for the LCOD</string>
+                 <string>Coefficients (cv_r) for the LCOD (e.g. -1 1)</string>
                 </property>
                </widget>
               </item>
@@ -133,7 +133,7 @@
                  <string/>
                 </property>
                 <property name="placeholderText">
-                 <string>Harmonic force value (default: 600)</string>
+                 <string>Harmonic force value (default: 600 kcal/mol)</string>
                 </property>
                </widget>
               </item>
@@ -143,7 +143,7 @@
               <item row="1" column="1">
                <widget class="QLineEdit" name="edit_atoms1">
                 <property name="placeholderText">
-                 <string>Atoms id</string>
+                 <string>Atoms id (e.g. 1 2)</string>
                 </property>
                </widget>
               </item>
@@ -225,16 +225,6 @@
             </item>
             <item>
              <layout class="QGridLayout" name="gridLayout_7">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_31">
-                <property name="text">
-                 <string>QM mask</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
               <item row="5" column="1">
                <widget class="QLineEdit" name="edit_steps">
                 <property name="text">
@@ -245,35 +235,8 @@
                 </property>
                </widget>
               </item>
-              <item row="6" column="0">
-               <widget class="QLabel" name="label_32">
-                <property name="text">
-                 <string>Time step</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QLabel" name="label_33">
-                <property name="text">
-                 <string>Theory</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="1">
-               <widget class="QLineEdit" name="edit_timestep">
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="placeholderText">
-                 <string>Time steps in ps (default: 0.0002)</string>
-                </property>
-               </widget>
+              <item row="4" column="1">
+               <widget class="QComboBox" name="combo_theory"/>
               </item>
               <item row="0" column="2">
                <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -292,26 +255,6 @@
                  </widget>
                 </item>
                </layout>
-              </item>
-              <item row="5" column="0">
-               <widget class="QLabel" name="label_34">
-                <property name="text">
-                 <string>Steps</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QLineEdit" name="edit_charge">
-                <property name="placeholderText">
-                 <string>Total charge of the QM region</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
-               <widget class="QComboBox" name="combo_theory"/>
               </item>
               <item row="3" column="0">
                <widget class="QLabel" name="label_35">
@@ -369,6 +312,94 @@
                  </layout>
                 </item>
                </layout>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_31">
+                <property name="text">
+                 <string>QM mask</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="1">
+               <widget class="QLineEdit" name="edit_timestep">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="placeholderText">
+                 <string>Time steps in ps (default: 0.0002 fs)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <widget class="QLabel" name="label_32">
+                <property name="text">
+                 <string>Time step</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="label_33">
+                <property name="text">
+                 <string>Theory</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="label_34">
+                <property name="text">
+                 <string>Steps</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLineEdit" name="edit_charge">
+                <property name="placeholderText">
+                 <string>Total charge of the QM region</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="1">
+               <widget class="QLineEdit" name="edit_amber">
+                <property name="placeholderText">
+                 <string>Path to Amber</string>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="1">
+               <widget class="QLineEdit" name="edit_mpi">
+                <property name="placeholderText">
+                 <string>Path to OpenMPI</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="0">
+               <widget class="QLabel" name="label_7">
+                <property name="text">
+                 <string>Amber path</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="0">
+               <widget class="QLabel" name="label_8">
+                <property name="text">
+                 <string>OpenMPI path</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
@@ -495,7 +526,7 @@
                <bool>false</bool>
               </property>
               <property name="placeholderText">
-               <string>Atoms id</string>
+               <string>Atoms id (e.g. 1 2)</string>
               </property>
              </widget>
             </item>

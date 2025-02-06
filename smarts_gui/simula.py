@@ -20,6 +20,7 @@ import os
 import numpy as np
 import pandas as pd
 from pymol import cmd
+import shutil
 
 # for testing
 # import functions as fc
@@ -390,12 +391,24 @@ class SimulaWindow(QMainWindow):
             timestep = float(self.edit_timestep.text().strip())
         except:
             timestep = 0.0002
+
+        try:
+            amberpath = str(self.edit_amber.text().strip())
+        except:
+            fc.pop_error('Error!!!', "Could not read the path to Amber")
+        
+        try:
+            mpipath = str(self.edit_mpi.text().strip())
+        except:
+            fc.pop_error('Error!!!', "Could not read the path to OpenMPI")
                 
         qmmm_dict = {'mask': self.mask_list,
                      'theory': self.combo_theory.currentText(),
                      'charge': charge,
                      'steps': steps,
-                     'timestep': timestep}
+                     'timestep': timestep,
+                     'amberpath':amberpath,
+                     'mpipath':mpipath}
         
         # Write cv.in file
         if len(self.frames_sel) == 0:
@@ -405,12 +418,15 @@ class SimulaWindow(QMainWindow):
         for frame in self.frames_sel:
             os.mkdir(f'{self.output_dir}/qmmm_{frame}')
             outdir = f'{self.output_dir}/qmmm_{frame}'
+            shutil.copy(self.top_file, outdir)
             fc.save_rst(self.traj, frame, outdir)
             fc.write_cv(self.traj, frame, self.cv_dict, outdir)
-        fc.write_run(self.output_dir)
+            fc.write_run(qmmm_dict, outdir)
+            fc.write_qmmm(qmmm_dict, outdir)
+        fc.write_run(qmmm_dict, self.output_dir)
         fc.write_qmmm(qmmm_dict, self.output_dir)
         fc.write_sh(self.frames_sel, self.output_dir)
-        fc.pop_message("Info", "Files have been generated, modify them accordingly")
+        fc.pop_message("Info", "Files have been generated, modify them if needed")
         return
 
     # Tab sMD results

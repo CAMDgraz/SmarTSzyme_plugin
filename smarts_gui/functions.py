@@ -286,7 +286,7 @@ def write_qmmm(qmmm_dict, outdir):
         f.write(f' peptide_corr=0,\n')                               
         if qmmm_dict['theory'] == 'DFTB3':
             f.write(f' dftb_telec=100,\n')
-            f.write(f" dftb_slko_path='/usr/local/amber20/dat/slko/3ob-3-1',\n")
+            f.write(f" dftb_slko_path='$AMBERHOME/dat/slko/3ob-3-1',\n")
         elif qmmm_dict['theory'] == 'EXTERN':
             f.write(f' qm_ewald=0,\n') 
         f.write(f'/\n')         
@@ -300,36 +300,36 @@ def write_qmmm(qmmm_dict, outdir):
             f.write(f' Please write the corresponding parameters here\n/')
 
 def write_sh(frames, outdir):
+    with open(f'{outdir}/smd_jobs.txt', 'w') as f:
+        for frame in frames:
+            if frame != frames[-1]:
+                f.write(f'{outdir}/qmmm_{frame}\n')
+            elif frame == frames[-1]:
+                f.write(f'{outdir}/qmmm_{frame}')
+
     with open(f'{outdir}/prepare.sh', 'w') as f:
         f.write('#!/bin/bash\n\n')
-        f.write(f'declare -a arr=(')
-        for frame in frames:
-            f.write(f'"{frame}" ')
-        f.write(')\n')
-        f.write('for frame in "${arr[@]}"\ndo\n')
-        f.write('cp qmmm.in ./qmmm_${frame}/\n')
-        f.write('cp TOPFILE ./qmmm_${frame}/top_qmmm.top\n')
-        f.write('cp run_job.sh ./qmmm_${frame}/\n')
-        f.write('done\n')
+        f.write('while IFS= read -r line; do\n')
+        f.write('cp qmmm.in ${line}/\n')
+        f.write('cp run_job.sh ${line}/\n')
+        f.write('done < smd_jobs.txt\n')
+
     with open(f'{outdir}/run.sh', 'w') as f:
         f.write('#!/bin/bash\n\n')
-        f.write(f'declare -a arr=(')
-        for frame in frames:
-            f.write(f'"{frame}" ')
-        f.write(')\n')
-        f.write('for frame in "${arr[@]}"\ndo\n')
-        f.write('cd qmmm_${frame}/\n')
+        f.write('while IFS= read -r line; do\n')
+        f.write('cd ${line}/\n')
+        f.write('frame=$(echo "${line}" | grep -o "[^_]*$")\n')
         f.write('sbatch run_job.sh ${frame}\n')
-        f.write('cd ..\ndone\n')
+        f.write('cd ..\ndone < smd_jobs.txt\n')
 
-def write_run(outdir):
+def write_run(qmmm_dict, outdir):
     with open(f'{outdir}/run_job.sh', 'w') as f:
         f.write('#!/bin/bash\n\n')
-        f.write('export amberpath=/PATH/TO/AMBER\n')
-        f.write('export openmpi=/PATH/TO/OPENMPI\n')
+        f.write(f'export amberpath={qmmm_dict['amberpath']}\n')
+        f.write(f'export openmpi={qmmm_dict['mpipath']}\n')
         f.write('source ${amberpath}/amber.sh\n')
         f.write('export SANDER=${amberpath}/bin/sander.MPI\n')
-        f.write('export PATH=${openmpi}/bin${PATH:+:${PATH}}\n')
+        f.write('export PATH={openmpi}/bin${PATH:+:${PATH}}\n')
         f.write('export LD_LIBRARY_PATH=${openmpi}/')
         f.write('lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}\n\n')
         f.write('# Run sMD\n')
