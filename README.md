@@ -1,8 +1,9 @@
-# Simula
-*Simula* is a Graphical User Interface to aid in the selection and setup of steered QM/MM MD simulations. At the current release it only supports Amber simulation software.
+# SmarTSzyme-GUI
 <div align="center">
-<img src="readme.png" alt="load" width="500"/>
+<img src="images/header.png" alt="load" width="1000"/>
 </div>
+
+*SmarTSzyme-GUI* is a Graphical User Interface to aid in the selection and setup of steered QM/MM MD simulations. At the current release it only supports Amber simulation software.
 
 ## Requirements
 For using the plugin you need to create a new conda environment as follows (PyMOL will also be installed in the environment):
