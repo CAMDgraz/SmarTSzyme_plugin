@@ -1,8 +1,8 @@
+# Simula
+*Simula* is a Graphical User Interface to aid in the selection and setup of steered QM/MM MD simulations. At the current release it only supports Amber simulation software.
 <div align="center">
 <img src="readme.png" alt="load" width="500"/>
 </div>
-
-*Simula* is a Graphical User Interface to aid in the selection and setup of steered QM/MM MD simulations. At the current release it only supports Amber simulation software.
 
 ## Requirements
 For using the plugin you need to create a new conda environment as follows (PyMOL will also be installed in the environment):
