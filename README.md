@@ -1,4 +1,6 @@
-<center><img src="readme.png" alt="load" width="500"/></center>
+<div align="center">
+<img src="readme.png" alt="load" width="500"/>
+</div>
 
 *Simula* is a Graphical User Interface to aid in the selection and setup of steered QM/MM MD simulations. At the current release it only supports Amber simulation software.
 
