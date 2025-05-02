@@ -237,6 +237,8 @@ class MeasureWindow(QMainWindow):
                 sns.kdeplot(x=measure.T[0], ax=ax, label=label_, fill=True)
                 cmd.distance(label_, f'index {atoms_[0][0] + 1}',
                              f'index {atoms_[0][1] + 1}')
+            ax.set_xlabel(r'Distance $(\AA)$')
+            ax.set_ylabel(r'Density')
 
         elif sender == 'angle':
             ax=self.ax2
@@ -253,6 +255,8 @@ class MeasureWindow(QMainWindow):
                 cmd.angle(label_, f'index {atoms_[0][0] + 1}',
                           f'index {atoms_[0][1] + 1}',
                           f'index {atoms_[0][2] + 1}')
+            ax.set_xlabel(r'Angle $(degrees)$')
+            ax.set_ylabel(r'Density')
         
         elif sender == 'dihedral':
             ax=self.ax3
@@ -270,6 +274,8 @@ class MeasureWindow(QMainWindow):
                              f'index {atoms_[0][1] + 1}',
                              f'index {atoms_[0][2] + 1}',
                              f'index {atoms_[0][3] + 1}')
+            ax.set_xlabel(r'Dihedral $(degrees)$')
+            ax.set_ylabel(r'Density')
         
         elif sender == 'rmsd':
             ax=self.ax4
@@ -283,6 +289,8 @@ class MeasureWindow(QMainWindow):
                 measure = fc.measure('rmsd', self.traj, atoms_)
                 sns.lineplot(x=np.arange(self.traj.n_frames),
                              y=measure, ax=ax, label=label_)
+            ax.set_xlabel(r'RMSD $(\AA)$')
+            ax.set_ylabel(r'Density')
         
         ax.legend(loc='upper right')
         canvas.draw()
