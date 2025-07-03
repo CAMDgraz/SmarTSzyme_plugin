@@ -15,7 +15,7 @@ from . import smarts_plugin
 def launch_plugin():
     global plugin_window # need this or window crashes immediately after it is launched
 
-    plugin_window = smarts_plugin.MainWindow()
+    plugin_window = smarts_plugin.SmarTSWindow()
     plugin_window.show()
 
 # PyMOL plugin initialization
