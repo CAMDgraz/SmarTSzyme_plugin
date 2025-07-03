@@ -2,7 +2,6 @@ name: smarts_pymol
 channels:
   - conda-forge
 dependencies:
-  - mdtraj=1.10.0
   - numpy=1.26.4
   - pandas=2.2.3
   - pyqt=5.15.10
