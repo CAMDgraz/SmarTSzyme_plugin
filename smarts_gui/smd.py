@@ -89,7 +89,10 @@ def write_qmmm(path, qmmask, theory, steps, time_step, charge,
         f.write(f"&qmmm\n")
         f.write(f" qmmask='")
         for mask in qmmask:
-            f.write(f" {mask} |,")
+            if mask != qmmask[-1]:
+                f.write(f"{mask} |")
+            else:
+                f.write(f"{mask}")
 
         f.write(f"'\n qmcharge={charge},\n")
         f.write(f" qm_theory='{theory}',\n")

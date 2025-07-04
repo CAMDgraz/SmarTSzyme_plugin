@@ -746,33 +746,33 @@ class SmarTSWindow(QMainWindow):
         QApplication.processEvents()
         for frame in self.frames_list:
             try:
-                os.mkdir(f"{output}/frame_{frame}")
+                os.mkdir(f"{output}/frame_{frame + 1}")
             except:
                 pass
 
-            shutil.copyfile(self.topo, f"{output}/frame_{frame}/top.top")
-            rst_files = glob.glob(f"{self.rst_path}/*{frame}*.rst")
+            shutil.copyfile(self.topo, f"{output}/frame_{frame + 1}/top.top")
+            rst_files = glob.glob(f"{self.rst_path}/*{frame + 1}*.rst")
             if len(rst_files) == 0:
                 QMessageBox.critical(self, "Error",
                                      f"No rst file found for frame {frame}")
                 continue
             shutil.copyfile(f"{rst_files[0]}",
-                            f"{output}/frame_{frame}/frame.rst")
+                            f"{output}/frame_{frame + 1}/frame.rst")
 
             frame_ = frame - 1
-            smd.write_cv(f"{output}/frame_{frame}/cv.in", self.cv_dict,
+            smd.write_cv(f"{output}/frame_{frame + 1}/cv.in", self.cv_dict,
                          self.measure_dict, self.measures_pd, frame_)
-            smd.write_qmmm(f"{output}/frame_{frame}/qmmm.in",
+            smd.write_qmmm(f"{output}/frame_{frame + 1}/qmmm.in",
                            self.masks_list, self.theory,
                            self.steps, self.time_step, self.charge,
                            self.lineEdit_amber.text().strip(),
                            300)
-            smd.write_jobrun(f"{output}/frame_{frame}/runjob.sh",
+            smd.write_jobrun(f"{output}/frame_{frame + 1}/runjob.sh",
                              self.lineEdit_amber.text().strip(),
                              self.lineEdit_openmpi.text().strip())
         with open(f"{output}/smd_list.txt", "w") as f:
                 for frame in self.frames_list:
-                    f.write(f"{output}/frame_{frame}\n")
+                    f.write(f"{output}/frame_{frame + 1}\n")
         with open(f"{output}/run.sh", "w") as f:
             f.write('#!/bin/bash\n\n')
             f.write('while IFS= read -r line; do\n')
