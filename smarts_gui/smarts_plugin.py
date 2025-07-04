@@ -350,7 +350,7 @@ class SmarTSWindow(QMainWindow):
                 measure_values[frame] = cmd.get_distance(f'id {atoms[0]}',
                                                          f'id {atoms[1]}',
                                                          state=frame+1)
-                cmd.distance(label, f"id {atoms[0]}", f"id {atoms[1]}")
+            cmd.distance(label, f"id {atoms[0]}", f"id {atoms[1]}")
                 
         elif measure_type == "ANGLE":
             for frame in range(n_frames):
@@ -358,8 +358,8 @@ class SmarTSWindow(QMainWindow):
                                                       f'id {atoms[1]}',
                                                       f'id {atoms[2]}',
                                                       state=frame + 1)
-                cmd.angle(label, f"id {atoms[0]}", f"id {atoms[1]}",
-                          f"id {atoms[2]}")
+            cmd.angle(label, f"id {atoms[0]}", f"id {atoms[1]}",
+                      f"id {atoms[2]}")
         elif measure_type == "DIHEDRAL":
             for frame in range(n_frames):
                 measure_values[frame] = cmd.get_dihedral(f'id {atoms[0]}',
@@ -367,8 +367,8 @@ class SmarTSWindow(QMainWindow):
                                                          f'id {atoms[2]}',
                                                          f'id {atoms[3]}',
                                                          state=frame + 1)
-                cmd.dihedral(label, f"id {atoms[0]}", f"id {atoms[1]}",
-                             f"id {atoms[2]}", f"id {atoms[3]}")
+            cmd.dihedral(label, f"id {atoms[0]}", f"id {atoms[1]}",
+                         f"id {atoms[2]}", f"id {atoms[3]}")
         return measure_values
     
     def update_combo_cv(self):
