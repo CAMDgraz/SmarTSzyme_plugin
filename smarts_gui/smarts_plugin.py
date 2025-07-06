@@ -20,10 +20,11 @@ import pandas as pd
 from pymol import cmd
 import seaborn as sns
 from . import smd
-#import prepare_smd as smd
+#import smd
 import shutil
 import glob
 from . import smarTS
+#import smarTS
 
 # Plots class ==================================================================
 class MplCanvas(FigureCanvasQTAgg):
@@ -51,6 +52,7 @@ class SmarTSWindow(QMainWindow):
         uifile = os.path.join(os.path.dirname(__file__),
                               'smarTS.ui')
         uic.loadUi(uifile, self)
+        self.setFixedSize(861, 620)
         self.show()
 
         # Internal variables ===================================================
@@ -582,6 +584,7 @@ class SmarTSWindow(QMainWindow):
         if len(self.frames_list) == 0:
             QMessageBox.critical(self, "Error",
                                        "No frames have been selected")
+        self.frames_list += 1
         # Add to table
         self.tableWidget_frames.setRowCount(0)
         for frame in self.frames_list:
@@ -592,9 +595,8 @@ class SmarTSWindow(QMainWindow):
                                Qt.ItemFlag.ItemIsEnabled)
             check_sel.setCheckState(Qt.CheckState.Unchecked)
             self.tableWidget_frames.setItem(table_row, 0, check_sel)
-            frame_ = int(frame) + 1
             self.tableWidget_frames.setItem(table_row, 1,
-                                            QTableWidgetItem(str(frame_)))
+                                            QTableWidgetItem(str(frame)))
         return
     
     def sele_mode(self):
@@ -746,12 +748,12 @@ class SmarTSWindow(QMainWindow):
         QApplication.processEvents()
         for frame in self.frames_list:
             try:
-                os.mkdir(f"{output}/frame_{frame + 1}")
+                os.mkdir(f"{output}/frame_{frame}")
             except:
                 pass
 
-            shutil.copyfile(self.topo, f"{output}/frame_{frame + 1}/top.top")
-            rst_files = glob.glob(f"{self.rst_path}/*{frame + 1}*.rst")
+            shutil.copyfile(self.topo, f"{output}/frame_{frame}/top.top")
+            rst_files = glob.glob(f"{self.rst_path}/*{frame}*.rst")
             if len(rst_files) == 0:
                 QMessageBox.critical(self, "Error",
                                      f"No rst file found for frame {frame}")
@@ -760,19 +762,19 @@ class SmarTSWindow(QMainWindow):
                             f"{output}/frame_{frame + 1}/frame.rst")
 
             frame_ = frame - 1
-            smd.write_cv(f"{output}/frame_{frame + 1}/cv.in", self.cv_dict,
+            smd.write_cv(f"{output}/frame_{frame}/cv.in", self.cv_dict,
                          self.measure_dict, self.measures_pd, frame_)
-            smd.write_qmmm(f"{output}/frame_{frame + 1}/qmmm.in",
+            smd.write_qmmm(f"{output}/frame_{frame}/qmmm.in",
                            self.masks_list, self.theory,
                            self.steps, self.time_step, self.charge,
                            self.lineEdit_amber.text().strip(),
                            300)
-            smd.write_jobrun(f"{output}/frame_{frame + 1}/runjob.sh",
+            smd.write_jobrun(f"{output}/frame_{frame}/runjob.sh",
                              self.lineEdit_amber.text().strip(),
                              self.lineEdit_openmpi.text().strip())
         with open(f"{output}/smd_list.txt", "w") as f:
                 for frame in self.frames_list:
-                    f.write(f"{output}/frame_{frame + 1}\n")
+                    f.write(f"{output}/frame_{frame}\n")
         with open(f"{output}/run.sh", "w") as f:
             f.write('#!/bin/bash\n\n')
             f.write('while IFS= read -r line; do\n')
