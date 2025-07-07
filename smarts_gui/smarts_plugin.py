@@ -649,13 +649,13 @@ class SmarTSWindow(QMainWindow):
         self.charge = self.lineEdit_charge.text()
         if self.charge == "":
             QMessageBox.critical(self, "Error", "No charge provided")
-            return
+            return False
         else:
             try:
                 _ = int(self.charge)
             except ValueError:
                 QMessageBox.critical(self, "Error", "Wrong format of charge")
-                return
+                return False
         
         self.steps = self.lineEdit_steps.text()
         if self.steps == "":
@@ -666,18 +666,18 @@ class SmarTSWindow(QMainWindow):
             except ValueError:
                 QMessageBox.critical(self, "Error",
                                      "Wrong format of the number of steps")
-                return
+                return False
         
         self.time_step = self.lineEdit_timestep.text()
         if self.time_step == "":
             self.time_step = 0.0002 # default time step
         else:
             try:
-                _ = int(self.time_step)
+                _ = float(self.time_step)
             except ValueError:
                 QMessageBox.critical(self, "Error",
                                      "Wrong format of the time step")
-                return
+                return False
         
         self.theory = self.combo_theory.currentText()
         
@@ -691,7 +691,7 @@ class SmarTSWindow(QMainWindow):
         cv_rows = table_cv.rowCount()
         if cv_rows == 0:
             QMessageBox.critical(self, "Error", "No CV defined")
-            return
+            return False
         self.cv_dict = dict()
         for row in range(cv_rows):
             cv_type = table_cv.item(row, 1).text()
@@ -706,7 +706,7 @@ class SmarTSWindow(QMainWindow):
         measure_rows = table_measures.rowCount()
         if measure_rows == 0:
             QMessageBox.critical(self, "Error", "No measures defined")
-            return
+            return False
         self.measure_dict = dict()
         for row in range(measure_rows):
             measure_type = table_measures.item(row, 1).text()
@@ -718,7 +718,7 @@ class SmarTSWindow(QMainWindow):
         frames_row = table_frames.rowCount()
         if frames_row == 0:
             QMessageBox.critical(self, "Error", "No frames selected")
-            return
+            return False
         self.frames_list = []
         for row in range(frames_row):
             frame = table_frames.item(row, 1).text()
@@ -727,15 +727,16 @@ class SmarTSWindow(QMainWindow):
         mask_rows = table_masks.rowCount()
         if mask_rows == 0:
             QMessageBox.critical(self, "Error", "No mask selected")
-            return
+            return False
         self.masks_list = []
         for row in range(mask_rows):
             mask = table_masks.item(row, 1).text().split(" ")
             self.masks_list.extend(mask)
-        return
+        return True
     
     def generate_smd(self):
-        self.data_smd_files()
+        if not self.data_smd_files():
+            return
         output = QFileDialog.getExistingDirectory(self, "Output dir")
         if not output:
             QMessageBox.critical(self, "Error", "No output path selected")
@@ -772,6 +773,9 @@ class SmarTSWindow(QMainWindow):
             smd.write_jobrun(f"{output}/frame_{frame}/runjob.sh",
                              self.lineEdit_amber.text().strip(),
                              self.lineEdit_openmpi.text().strip())
+        smd.write_jobrun(f"{output}/runjob.sh",
+                         self.lineEdit_amber.text().strip(),
+                         self.lineEdit_openmpi.text().strip())
         with open(f"{output}/smd_list.txt", "w") as f:
                 for frame in self.frames_list:
                     f.write(f"{output}/frame_{frame}\n")
@@ -780,7 +784,7 @@ class SmarTSWindow(QMainWindow):
             f.write('while IFS= read -r line; do\n')
             f.write('cd ${line}\n')
             f.write('sbatch runjob.sh\n')
-            f.write('done < smd_jobs.txt\n')
+            f.write('done < smd_list.txt\n')
         progress.close()
         return
 
