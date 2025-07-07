@@ -759,7 +759,7 @@ class SmarTSWindow(QMainWindow):
                                      f"No rst file found for frame {frame}")
                 continue
             shutil.copyfile(f"{rst_files[0]}",
-                            f"{output}/frame_{frame + 1}/frame.rst")
+                            f"{output}/frame_{frame}/frame.rst")
 
             frame_ = frame - 1
             smd.write_cv(f"{output}/frame_{frame}/cv.in", self.cv_dict,
