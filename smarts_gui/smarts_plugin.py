@@ -772,15 +772,12 @@ class SmarTSWindow(QMainWindow):
                 return
 
         rst_final = self.lineEdit_rstfinal.text().strip()
-        if rst_final == "":
-            rst_final = cmd.count_states()
-        else:
-            try:
-                rst_final = int(rst_final)
-            except ValueError:
-                QMessageBox.critical(self, "Error",
-                                        "Wrong format of Final rst")
-                return
+        try:
+            rst_final = int(rst_final)
+        except ValueError:
+            QMessageBox.critical(self, "Error",
+                                 "Wrong format of Final rst")
+            return
 
         rst_prefix = self.lineEdit_rstprefix.text().strip()
         if rst_prefix == "":
