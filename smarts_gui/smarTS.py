@@ -361,6 +361,8 @@ def plot_experimental(expres, score_batches, batches, ax):
     min_val = score_batches[:, exp_res].min()
 
     vmax = max_val if max_val > abs(min_val) else abs(min_val)
+    if vmax == 0:
+        vmax = 1
 
     sns.heatmap(score_batches[:, exp_res], cmap='vlag', center=0,
                 ax=ax, vmin=-vmax, vmax=vmax, square=True)
@@ -371,4 +373,6 @@ def plot_experimental(expres, score_batches, batches, ax):
 
     ax.set_ylabel(r'Number of Trajectories')
     ax.set_xlabel(r'Residue id')
+
+    print(score_batches[:, exp_res])
     return

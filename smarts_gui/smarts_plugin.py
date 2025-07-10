@@ -221,7 +221,6 @@ class SmarTSWindow(QMainWindow):
         measure = self.compute_measure(measure_type, measure_atoms,
                                        measure_label)
         self.measures_pd[measure_label] = measure
-        #self.measures_pd[measure_label] = np.random.randint(1, 20, size=100) # testing
         self.plot_measure()
 
         # Clean line edits and update menus
@@ -244,7 +243,7 @@ class SmarTSWindow(QMainWindow):
     def plot_measure(self):
         # Create axes for each plot and get ax info
         ax_counter = []
-        plot_info = [] # type, label, ax id and ax label
+        plot_info = [] # type, ax
         for row in range(self.tableWidget_measures.rowCount()):
             measure_type = self.tableWidget_measures.item(row, 1).text()
             if measure_type not in ax_counter:
@@ -258,9 +257,12 @@ class SmarTSWindow(QMainWindow):
         for column, info in zip(self.measures_pd.columns, plot_info):
             ax = self.canvas_measures.axes[info[1]]
             if plot_type == 0:
-                sns.kdeplot(x=self.measures_pd[column], ax=ax,
-                            fill=True, label=column)
-                ax.set(xlabel=self.ax_labels[info[0]], ylabel='Density')
+                try:
+                    sns.kdeplot(x=self.measures_pd[column], ax=ax,
+                                fill=True, label=column)
+                    ax.set(xlabel=self.ax_labels[info[0]], ylabel='Density')
+                except:
+                    continue
             elif plot_type == 1:
                 x = range(1, len(self.measures_pd[column]) + 1)
                 sns.lineplot(x=x, y=self.measures_pd[column],
@@ -791,9 +793,9 @@ class SmarTSWindow(QMainWindow):
             rst_suffix = '.rst'
 
         rst_frames = np.arange(rst_init, rst_final+1, rst_step)
-        rst_frames = rst_frames[self.frames_list - 1]
+        rst_frames = rst_frames[np.asarray(self.frames_list) - 1]
 
-        with open('frame_rst.dat', 'w') as f:
+        with open(f'{output}/frame_rst.dat', 'w') as f:
             for frame, rst_id in zip(self.frames_list, rst_frames):
                 try:
                     os.mkdir(f"{output}/frame_{frame}")
@@ -804,7 +806,8 @@ class SmarTSWindow(QMainWindow):
                 try:
                     shutil.copyfile(f"{rst_file}",
                                     f"{output}/frame_{frame}/frame.rst")
-                    f.write(f"frame_{frame} -> {rst_file}")
+                    print(f"Copying {rst_file} to {output}/frame_{frame}")
+                    f.write(f"frame_{frame} -> {rst_file}\n")
                 except:
                     QMessageBox.critical(self, "Error",
                                         f"File {rst_file}(frame {frame}) not found")
@@ -929,10 +932,6 @@ class SmarTSWindow(QMainWindow):
         if self.check_electrostatic.isChecked():
             interactions.append('coulomb')
         
-        if len(interactions) == 3:
-            QMessageBox.critical(self, "Error",
-                                 "The coupling with all interactions is already calculated")
-            return
         if len(interactions) == 0:
             QMessageBox.critical(self, "Error",
                                  "No interactions selected")
@@ -946,7 +945,8 @@ class SmarTSWindow(QMainWindow):
         QApplication.processEvents()
         self.score, self.batches = smarTS.score(self.coupling_path,
                                                 self.matrices_path,
-                                                self.nres, self.batch)
+                                                self.nres, self.batch,
+                                                interactions)
         progress.close()
         return 
     
@@ -1004,6 +1004,7 @@ class SmarTSWindow(QMainWindow):
             catres = catres.split(" ")
             try:
                 catres = [int(res) for res in catres]
+                catres = np.asarray(catres) - 1
             except ValueError:
                 QMessageBox.critical(self, "Error",
                                      "Wrong format of catalytic residues")
@@ -1080,8 +1081,13 @@ class SmarTSWindow(QMainWindow):
         # Change the beta factor
         for resid, score in zip(range(1, self.nres + 1), self.score[-1]):
             cmd.alter(f"resid {resid}", f"b={score}")
-        cmd.spectrum("b", "blue_white_red", "all", maximum=self.score.max(),
-                     minimum=self.score.min())
+        if abs(self.score.max()) > abs(self.score.min()):
+            limit_color = abs(self.score.max())
+        else:
+            limit_color = abs(self.score.min())
+
+        cmd.spectrum("b", "blue_white_red", "all", maximum=limit_color,
+                     minimum=-limit_color)
         return
 
 if __name__ == '__main__':

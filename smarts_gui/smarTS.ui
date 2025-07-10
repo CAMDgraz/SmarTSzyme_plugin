@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>975</width>
-    <height>812</height>
+    <width>1200</width>
+    <height>820</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>975</width>
-    <height>812</height>
+    <width>1200</width>
+    <height>820</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>975</width>
-    <height>812</height>
+    <width>1200</width>
+    <height>820</height>
    </size>
   </property>
   <property name="font">
@@ -46,24 +46,18 @@
    </property>
    <property name="maximumSize">
     <size>
-     <width>970</width>
-     <height>785</height>
+     <width>16777215</width>
+     <height>16777215</height>
     </size>
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>1</horstretch>
-        <verstretch>1</verstretch>
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
        </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>950</width>
-        <height>720</height>
-       </size>
       </property>
       <property name="currentIndex">
        <number>0</number>
@@ -76,9 +70,9 @@
         <property name="geometry">
          <rect>
           <x>11</x>
-          <y>11</y>
-          <width>541</width>
-          <height>701</height>
+          <y>20</y>
+          <width>700</width>
+          <height>700</height>
          </rect>
         </property>
         <property name="sizePolicy">
@@ -94,12 +88,12 @@
          </size>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
-          <x>560</x>
+          <x>750</x>
           <y>11</y>
-          <width>378</width>
+          <width>421</width>
           <height>711</height>
          </rect>
         </property>
@@ -255,7 +249,7 @@
             <bool>true</bool>
            </property>
            <property name="editTriggers">
-            <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::EditKeyPressed</set>
+            <set>QAbstractItemView::EditTrigger::AnyKeyPressed|QAbstractItemView::EditTrigger::EditKeyPressed</set>
            </property>
            <column>
             <property name="text">
@@ -310,8 +304,8 @@
          <rect>
           <x>10</x>
           <y>10</y>
-          <width>930</width>
-          <height>650</height>
+          <width>1141</width>
+          <height>681</height>
          </rect>
         </property>
         <property name="sizePolicy">
@@ -334,8 +328,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>930</width>
-           <height>506</height>
+           <width>1141</width>
+           <height>537</height>
           </rect>
          </property>
          <attribute name="label">
@@ -344,7 +338,7 @@
          <widget class="Line" name="line_2">
           <property name="geometry">
            <rect>
-            <x>470</x>
+            <x>500</x>
             <y>-20</y>
             <width>20</width>
             <height>531</height>
@@ -354,12 +348,12 @@
            <enum>Qt::Orientation::Vertical</enum>
           </property>
          </widget>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
-            <x>500</x>
+            <x>520</x>
             <y>9</y>
-            <width>411</width>
+            <width>601</width>
             <height>491</height>
            </rect>
           </property>
@@ -412,12 +406,12 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
             <x>10</x>
             <y>10</y>
-            <width>458</width>
+            <width>481</width>
             <height>209</height>
            </rect>
           </property>
@@ -498,13 +492,6 @@
              </property>
             </widget>
            </item>
-           <item row="3" column="1" colspan="2">
-            <widget class="QLineEdit" name="lineEdit_harm">
-             <property name="placeholderText">
-              <string>default: 600</string>
-             </property>
-            </widget>
-           </item>
            <item row="4" column="0">
             <widget class="QLabel" name="label_8">
              <property name="text">
@@ -529,6 +516,13 @@
              </property>
             </widget>
            </item>
+           <item row="3" column="1" colspan="2">
+            <widget class="QLineEdit" name="lineEdit_harm">
+             <property name="placeholderText">
+              <string>default: 600</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </widget>
@@ -537,8 +531,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>930</width>
-           <height>506</height>
+           <width>1141</width>
+           <height>537</height>
           </rect>
          </property>
          <attribute name="label">
@@ -547,7 +541,7 @@
          <widget class="Line" name="line">
           <property name="geometry">
            <rect>
-            <x>440</x>
+            <x>580</x>
             <y>-30</y>
             <width>20</width>
             <height>531</height>
@@ -557,34 +551,20 @@
            <enum>Qt::Orientation::Vertical</enum>
           </property>
          </widget>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
             <x>13</x>
             <y>3</y>
-            <width>421</width>
+            <width>561</width>
             <height>441</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_12">
-             <property name="text">
-              <string>Mask</string>
-             </property>
-            </widget>
-           </item>
            <item row="1" column="7" colspan="2">
             <widget class="QRadioButton" name="check_all">
              <property name="text">
               <string>All</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0" colspan="3">
-            <widget class="QLabel" name="label_13">
-             <property name="text">
-              <string>Total charge</string>
              </property>
             </widget>
            </item>
@@ -619,44 +599,10 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="1" colspan="5">
-            <widget class="QComboBox" name="combo_mask"/>
-           </item>
            <item row="2" column="6" colspan="3">
             <widget class="QPushButton" name="button_delmask">
              <property name="text">
               <string>Delete Selection</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1" colspan="5">
-            <widget class="QPushButton" name="button_addmask">
-             <property name="text">
-              <string>Add</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1" colspan="4">
-            <widget class="QRadioButton" name="check_bck">
-             <property name="text">
-              <string>Backbone</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="5" colspan="2">
-            <widget class="QRadioButton" name="check_sidechain">
-             <property name="text">
-              <string>Side Chain</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0" colspan="3">
-            <widget class="QLabel" name="label_14">
-             <property name="text">
-              <string>Theory</string>
              </property>
             </widget>
            </item>
@@ -705,17 +651,65 @@
              </property>
             </widget>
            </item>
-           <item row="8" column="3" colspan="5">
+           <item row="1" column="4" colspan="3">
+            <widget class="QRadioButton" name="check_sidechain">
+             <property name="text">
+              <string>Side Chain</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2" colspan="4">
+            <widget class="QComboBox" name="combo_mask"/>
+           </item>
+           <item row="0" column="0" colspan="2">
+            <widget class="QLabel" name="label_12">
+             <property name="text">
+              <string>Mask</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2" colspan="2">
+            <widget class="QRadioButton" name="check_bck">
+             <property name="text">
+              <string>Backbone</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2" colspan="4">
+            <widget class="QPushButton" name="button_addmask">
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0" colspan="3">
+            <widget class="QLabel" name="label_13">
+             <property name="text">
+              <string>Total charge</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0" colspan="3">
+            <widget class="QLabel" name="label_14">
+             <property name="text">
+              <string>Theory</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="3" colspan="4">
             <widget class="QLineEdit" name="lineEdit_openmpi"/>
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
-            <x>465</x>
+            <x>600</x>
             <y>2</y>
-            <width>441</width>
+            <width>521</width>
             <height>501</height>
            </rect>
           </property>
@@ -749,8 +743,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>930</width>
-           <height>506</height>
+           <width>1141</width>
+           <height>537</height>
           </rect>
          </property>
          <attribute name="label">
@@ -769,7 +763,7 @@
            <enum>Qt::Orientation::Vertical</enum>
           </property>
          </widget>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
             <x>2</x>
@@ -811,7 +805,11 @@
             </widget>
            </item>
            <item row="6" column="2" colspan="2">
-            <widget class="QLineEdit" name="lineEdit_frames"/>
+            <widget class="QLineEdit" name="lineEdit_frames">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+            </widget>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_10">
@@ -822,6 +820,9 @@
            </item>
            <item row="6" column="0" colspan="2">
             <widget class="QLabel" name="label_20">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Frames</string>
              </property>
@@ -901,12 +902,12 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
             <x>450</x>
             <y>12</y>
-            <width>461</width>
+            <width>671</width>
             <height>481</height>
            </rect>
           </property>
@@ -978,8 +979,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>930</width>
-           <height>506</height>
+           <width>1141</width>
+           <height>537</height>
           </rect>
          </property>
          <attribute name="label">
@@ -988,7 +989,7 @@
          <widget class="QPushButton" name="button_generatesmd">
           <property name="geometry">
            <rect>
-            <x>770</x>
+            <x>970</x>
             <y>460</y>
             <width>151</width>
             <height>32</height>
@@ -998,7 +999,7 @@
            <string>Generate</string>
           </property>
          </widget>
-         <widget class="QWidget" name="">
+         <widget class="QWidget" name="layoutWidget">
           <property name="geometry">
            <rect>
             <x>10</x>
@@ -1134,24 +1135,24 @@
         <property name="geometry">
          <rect>
           <x>1</x>
-          <y>1</y>
-          <width>600</width>
-          <height>721</height>
+          <y>20</y>
+          <width>700</width>
+          <height>700</height>
          </rect>
         </property>
         <property name="minimumSize">
          <size>
-          <width>600</width>
-          <height>400</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
-          <x>609</x>
-          <y>4</y>
-          <width>336</width>
+          <x>740</x>
+          <y>10</y>
+          <width>421</width>
           <height>441</height>
          </rect>
         </property>
@@ -1318,9 +1319,9 @@
         <property name="geometry">
          <rect>
           <x>1</x>
-          <y>1</y>
-          <width>601</width>
-          <height>721</height>
+          <y>20</y>
+          <width>700</width>
+          <height>700</height>
          </rect>
         </property>
         <property name="sizePolicy">
@@ -1331,37 +1332,95 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>600</width>
-          <height>400</height>
+          <width>0</width>
+          <height>0</height>
          </size>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
-          <x>620</x>
+          <x>750</x>
           <y>2</y>
-          <width>320</width>
+          <width>431</width>
           <height>721</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_8">
-         <item row="4" column="5" colspan="2">
-          <widget class="QCheckBox" name="check_hbonds">
+         <item row="16" column="0" colspan="7">
+          <widget class="QPushButton" name="button_coupling">
            <property name="text">
-            <string>HBonds</string>
+            <string>Coupling path</string>
            </property>
           </widget>
          </item>
-         <item row="5" column="0" colspan="7">
-          <widget class="QPushButton" name="button_calculatecoupling">
-           <property name="text">
-            <string>Coupling</string>
+         <item row="17" column="2" colspan="5">
+          <widget class="QLineEdit" name="lineEdit_batch">
+           <property name="placeholderText">
+            <string>default: 1</string>
            </property>
           </widget>
          </item>
-         <item row="6" column="0" colspan="7">
-          <spacer name="verticalSpacer_5">
+         <item row="23" column="0" colspan="7">
+          <widget class="QPushButton" name="button_plottop">
+           <property name="text">
+            <string>Show Top</string>
+           </property>
+          </widget>
+         </item>
+         <item row="24" column="0" colspan="7">
+          <widget class="QPushButton" name="button_plotexp">
+           <property name="text">
+            <string>Show Experimental</string>
+           </property>
+          </widget>
+         </item>
+         <item row="21" column="0" colspan="2">
+          <widget class="QLabel" name="label_29">
+           <property name="text">
+            <string>Top N</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3" rowspan="2" colspan="4">
+          <widget class="QLineEdit" name="lineEdit_nres"/>
+         </item>
+         <item row="22" column="0" colspan="3">
+          <widget class="QRadioButton" name="check_topmax">
+           <property name="text">
+            <string>Top Max</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="22" column="3" colspan="4">
+          <widget class="QRadioButton" name="check_topmin">
+           <property name="text">
+            <string>Top Min</string>
+           </property>
+          </widget>
+         </item>
+         <item row="20" column="2" colspan="5">
+          <widget class="QLineEdit" name="lineEdit_expRes"/>
+         </item>
+         <item row="21" column="2" colspan="5">
+          <widget class="QLineEdit" name="lineEdit_topn">
+           <property name="placeholderText">
+            <string>default: 10</string>
+           </property>
+          </widget>
+         </item>
+         <item row="20" column="0" colspan="2">
+          <widget class="QLabel" name="label_28">
+           <property name="text">
+            <string>Exp residues</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0" colspan="7">
+          <spacer name="verticalSpacer_7">
            <property name="orientation">
             <enum>Qt::Orientation::Vertical</enum>
            </property>
@@ -1373,17 +1432,14 @@
            </property>
           </spacer>
          </item>
-         <item row="3" column="3" colspan="4">
-          <widget class="QLineEdit" name="lineEdit_catres"/>
-         </item>
-         <item row="9" column="0" colspan="2">
-          <widget class="QLabel" name="label_27">
+         <item row="13" column="0" colspan="7">
+          <widget class="QPushButton" name="button_calculatecoupling">
            <property name="text">
-            <string>Batch size</string>
+            <string>Calculate Coupling</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="0" colspan="7">
+         <item row="8" column="0" colspan="7">
           <widget class="QLabel" name="label_35">
            <property name="font">
             <font>
@@ -1397,52 +1453,7 @@
            </property>
           </widget>
          </item>
-         <item row="4" column="1" colspan="4">
-          <widget class="QCheckBox" name="check_electrostatic">
-           <property name="text">
-            <string>Electrostatic</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="3" colspan="4">
-          <widget class="QLineEdit" name="lineEdit_nres"/>
-         </item>
-         <item row="4" column="0">
-          <widget class="QCheckBox" name="check_vdw">
-           <property name="text">
-            <string>VdW</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0" colspan="3">
-          <widget class="QLabel" name="label_40">
-           <property name="text">
-            <string>Cat. Residues</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0" colspan="3">
-          <widget class="QLabel" name="label_31">
-           <property name="text">
-            <string>No. Residues</string>
-           </property>
-          </widget>
-         </item>
-         <item row="9" column="2" colspan="5">
-          <widget class="QLineEdit" name="lineEdit_batch">
-           <property name="placeholderText">
-            <string>default: 1</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0" colspan="7">
-          <widget class="QPushButton" name="button_matrices">
-           <property name="text">
-            <string>Matrices path</string>
-           </property>
-          </widget>
-         </item>
-         <item row="11" column="0" colspan="7">
+         <item row="19" column="0" colspan="7">
           <spacer name="verticalSpacer_6">
            <property name="orientation">
             <enum>Qt::Orientation::Vertical</enum>
@@ -1455,14 +1466,7 @@
            </property>
           </spacer>
          </item>
-         <item row="10" column="0" colspan="7">
-          <widget class="QPushButton" name="button_score">
-           <property name="text">
-            <string>Score</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="0" colspan="7">
+         <item row="15" column="0" colspan="7">
           <widget class="QLabel" name="label_26">
            <property name="font">
             <font>
@@ -1476,74 +1480,84 @@
            </property>
           </widget>
          </item>
-         <item row="8" column="0" colspan="7">
-          <widget class="QPushButton" name="button_coupling">
-           <property name="text">
-            <string>Coupling path</string>
+         <item row="14" column="0" colspan="7">
+          <spacer name="verticalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Orientation::Vertical</enum>
            </property>
-          </widget>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
          </item>
-         <item row="12" column="0" colspan="2">
-          <widget class="QLabel" name="label_28">
-           <property name="text">
-            <string>Exp residues</string>
-           </property>
-          </widget>
-         </item>
-         <item row="13" column="0" colspan="2">
-          <widget class="QLabel" name="label_29">
-           <property name="text">
-            <string>Top N</string>
-           </property>
-          </widget>
-         </item>
-         <item row="13" column="2" colspan="5">
-          <widget class="QLineEdit" name="lineEdit_topn">
-           <property name="placeholderText">
-            <string>default: 10</string>
-           </property>
-          </widget>
-         </item>
-         <item row="14" column="0" colspan="3">
-          <widget class="QRadioButton" name="check_topmax">
-           <property name="text">
-            <string>Top Max</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="14" column="3" colspan="4">
-          <widget class="QRadioButton" name="check_topmin">
-           <property name="text">
-            <string>Top Min</string>
-           </property>
-          </widget>
-         </item>
-         <item row="15" column="0" colspan="7">
-          <widget class="QPushButton" name="button_plottop">
-           <property name="text">
-            <string>Show Top</string>
-           </property>
-          </widget>
-         </item>
-         <item row="16" column="0" colspan="7">
-          <widget class="QPushButton" name="button_plotexp">
-           <property name="text">
-            <string>Show Experimental</string>
-           </property>
-          </widget>
-         </item>
-         <item row="17" column="0" colspan="7">
+         <item row="25" column="0" colspan="7">
           <widget class="QPushButton" name="button_pymoltop">
            <property name="text">
             <string>Show in PyMol</string>
            </property>
           </widget>
          </item>
-         <item row="12" column="2" colspan="5">
-          <widget class="QLineEdit" name="lineEdit_expRes"/>
+         <item row="17" column="0" colspan="2">
+          <widget class="QLabel" name="label_27">
+           <property name="text">
+            <string>Batch size</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" rowspan="2" colspan="3">
+          <widget class="QLabel" name="label_31">
+           <property name="text">
+            <string>No. Residues</string>
+           </property>
+          </widget>
+         </item>
+         <item row="18" column="0" colspan="7">
+          <widget class="QPushButton" name="button_score">
+           <property name="text">
+            <string>Calculate Score</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0" rowspan="3" colspan="7">
+          <widget class="QPushButton" name="button_matrices">
+           <property name="text">
+            <string>Matrices path</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2" rowspan="2" colspan="3">
+          <widget class="QCheckBox" name="check_electrostatic">
+           <property name="text">
+            <string>Electrostatic</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" rowspan="2" colspan="2">
+          <widget class="QCheckBox" name="check_vdw">
+           <property name="text">
+            <string>VdW</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="5" rowspan="2" colspan="2">
+          <widget class="QCheckBox" name="check_hbonds">
+           <property name="text">
+            <string>HBonds</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="0" rowspan="4" colspan="3">
+          <widget class="QLabel" name="label_40">
+           <property name="text">
+            <string>Cat. Residues</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="3" rowspan="4" colspan="4">
+          <widget class="QLineEdit" name="lineEdit_catres"/>
          </item>
         </layout>
        </widget>
@@ -1557,7 +1571,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>975</width>
+     <width>1200</width>
      <height>27</height>
     </rect>
    </property>
@@ -1631,12 +1645,7 @@
   <tabstop>check_cumulative</tabstop>
   <tabstop>check_exponential</tabstop>
   <tabstop>button_plotpmf</tabstop>
-  <tabstop>button_matrices</tabstop>
-  <tabstop>lineEdit_nres</tabstop>
   <tabstop>lineEdit_catres</tabstop>
-  <tabstop>check_vdw</tabstop>
-  <tabstop>check_electrostatic</tabstop>
-  <tabstop>check_hbonds</tabstop>
   <tabstop>button_calculatecoupling</tabstop>
   <tabstop>button_coupling</tabstop>
   <tabstop>lineEdit_batch</tabstop>
