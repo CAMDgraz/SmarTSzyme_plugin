@@ -51,7 +51,6 @@ class SmarTSWindow(QMainWindow):
         uifile = os.path.join(os.path.dirname(__file__),
                               'smarTS.ui')
         uic.loadUi(uifile, self)
-        self.setFixedSize(861, 620)
         self.show()
 
         # Internal variables ===================================================
@@ -922,6 +921,23 @@ class SmarTSWindow(QMainWindow):
                                      "Wrong format of the No. of residues")
                 return
         
+        interactions = []
+        if self.check_vdw.isChecked():
+            interactions.append('vdw')
+        if self.check_hbonds.isChecked():
+            interactions.append('hbonds')
+        if self.check_electrostatic.isChecked():
+            interactions.append('coulomb')
+        
+        if len(interactions) == 3:
+            QMessageBox.critical(self, "Error",
+                                 "The coupling with all interactions is already calculated")
+            return
+        if len(interactions) == 0:
+            QMessageBox.critical(self, "Error",
+                                 "No interactions selected")
+            return
+
         progress = QProgressDialog("Calculating Score ...", None, 0, 0, self)
         progress.setWindowModality(Qt.ApplicationModal)
         progress.setCancelButton(None)
@@ -992,6 +1008,12 @@ class SmarTSWindow(QMainWindow):
                 QMessageBox.critical(self, "Error",
                                      "Wrong format of catalytic residues")
                 return
+        self.nres = self.lineEdit_nres.text().strip()
+        try:
+            self.nres = int(self.nres)
+        except ValueError:
+            QMessage.critical(self, "Error", "No number of residues provided")
+            return
         
         output = QFileDialog.getExistingDirectory(self, "Coupling output dir")
         if not output:

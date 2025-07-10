@@ -94,12 +94,12 @@ def calculate_coupling(path_matrices, nres, interactions, catalytic_residues,
         flux_dest /= total_flux
 
         # Print stab and destab ====================================================
-        with open(f'{coupling_out}/coupling/stab_flux.{job}.csv', 'w') as f:
+        with open(f'{coupling_out}/stab_flux.{job}.csv', 'w') as f:
             f.write('residue,flux\n')
             for res, flux in enumerate(flux_stab):
                 f.write(f'{res},{flux}\n')
 
-        with open(f'{coupling_out}/coupling/dest_flux.{job}.csv', 'w') as f:
+        with open(f'{coupling_out}/dest_flux.{job}.csv', 'w') as f:
             f.write('residue,flux\n')
             for res, flux in enumerate(flux_dest):
                 f.write(f'{res},{flux}\n')
@@ -245,7 +245,6 @@ def score(coupling_path, matrices_path, nres, batch, interactions):
     print(f'No. of couplings file:          {len(coupling_stab)}')
     print(f'No. Batches:                    {len(batches)}')
     print(f'Interactions:                   {interactions}')
-    
 
     # ==========================================================================
 

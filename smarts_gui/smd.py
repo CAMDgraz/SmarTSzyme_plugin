@@ -124,11 +124,11 @@ def write_jobrun(path, amber_path, openmpi_path):
         f.write("#!/bin/bash\n\n")
         f.write(f"export amberpath={amber_path}\n")
         f.write(f"export openmpi={openmpi_path}\n")
-        f.write("source ${amber_path}/amber.sh\n\n")
+        f.write("source ${amberpath}/amber.sh\n\n")
         f.write("export PATH=${openmpi}/bin/${PATH:+:${PATH}}\n")
         f.write("export SANDER=${amberpath}/bin/sander.MPI\n")
-        f.write("export MPIRUN=${openmpi}/bin/mpirun -np 4\n\n")
-        f.write("$mpirun $SANDER -O -i qmmm.in -o qmmm.out -p top.top -c frame.rst -r qmmm.rst -x qmmm.nc -ref frame.rst\n")
+        f.write('export MPIRUN="${openmpi}/bin/mpirun"\n\n')
+        f.write("$MPIRUN -np 4 $SANDER -O -i qmmm.in -o qmmm.out -p top.top -c frame.rst -r qmmm.rst -x qmmm.nc -ref frame.rst\n")
     return
 
 def smd_results(smd_list, time, time_step, type, temp, ax):
