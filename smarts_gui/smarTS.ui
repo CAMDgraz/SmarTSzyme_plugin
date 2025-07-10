@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>861</width>
-    <height>620</height>
+    <width>1200</width>
+    <height>820</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1200</width>
+    <height>820</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1200</width>
+    <height>820</height>
+   </size>
   </property>
   <property name="font">
    <font>
@@ -20,314 +32,82 @@
    <string>SmarTSzyme</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTabWidget" name="tabWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>841</width>
-      <height>551</height>
-     </rect>
-    </property>
-    <property name="currentIndex">
-     <number>0</number>
-    </property>
-    <widget class="QWidget" name="tab_measures">
-     <attribute name="title">
-      <string>Measures</string>
-     </attribute>
-     <widget class="QWidget" name="widget" native="true">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>501</width>
-        <height>480</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>514</x>
-        <y>10</y>
-        <width>311</width>
-        <height>481</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <layout class="QGridLayout" name="gridLayout">
-         <item row="2" column="2">
-          <widget class="QLineEdit" name="lineEdit_atom3">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="placeholderText">
-            <string>id</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QComboBox" name="combo_measures">
-           <property name="font">
-            <font>
-             <family>Arial</family>
-             <pointsize>14</pointsize>
-            </font>
-           </property>
-           <item>
-            <property name="text">
-             <string>DISTANCE</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>ANGLE</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>DIHEDRAL</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="3" column="2">
-          <widget class="QLineEdit" name="lineEdit_atom4">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="placeholderText">
-            <string>id</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QLabel" name="label_4">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>Atom 4</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLabel" name="label_2">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="text">
-            <string>Atom 2</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QLineEdit" name="lineEdit_atom1">
-           <property name="placeholderText">
-            <string>id</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QLineEdit" name="lineEdit_atom2">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="placeholderText">
-            <string>id</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="label_1">
-           <property name="text">
-            <string>Atom 1</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QLabel" name="label_3">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>Atom 3</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QLabel" name="label_5">
-           <property name="text">
-            <string>Label</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="2">
-          <widget class="QLineEdit" name="lineEdit_label">
-           <property name="placeholderText">
-            <string>no space</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QComboBox" name="combo_plottype">
-         <item>
-          <property name="text">
-           <string>Density</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Frames</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="button_plot">
-         <property name="text">
-          <string>Plot</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="check_allmeasures">
-         <property name="text">
-          <string>Select All</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QTableWidget" name="tableWidget_measures">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="editTriggers">
-          <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::EditKeyPressed</set>
-         </property>
-         <column>
-          <property name="text">
-           <string>Select</string>
-          </property>
-          <property name="font">
-           <font>
-            <weight>50</weight>
-            <bold>false</bold>
-           </font>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Type</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Label</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Atoms</string>
-          </property>
-         </column>
-        </widget>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout">
-           <item>
-            <widget class="QPushButton" name="button_delete">
-             <property name="text">
-              <string>Delete selected</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QPushButton" name="button_export">
-           <property name="text">
-            <string>Export</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="tab_smd">
-     <attribute name="title">
-      <string>sMD setup</string>
-     </attribute>
-     <widget class="QToolBox" name="toolBox">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>821</width>
-        <height>451</height>
-       </rect>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>970</width>
+     <height>785</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="page">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>821</width>
-         <height>340</height>
-        </rect>
-       </property>
-       <attribute name="label">
-        <string>Collective Variables</string>
+      <widget class="QWidget" name="tab_measures">
+       <attribute name="title">
+        <string>Measures</string>
        </attribute>
+       <widget class="QWidget" name="widget" native="true">
+        <property name="geometry">
+         <rect>
+          <x>11</x>
+          <y>20</y>
+          <width>700</width>
+          <height>700</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>1</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+       </widget>
        <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>801</width>
-          <height>222</height>
+          <x>750</x>
+          <y>11</y>
+          <width>421</width>
+          <height>711</height>
          </rect>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <layout class="QGridLayout" name="gridLayout_2">
-           <item row="1" column="2">
-            <widget class="QComboBox" name="combo_cv2">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
+          <layout class="QGridLayout" name="gridLayout_3">
            <item row="0" column="0">
-            <widget class="QLabel" name="label_11">
-             <property name="text">
-              <string>Type</string>
+            <widget class="QComboBox" name="combo_measures">
+             <property name="font">
+              <font>
+               <family>Arial</family>
+               <pointsize>14</pointsize>
+              </font>
              </property>
-            </widget>
-           </item>
-           <item row="4" column="1" colspan="2">
-            <widget class="QLineEdit" name="lineEdit_value"/>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>CV</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1" colspan="2">
-            <widget class="QComboBox" name="combo_cvtype">
              <item>
               <property name="text">
                <string>DISTANCE</string>
@@ -343,80 +123,241 @@
                <string>DIHEDRAL</string>
               </property>
              </item>
-             <item>
-              <property name="text">
-               <string>LCOD</string>
-              </property>
-             </item>
             </widget>
            </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="lineEdit_coeff1">
-             <property name="enabled">
-              <bool>false</bool>
+           <item row="0" column="1">
+            <widget class="QLabel" name="label_1">
+             <property name="text">
+              <string>Atom 1</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLineEdit" name="lineEdit_atom1">
+             <property name="placeholderText">
+              <string>id</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QComboBox" name="combo_cv1"/>
+            <widget class="QLabel" name="label_2">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="text">
+              <string>Atom 2</string>
+             </property>
+            </widget>
            </item>
-           <item row="3" column="1" colspan="2">
-            <widget class="QLineEdit" name="lineEdit_harm">
+           <item row="1" column="2">
+            <widget class="QLineEdit" name="lineEdit_atom2">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
              <property name="placeholderText">
-              <string>default: 600</string>
+              <string>id</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_8">
-             <property name="text">
-              <string>Final value</string>
+           <item row="2" column="1">
+            <widget class="QLabel" name="label_3">
+             <property name="enabled">
+              <bool>false</bool>
              </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_7">
              <property name="text">
-              <string>Harmonic</string>
+              <string>Atom 3</string>
              </property>
             </widget>
            </item>
            <item row="2" column="2">
-            <widget class="QLineEdit" name="lineEdit_coeff2">
+            <widget class="QLineEdit" name="lineEdit_atom3">
              <property name="enabled">
               <bool>false</bool>
              </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_6">
-             <property name="text">
-              <string>Coefficient</string>
+             <property name="placeholderText">
+              <string>id</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="1" colspan="2">
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
-             <item>
-              <widget class="QPushButton" name="button_addcv">
-               <property name="text">
-                <string>Add</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="button_delcv">
-               <property name="text">
-                <string>Delete Selection</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+           <item row="3" column="1">
+            <widget class="QLabel" name="label_4">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Atom 4</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QLineEdit" name="lineEdit_atom4">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="placeholderText">
+              <string>id</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Label</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="2">
+            <widget class="QLineEdit" name="lineEdit_label">
+             <property name="placeholderText">
+              <string>no space</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_10">
+          <widget class="QComboBox" name="combo_plottype">
+           <item>
+            <property name="text">
+             <string>Density</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Frames</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="button_plot">
+           <property name="text">
+            <string>Plot</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="check_allmeasures">
+           <property name="text">
+            <string>Select All</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTableWidget" name="tableWidget_measures">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::EditTrigger::AnyKeyPressed|QAbstractItemView::EditTrigger::EditKeyPressed</set>
+           </property>
+           <column>
+            <property name="text">
+             <string>Select</string>
+            </property>
+            <property name="font">
+             <font>
+              <bold>false</bold>
+             </font>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Type</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Label</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Atoms</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="button_delete">
+           <property name="text">
+            <string>Delete selected</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="button_export">
+           <property name="text">
+            <string>Export</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_smd">
+       <attribute name="title">
+        <string>sMD setup</string>
+       </attribute>
+       <widget class="QToolBox" name="toolBox">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>1141</width>
+          <height>681</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>1</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>930</width>
+          <height>650</height>
+         </size>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="page">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>1141</width>
+           <height>537</height>
+          </rect>
+         </property>
+         <attribute name="label">
+          <string>Collective Variables</string>
+         </attribute>
+         <widget class="Line" name="line_2">
+          <property name="geometry">
+           <rect>
+            <x>500</x>
+            <y>-20</y>
+            <width>20</width>
+            <height>531</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Orientation::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="QWidget" name="layoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>520</x>
+            <y>9</y>
+            <width>601</width>
+            <height>491</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
             <widget class="QCheckBox" name="check_allcv">
              <property name="text">
@@ -464,199 +405,315 @@
             </widget>
            </item>
           </layout>
-         </item>
-        </layout>
-       </widget>
-      </widget>
-      <widget class="QWidget" name="page_2">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>821</width>
-         <height>340</height>
-        </rect>
-       </property>
-       <attribute name="label">
-        <string>QM region and simulation parameters</string>
-       </attribute>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>0</y>
-          <width>791</width>
-          <height>321</height>
-         </rect>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_10">
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_7">
-           <item>
-            <layout class="QGridLayout" name="gridLayout_3">
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_12">
-               <property name="text">
-                <string>Mask</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QRadioButton" name="check_bck">
-               <property name="text">
-                <string>Backbone</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="2">
-              <widget class="QRadioButton" name="check_sidechain">
-               <property name="text">
-                <string>Side Chain</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="3">
-              <widget class="QRadioButton" name="check_all">
-               <property name="text">
-                <string>All</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1" colspan="3">
-              <layout class="QHBoxLayout" name="horizontalLayout_4">
-               <item>
-                <widget class="QComboBox" name="combo_mask"/>
-               </item>
-               <item>
-                <widget class="QPushButton" name="button_updatemask">
-                 <property name="text">
-                  <string>Update masks</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-            </layout>
+         </widget>
+         <widget class="QWidget" name="layoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>481</width>
+            <height>209</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_11">
+             <property name="text">
+              <string>Type</string>
+             </property>
+            </widget>
            </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item row="0" column="1" colspan="2">
+            <widget class="QComboBox" name="combo_cvtype">
              <item>
-              <widget class="QPushButton" name="button_addmask">
-               <property name="text">
-                <string>Add</string>
-               </property>
-              </widget>
+              <property name="text">
+               <string>DISTANCE</string>
+              </property>
              </item>
              <item>
-              <widget class="QPushButton" name="button_delmask">
-               <property name="text">
-                <string>Delete Selection</string>
-               </property>
-              </widget>
+              <property name="text">
+               <string>ANGLE</string>
+              </property>
              </item>
-            </layout>
+             <item>
+              <property name="text">
+               <string>DIHEDRAL</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>LCOD</string>
+              </property>
+             </item>
+            </widget>
            </item>
-           <item>
-            <layout class="QGridLayout" name="gridLayout_5">
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_13">
-               <property name="text">
-                <string>Total charge</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QLineEdit" name="lineEdit_charge"/>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_14">
-               <property name="text">
-                <string>Theory</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QComboBox" name="combo_theory">
-               <item>
-                <property name="text">
-                 <string>DFTB3</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>EXTERN</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-            </layout>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>CV</string>
+             </property>
+            </widget>
            </item>
-           <item>
-            <layout class="QGridLayout" name="gridLayout_4">
-             <item row="0" column="1">
-              <widget class="QLineEdit" name="lineEdit_steps">
-               <property name="placeholderText">
-                <string>default: 15000</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_16">
-               <property name="text">
-                <string>Time step</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_15">
-               <property name="text">
-                <string>Steps</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLineEdit" name="lineEdit_timestep">
-               <property name="placeholderText">
-                <string>default: 0.0002</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="label_9">
-               <property name="text">
-                <string>OpenMPI Path</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QLineEdit" name="lineEdit_amber"/>
-             </item>
-             <item row="3" column="1">
-              <widget class="QLineEdit" name="lineEdit_openmpi"/>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_17">
-               <property name="text">
-                <string>Amber Path</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="2">
-              <widget class="QLabel" name="label_30">
-               <property name="text">
-                <string>ps</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+           <item row="1" column="1" colspan="2">
+            <widget class="QComboBox" name="combo_cv1"/>
+           </item>
+           <item row="1" column="3">
+            <widget class="QComboBox" name="combo_cv2">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string>Coefficient</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1" colspan="2">
+            <widget class="QLineEdit" name="lineEdit_coeff1">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="3">
+            <widget class="QLineEdit" name="lineEdit_coeff2">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>Harmonic</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>Final value</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1" colspan="2">
+            <widget class="QLineEdit" name="lineEdit_value"/>
+           </item>
+           <item row="5" column="3">
+            <widget class="QPushButton" name="button_delcv">
+             <property name="text">
+              <string>Delete Selection</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1" colspan="2">
+            <widget class="QPushButton" name="button_addcv">
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1" colspan="2">
+            <widget class="QLineEdit" name="lineEdit_harm">
+             <property name="placeholderText">
+              <string>default: 600</string>
+             </property>
+            </widget>
            </item>
           </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_11">
+         </widget>
+        </widget>
+        <widget class="QWidget" name="page_2">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>1141</width>
+           <height>537</height>
+          </rect>
+         </property>
+         <attribute name="label">
+          <string>QM region and simulation parameters</string>
+         </attribute>
+         <widget class="Line" name="line">
+          <property name="geometry">
+           <rect>
+            <x>580</x>
+            <y>-30</y>
+            <width>20</width>
+            <height>531</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Orientation::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="QWidget" name="layoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>13</x>
+            <y>3</y>
+            <width>561</width>
+            <height>441</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_4">
+           <item row="1" column="7" colspan="2">
+            <widget class="QRadioButton" name="check_all">
+             <property name="text">
+              <string>All</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="3" colspan="4">
+            <widget class="QLineEdit" name="lineEdit_charge"/>
+           </item>
+           <item row="4" column="3" colspan="4">
+            <widget class="QComboBox" name="combo_theory">
+             <item>
+              <property name="text">
+               <string>DFTB3</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>EXTERN</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="7" column="0" colspan="3">
+            <widget class="QLabel" name="label_17">
+             <property name="text">
+              <string>Amber Path</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="6" colspan="3">
+            <widget class="QPushButton" name="button_updatemask">
+             <property name="text">
+              <string>Update masks</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="6" colspan="3">
+            <widget class="QPushButton" name="button_delmask">
+             <property name="text">
+              <string>Delete Selection</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0" colspan="3">
+            <widget class="QLabel" name="label_15">
+             <property name="text">
+              <string>Steps</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="3" colspan="4">
+            <widget class="QLineEdit" name="lineEdit_steps">
+             <property name="placeholderText">
+              <string>default: 15000</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0" colspan="3">
+            <widget class="QLabel" name="label_16">
+             <property name="text">
+              <string>Time step</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="3" colspan="4">
+            <widget class="QLineEdit" name="lineEdit_timestep">
+             <property name="placeholderText">
+              <string>default: 0.0002</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="7">
+            <widget class="QLabel" name="label_30">
+             <property name="text">
+              <string>ps</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="3" colspan="4">
+            <widget class="QLineEdit" name="lineEdit_amber"/>
+           </item>
+           <item row="8" column="0" colspan="3">
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>OpenMPI Path</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="4" colspan="3">
+            <widget class="QRadioButton" name="check_sidechain">
+             <property name="text">
+              <string>Side Chain</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2" colspan="4">
+            <widget class="QComboBox" name="combo_mask"/>
+           </item>
+           <item row="0" column="0" colspan="2">
+            <widget class="QLabel" name="label_12">
+             <property name="text">
+              <string>Mask</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2" colspan="2">
+            <widget class="QRadioButton" name="check_bck">
+             <property name="text">
+              <string>Backbone</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2" colspan="4">
+            <widget class="QPushButton" name="button_addmask">
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0" colspan="3">
+            <widget class="QLabel" name="label_13">
+             <property name="text">
+              <string>Total charge</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0" colspan="3">
+            <widget class="QLabel" name="label_14">
+             <property name="text">
+              <string>Theory</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="3" colspan="4">
+            <widget class="QLineEdit" name="lineEdit_openmpi"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="layoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>600</x>
+            <y>2</y>
+            <width>521</width>
+            <height>501</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
             <widget class="QCheckBox" name="check_allmask">
              <property name="text">
@@ -679,41 +736,49 @@
             </widget>
            </item>
           </layout>
-         </item>
-        </layout>
-       </widget>
-      </widget>
-      <widget class="QWidget" name="page_4">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>821</width>
-         <height>340</height>
-        </rect>
-       </property>
-       <attribute name="label">
-        <string>Frames selection</string>
-       </attribute>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>801</width>
-          <height>321</height>
-         </rect>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_11">
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_8">
-           <item>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="page_4">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>1141</width>
+           <height>537</height>
+          </rect>
+         </property>
+         <attribute name="label">
+          <string>Frames selection</string>
+         </attribute>
+         <widget class="Line" name="line_3">
+          <property name="geometry">
+           <rect>
+            <x>430</x>
+            <y>-30</y>
+            <width>20</width>
+            <height>531</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Orientation::Vertical</enum>
+          </property>
+         </widget>
+         <widget class="QWidget" name="layoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>2</x>
+            <y>12</y>
+            <width>421</width>
+            <height>481</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_5">
+           <item row="0" column="0" colspan="4">
             <widget class="QRadioButton" name="check_automatic">
              <property name="font">
               <font>
                <family>Arial</family>
                <pointsize>18</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -725,63 +790,12 @@
              </property>
             </widget>
            </item>
-           <item>
-            <layout class="QGridLayout" name="gridLayout_6">
-             <item row="2" column="2">
-              <widget class="QPushButton" name="button_delfilter">
-               <property name="text">
-                <string>Delete Selection</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QComboBox" name="combo_condition">
-               <item>
-                <property name="text">
-                 <string>=</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>&lt;</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>&gt;</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="0" column="1" colspan="2">
-              <widget class="QComboBox" name="combo_filter"/>
-             </item>
-             <item row="1" column="1" colspan="2">
-              <widget class="QLineEdit" name="lineEdit_filter"/>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_10">
-               <property name="text">
-                <string>Filter</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QPushButton" name="button_addfilter">
-               <property name="text">
-                <string>Add</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
+           <item row="5" column="0" colspan="3">
             <widget class="QRadioButton" name="check_manual">
              <property name="font">
               <font>
                <family>Arial</family>
                <pointsize>18</pointsize>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -790,21 +804,96 @@
              </property>
             </widget>
            </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <item>
-              <widget class="QLabel" name="label_20">
-               <property name="text">
-                <string>Frames</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="lineEdit_frames"/>
-             </item>
-            </layout>
+           <item row="6" column="2" colspan="2">
+            <widget class="QLineEdit" name="lineEdit_frames">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+            </widget>
            </item>
-           <item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_10">
+             <property name="text">
+              <string>Filter</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0" colspan="2">
+            <widget class="QLabel" name="label_20">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Frames</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1" colspan="3">
+            <widget class="QComboBox" name="combo_filter"/>
+           </item>
+           <item row="4" column="0" colspan="4">
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Orientation::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="2" column="1" colspan="3">
+            <widget class="QLineEdit" name="lineEdit_filter"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QComboBox" name="combo_condition">
+             <item>
+              <property name="text">
+               <string>=</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>&lt;</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>&gt;</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="3" column="1" colspan="2">
+            <widget class="QPushButton" name="button_addfilter">
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="3">
+            <widget class="QPushButton" name="button_delfilter">
+             <property name="text">
+              <string>Delete Selection</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0" colspan="4">
+            <spacer name="verticalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Orientation::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="8" column="0" colspan="4">
             <widget class="QPushButton" name="button_selframes">
              <property name="text">
               <string>Select Frames</string>
@@ -812,9 +901,17 @@
             </widget>
            </item>
           </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_9">
+         </widget>
+         <widget class="QWidget" name="layoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>450</x>
+            <y>12</y>
+            <width>671</width>
+            <height>481</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
             <widget class="QCheckBox" name="check_allfilters">
              <property name="text">
@@ -875,78 +972,262 @@
             </widget>
            </item>
           </layout>
-         </item>
-        </layout>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="page_3">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>1141</width>
+           <height>537</height>
+          </rect>
+         </property>
+         <attribute name="label">
+          <string>MD files</string>
+         </attribute>
+         <widget class="QPushButton" name="button_generatesmd">
+          <property name="geometry">
+           <rect>
+            <x>970</x>
+            <y>460</y>
+            <width>151</width>
+            <height>32</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Generate</string>
+          </property>
+         </widget>
+         <widget class="QWidget" name="layoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>21</y>
+            <width>561</width>
+            <height>351</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_6">
+           <item row="6" column="5">
+            <widget class="QLineEdit" name="lineEdit_rstfinal"/>
+           </item>
+           <item row="6" column="1">
+            <widget class="QLineEdit" name="lineEdit_rstinitial"/>
+           </item>
+           <item row="5" column="1">
+            <widget class="QLabel" name="label_41">
+             <property name="text">
+              <string>Initial rst</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="5">
+            <widget class="QLabel" name="label_43">
+             <property name="text">
+              <string>Final rst</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="2" colspan="3">
+            <widget class="QLineEdit" name="lineEdit_rststep"/>
+           </item>
+           <item row="5" column="2" colspan="3">
+            <widget class="QLabel" name="label_42">
+             <property name="text">
+              <string>Step</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="1">
+            <widget class="QLineEdit" name="lineEdit_rstprefix">
+             <property name="placeholderText">
+              <string>rst file prefix</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="5">
+            <widget class="QLineEdit" name="lineEdit_rstsuffix">
+             <property name="placeholderText">
+              <string>.rst</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="2" colspan="3">
+            <widget class="QLabel" name="label_38">
+             <property name="font">
+              <font>
+               <family>Arial</family>
+               <pointsize>14</pointsize>
+               <italic>true</italic>
+              </font>
+             </property>
+             <property name="text">
+              <string>frame_id</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QPushButton" name="button_mdpath">
+             <property name="text">
+              <string>Select Path</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1" colspan="5">
+            <widget class="QLabel" name="label_39">
+             <property name="font">
+              <font>
+               <family>Arial</family>
+               <pointsize>18</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Restart Files</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QPushButton" name="button_topology">
+             <property name="text">
+              <string>Topology File</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" colspan="6">
+            <widget class="QLabel" name="label_37">
+             <property name="font">
+              <font>
+               <family>Arial</family>
+               <pointsize>18</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>Topology</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1" colspan="5">
+            <spacer name="verticalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Orientation::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </widget>
        </widget>
       </widget>
-     </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>490</x>
-        <y>460</y>
-        <width>317</width>
-        <height>33</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_12">
-       <item>
-        <widget class="QPushButton" name="button_mdpath">
-         <property name="text">
-          <string>MD Path</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="button_topology">
-         <property name="text">
-          <string>Topology File</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="button_generatesmd">
-         <property name="text">
-          <string>Generate</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="tab">
-     <attribute name="title">
-      <string>sMD results</string>
-     </attribute>
-     <widget class="QWidget" name="widget_2" native="true">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>511</width>
-        <height>480</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>540</x>
-        <y>50</y>
-        <width>281</width>
-        <height>320</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_6">
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
+      <widget class="QWidget" name="tab_PMF">
+       <attribute name="title">
+        <string>sMD results</string>
+       </attribute>
+       <widget class="QWidget" name="widget_2" native="true">
+        <property name="geometry">
+         <rect>
+          <x>1</x>
+          <y>20</y>
+          <width>700</width>
+          <height>700</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+       </widget>
+       <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>740</x>
+          <y>10</y>
+          <width>421</width>
+          <height>441</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_7">
+         <item row="6" column="0" colspan="7">
+          <widget class="QPushButton" name="button_plotpmf">
+           <property name="text">
+            <string>Plot PMF</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="7">
+          <widget class="QPushButton" name="button_smdlist">
+           <property name="text">
+            <string>Load sMD list</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="6">
+          <widget class="QLabel" name="label_24">
+           <property name="text">
+            <string>K</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="3" colspan="3">
+          <widget class="QLineEdit" name="lineEdit_smdstep"/>
+         </item>
+         <item row="2" column="6">
+          <widget class="QLabel" name="label_22">
+           <property name="text">
+            <string>ps</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="3" colspan="3">
+          <widget class="QLineEdit" name="lineEdit_smdT"/>
+         </item>
+         <item row="2" column="3" colspan="3">
+          <widget class="QLineEdit" name="lineEdit_smdtime"/>
+         </item>
+         <item row="3" column="0" colspan="3">
+          <widget class="QLabel" name="label_19">
+           <property name="text">
+            <string>Time step</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="5">
+          <widget class="QRadioButton" name="check_exponential">
+           <property name="text">
+            <string>Exponential</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="6">
+          <widget class="QLabel" name="label_23">
+           <property name="text">
+            <string>ps</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" colspan="3">
+          <widget class="QLabel" name="label_18">
+           <property name="text">
+            <string>Final Time</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" colspan="7">
           <widget class="QLabel" name="label_25">
            <property name="font">
             <font>
              <family>Arial</family>
              <pointsize>18</pointsize>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -955,260 +1236,156 @@
            </property>
           </widget>
          </item>
-         <item>
-          <layout class="QGridLayout" name="gridLayout_7">
-           <item row="3" column="2">
-            <widget class="QLabel" name="label_24">
-             <property name="text">
-              <string>K</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="lineEdit_smdstep"/>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLabel" name="label_22">
-             <property name="text">
-              <string>ps</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_19">
-             <property name="text">
-              <string>Time step</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0" colspan="3">
-            <widget class="QPushButton" name="button_smdlist">
-             <property name="text">
-              <string>Load sMD list</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="2">
-            <widget class="QLabel" name="label_23">
-             <property name="text">
-              <string>ps</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_21">
-             <property name="text">
-              <string>Temperature</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="lineEdit_smdtime"/>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_18">
-             <property name="text">
-              <string>Final Time</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="lineEdit_smdT"/>
-           </item>
-          </layout>
+         <item row="4" column="0" colspan="3">
+          <widget class="QLabel" name="label_21">
+           <property name="text">
+            <string>Temperature</string>
+           </property>
+          </widget>
          </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_5">
-           <item>
-            <widget class="QRadioButton" name="check_cumulative">
-             <property name="text">
-              <string>Cumulative</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="check_exponential">
-             <property name="text">
-              <string>Exponential</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+         <item row="5" column="0" colspan="5">
+          <widget class="QRadioButton" name="check_cumulative">
+           <property name="text">
+            <string>Cumulative</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="0" colspan="3">
+          <widget class="QLabel" name="label_32">
+           <property name="text">
+            <string>Maximum:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0" colspan="7">
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Orientation::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="8" column="6">
+          <widget class="QLabel" name="label_33">
+           <property name="text">
+            <string>kcal/mol</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="3" colspan="3">
+          <widget class="QLabel" name="label_maximum">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="6">
+          <widget class="QLabel" name="label_36">
+           <property name="text">
+            <string>ps</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="3" colspan="3">
+          <widget class="QLabel" name="label_time">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="0" colspan="3">
+          <widget class="QLabel" name="label_34">
+           <property name="text">
+            <string>Time:</string>
+           </property>
+          </widget>
          </item>
         </layout>
-       </item>
-       <item>
-        <widget class="QPushButton" name="button_plotpmf">
-         <property name="text">
-          <string>Plot PMF</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_7">
-           <item>
-            <widget class="QLabel" name="label_32">
-             <property name="text">
-              <string>Maximum:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_maximum">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_33">
-             <property name="text">
-              <string>kcal/mol</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_8">
-           <item>
-            <widget class="QLabel" name="label_34">
-             <property name="text">
-              <string>Time:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_time">
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_36">
-             <property name="text">
-              <string>ps</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="tab_2">
-     <attribute name="title">
-      <string>SmarTSzyme</string>
-     </attribute>
-     <widget class="QWidget" name="widget_3" native="true">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>511</width>
-        <height>480</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>550</x>
-        <y>20</y>
-        <width>271</width>
-        <height>439</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
-       <item>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_SmarTS">
+       <attribute name="title">
+        <string>SmarTSzyme</string>
+       </attribute>
+       <widget class="QWidget" name="widget_3" native="true">
+        <property name="geometry">
+         <rect>
+          <x>1</x>
+          <y>20</y>
+          <width>700</width>
+          <height>700</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>1</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+       </widget>
+       <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>750</x>
+          <y>2</y>
+          <width>431</width>
+          <height>721</height>
+         </rect>
+        </property>
         <layout class="QGridLayout" name="gridLayout_8">
-         <item row="4" column="0">
-          <widget class="QLabel" name="label_31">
-           <property name="text">
-            <string>No. Residues</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0" colspan="2">
-          <widget class="QPushButton" name="button_matrices">
-           <property name="text">
-            <string>Matrices path</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0" colspan="2">
-          <widget class="QPushButton" name="button_score">
-           <property name="text">
-            <string>Score</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QLineEdit" name="lineEdit_batch">
-           <property name="placeholderText">
-            <string>default: 10</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0" colspan="2">
+         <item row="16" column="0" colspan="7">
           <widget class="QPushButton" name="button_coupling">
            <property name="text">
             <string>Coupling path</string>
            </property>
           </widget>
          </item>
-         <item row="4" column="1">
-          <widget class="QLineEdit" name="lineEdit_nres"/>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_27">
-           <property name="text">
-            <string>Batch size</string>
+         <item row="17" column="2" colspan="5">
+          <widget class="QLineEdit" name="lineEdit_batch">
+           <property name="placeholderText">
+            <string>default: 1</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="0" colspan="2">
-          <widget class="QLabel" name="label_26">
-           <property name="font">
-            <font>
-             <family>Arial</family>
-             <pointsize>18</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
+         <item row="23" column="0" colspan="7">
+          <widget class="QPushButton" name="button_plottop">
            <property name="text">
-            <string>Mutability Score</string>
+            <string>Show Top</string>
            </property>
           </widget>
          </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QGridLayout" name="gridLayout_9">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_28">
+         <item row="24" column="0" colspan="7">
+          <widget class="QPushButton" name="button_plotexp">
            <property name="text">
-            <string>Exp residues</string>
+            <string>Show Experimental</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
+         <item row="21" column="0" colspan="2">
           <widget class="QLabel" name="label_29">
            <property name="text">
             <string>Top N</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
+         <item row="0" column="3" rowspan="2" colspan="4">
+          <widget class="QLineEdit" name="lineEdit_nres"/>
+         </item>
+         <item row="22" column="0" colspan="3">
           <widget class="QRadioButton" name="check_topmax">
            <property name="text">
             <string>Top Max</string>
@@ -1218,63 +1395,269 @@
            </property>
           </widget>
          </item>
-         <item row="3" column="0" colspan="2">
-          <widget class="QPushButton" name="button_plottop">
-           <property name="text">
-            <string>Show Top</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="lineEdit_expRes"/>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="lineEdit_topn">
-           <property name="placeholderText">
-            <string>default: 10</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
+         <item row="22" column="3" colspan="4">
           <widget class="QRadioButton" name="check_topmin">
            <property name="text">
             <string>Top Min</string>
            </property>
           </widget>
          </item>
-         <item row="4" column="0" colspan="2">
-          <widget class="QPushButton" name="button_plotexp">
-           <property name="text">
-            <string>Show Experimental</string>
+         <item row="20" column="2" colspan="5">
+          <widget class="QLineEdit" name="lineEdit_expRes"/>
+         </item>
+         <item row="21" column="2" colspan="5">
+          <widget class="QLineEdit" name="lineEdit_topn">
+           <property name="placeholderText">
+            <string>default: 10</string>
            </property>
           </widget>
          </item>
+         <item row="20" column="0" colspan="2">
+          <widget class="QLabel" name="label_28">
+           <property name="text">
+            <string>Exp residues</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0" colspan="7">
+          <spacer name="verticalSpacer_7">
+           <property name="orientation">
+            <enum>Qt::Orientation::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="13" column="0" colspan="7">
+          <widget class="QPushButton" name="button_calculatecoupling">
+           <property name="text">
+            <string>Calculate Coupling</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="0" colspan="7">
+          <widget class="QLabel" name="label_35">
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>18</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Coupling</string>
+           </property>
+          </widget>
+         </item>
+         <item row="19" column="0" colspan="7">
+          <spacer name="verticalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Orientation::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="15" column="0" colspan="7">
+          <widget class="QLabel" name="label_26">
+           <property name="font">
+            <font>
+             <family>Arial</family>
+             <pointsize>18</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Mutability Score</string>
+           </property>
+          </widget>
+         </item>
+         <item row="14" column="0" colspan="7">
+          <spacer name="verticalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Orientation::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="25" column="0" colspan="7">
+          <widget class="QPushButton" name="button_pymoltop">
+           <property name="text">
+            <string>Show in PyMol</string>
+           </property>
+          </widget>
+         </item>
+         <item row="17" column="0" colspan="2">
+          <widget class="QLabel" name="label_27">
+           <property name="text">
+            <string>Batch size</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" rowspan="2" colspan="3">
+          <widget class="QLabel" name="label_31">
+           <property name="text">
+            <string>No. Residues</string>
+           </property>
+          </widget>
+         </item>
+         <item row="18" column="0" colspan="7">
+          <widget class="QPushButton" name="button_score">
+           <property name="text">
+            <string>Calculate Score</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0" rowspan="3" colspan="7">
+          <widget class="QPushButton" name="button_matrices">
+           <property name="text">
+            <string>Matrices path</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2" rowspan="2" colspan="3">
+          <widget class="QCheckBox" name="check_electrostatic">
+           <property name="text">
+            <string>Electrostatic</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" rowspan="2" colspan="2">
+          <widget class="QCheckBox" name="check_vdw">
+           <property name="text">
+            <string>VdW</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="5" rowspan="2" colspan="2">
+          <widget class="QCheckBox" name="check_hbonds">
+           <property name="text">
+            <string>HBonds</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="0" rowspan="4" colspan="3">
+          <widget class="QLabel" name="label_40">
+           <property name="text">
+            <string>Cat. Residues</string>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="3" rowspan="4" colspan="4">
+          <widget class="QLineEdit" name="lineEdit_catres"/>
+         </item>
         </layout>
-       </item>
-       <item>
-        <widget class="QPushButton" name="button_pymoltop">
-         <property name="text">
-          <string>Show in PyMol</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+       </widget>
+      </widget>
      </widget>
-    </widget>
-   </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>861</width>
-     <height>28</height>
+     <width>1200</width>
+     <height>27</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>combo_measures</tabstop>
+  <tabstop>lineEdit_atom1</tabstop>
+  <tabstop>lineEdit_atom2</tabstop>
+  <tabstop>lineEdit_atom3</tabstop>
+  <tabstop>lineEdit_atom4</tabstop>
+  <tabstop>lineEdit_label</tabstop>
+  <tabstop>combo_plottype</tabstop>
+  <tabstop>button_plot</tabstop>
+  <tabstop>check_allmeasures</tabstop>
+  <tabstop>tableWidget_measures</tabstop>
+  <tabstop>button_delete</tabstop>
+  <tabstop>button_export</tabstop>
+  <tabstop>combo_cvtype</tabstop>
+  <tabstop>combo_cv1</tabstop>
+  <tabstop>combo_cv2</tabstop>
+  <tabstop>lineEdit_coeff1</tabstop>
+  <tabstop>lineEdit_coeff2</tabstop>
+  <tabstop>lineEdit_harm</tabstop>
+  <tabstop>lineEdit_value</tabstop>
+  <tabstop>button_addcv</tabstop>
+  <tabstop>button_delcv</tabstop>
+  <tabstop>check_allcv</tabstop>
+  <tabstop>tableWidget_cv</tabstop>
+  <tabstop>combo_mask</tabstop>
+  <tabstop>button_updatemask</tabstop>
+  <tabstop>check_bck</tabstop>
+  <tabstop>check_sidechain</tabstop>
+  <tabstop>check_all</tabstop>
+  <tabstop>button_addmask</tabstop>
+  <tabstop>button_delmask</tabstop>
+  <tabstop>lineEdit_charge</tabstop>
+  <tabstop>combo_theory</tabstop>
+  <tabstop>lineEdit_steps</tabstop>
+  <tabstop>lineEdit_timestep</tabstop>
+  <tabstop>lineEdit_amber</tabstop>
+  <tabstop>lineEdit_openmpi</tabstop>
+  <tabstop>check_allmask</tabstop>
+  <tabstop>tableWidget_mask</tabstop>
+  <tabstop>check_automatic</tabstop>
+  <tabstop>combo_filter</tabstop>
+  <tabstop>combo_condition</tabstop>
+  <tabstop>lineEdit_filter</tabstop>
+  <tabstop>button_addfilter</tabstop>
+  <tabstop>button_delfilter</tabstop>
+  <tabstop>check_manual</tabstop>
+  <tabstop>lineEdit_frames</tabstop>
+  <tabstop>button_selframes</tabstop>
+  <tabstop>check_allfilters</tabstop>
+  <tabstop>tableWidget_filter</tabstop>
+  <tabstop>check_allframes</tabstop>
+  <tabstop>tableWidget_frames</tabstop>
+  <tabstop>button_delframe</tabstop>
+  <tabstop>button_topology</tabstop>
+  <tabstop>button_mdpath</tabstop>
+  <tabstop>lineEdit_rstinitial</tabstop>
+  <tabstop>lineEdit_rststep</tabstop>
+  <tabstop>lineEdit_rstfinal</tabstop>
+  <tabstop>lineEdit_rstprefix</tabstop>
+  <tabstop>lineEdit_rstsuffix</tabstop>
+  <tabstop>button_generatesmd</tabstop>
+  <tabstop>button_smdlist</tabstop>
+  <tabstop>lineEdit_smdtime</tabstop>
+  <tabstop>lineEdit_smdstep</tabstop>
+  <tabstop>lineEdit_smdT</tabstop>
+  <tabstop>check_cumulative</tabstop>
+  <tabstop>check_exponential</tabstop>
+  <tabstop>button_plotpmf</tabstop>
+  <tabstop>lineEdit_catres</tabstop>
+  <tabstop>button_calculatecoupling</tabstop>
+  <tabstop>button_coupling</tabstop>
+  <tabstop>lineEdit_batch</tabstop>
+  <tabstop>button_score</tabstop>
+  <tabstop>lineEdit_expRes</tabstop>
+  <tabstop>lineEdit_topn</tabstop>
+  <tabstop>check_topmin</tabstop>
+  <tabstop>check_topmax</tabstop>
+  <tabstop>button_plottop</tabstop>
+  <tabstop>button_plotexp</tabstop>
+  <tabstop>button_pymoltop</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

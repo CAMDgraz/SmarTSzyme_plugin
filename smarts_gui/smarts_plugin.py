@@ -10,8 +10,8 @@ from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QVBoxLayout,
                              QTableWidgetItem, QMessageBox, QButtonGroup,
-                             QFileDialog, QProgressDialog)
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+                             QFileDialog, QProgressDialog, QLabel)
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 from matplotlib.figure import Figure
 import os
@@ -28,13 +28,12 @@ from . import smarTS
 
 # Plots class ==================================================================
 class MplCanvas(FigureCanvasQTAgg):
-    def __init__(self, placeholder, parent=None, dpi=75):
+    def __init__(self, placeholder, parent=None, dpi=100):
         fig_width = placeholder.width()/dpi
         fig_height = placeholder.height()/dpi
-
         self.fig = Figure(figsize=(fig_width, fig_height), dpi=dpi)
         super().__init__(self.fig)
-    
+
     def update_plot(self, nrows, ncols):
         self.fig.clear()
         self.axes = []
@@ -42,8 +41,8 @@ class MplCanvas(FigureCanvasQTAgg):
             ax = self.fig.add_subplot(nrows, ncols, i+1)
             self.axes.append(ax)
         self.fig.subplots_adjust(left=0.15, right=0.99, bottom=0.15, top=0.99,
-                                 hspace=0.5) 
-        self.draw()
+                                 hspace=0.5)
+
 
 # Main Window ==================================================================
 class SmarTSWindow(QMainWindow):
@@ -52,7 +51,6 @@ class SmarTSWindow(QMainWindow):
         uifile = os.path.join(os.path.dirname(__file__),
                               'smarTS.ui')
         uic.loadUi(uifile, self)
-        self.setFixedSize(861, 620)
         self.show()
 
         # Internal variables ===================================================
@@ -148,6 +146,7 @@ class SmarTSWindow(QMainWindow):
         self.button_plottop.clicked.connect(self.plot_score)
         self.button_plotexp.clicked.connect(self.plot_experimental)
         self.button_pymoltop.clicked.connect(self.show_pymol)
+        self.button_calculatecoupling.clicked.connect(self.calculate_coupling)
 
     def measure_changed(self, index):
         # Distance by default
@@ -222,7 +221,6 @@ class SmarTSWindow(QMainWindow):
         measure = self.compute_measure(measure_type, measure_atoms,
                                        measure_label)
         self.measures_pd[measure_label] = measure
-        #self.measures_pd[measure_label] = np.random.randint(1, 20, size=100) # testing
         self.plot_measure()
 
         # Clean line edits and update menus
@@ -245,7 +243,7 @@ class SmarTSWindow(QMainWindow):
     def plot_measure(self):
         # Create axes for each plot and get ax info
         ax_counter = []
-        plot_info = [] # type, label, ax id and ax label
+        plot_info = [] # type, ax
         for row in range(self.tableWidget_measures.rowCount()):
             measure_type = self.tableWidget_measures.item(row, 1).text()
             if measure_type not in ax_counter:
@@ -259,9 +257,12 @@ class SmarTSWindow(QMainWindow):
         for column, info in zip(self.measures_pd.columns, plot_info):
             ax = self.canvas_measures.axes[info[1]]
             if plot_type == 0:
-                sns.kdeplot(x=self.measures_pd[column], ax=ax,
-                            fill=True, label=column)
-                ax.set(xlabel=self.ax_labels[info[0]], ylabel='Density')
+                try:
+                    sns.kdeplot(x=self.measures_pd[column], ax=ax,
+                                fill=True, label=column)
+                    ax.set(xlabel=self.ax_labels[info[0]], ylabel='Density')
+                except:
+                    continue
             elif plot_type == 1:
                 x = range(1, len(self.measures_pd[column]) + 1)
                 sns.lineplot(x=x, y=self.measures_pd[column],
@@ -747,32 +748,85 @@ class SmarTSWindow(QMainWindow):
         progress.setMinimumDuration(0)
         progress.show()
         QApplication.processEvents()
-        for frame in self.frames_list:
+
+        rst_init = self.lineEdit_rstinitial.text().strip()
+        if rst_init == "":
+            rst_init = 1
+        else:
             try:
-                os.mkdir(f"{output}/frame_{frame}")
-            except:
-                pass
-
-            shutil.copyfile(self.topo, f"{output}/frame_{frame}/top.top")
-            rst_files = glob.glob(f"{self.rst_path}/*{frame}*.rst")
-            if len(rst_files) == 0:
+                rst_init = int(rst_init)
+            except ValueError:
                 QMessageBox.critical(self, "Error",
-                                     f"No rst file found for frame {frame}")
-                continue
-            shutil.copyfile(f"{rst_files[0]}",
-                            f"{output}/frame_{frame}/frame.rst")
+                                        "Wrong format of Initial rst")
+                return
 
-            frame_ = frame - 1
-            smd.write_cv(f"{output}/frame_{frame}/cv.in", self.cv_dict,
-                         self.measure_dict, self.measures_pd, frame_)
-            smd.write_qmmm(f"{output}/frame_{frame}/qmmm.in",
-                           self.masks_list, self.theory,
-                           self.steps, self.time_step, self.charge,
-                           self.lineEdit_amber.text().strip(),
-                           300)
-            smd.write_jobrun(f"{output}/frame_{frame}/runjob.sh",
-                             self.lineEdit_amber.text().strip(),
-                             self.lineEdit_openmpi.text().strip())
+        rst_step = self.lineEdit_rststep.text().strip()
+        if rst_step == "":
+            rst_step = 1
+        else:
+            try:
+                rst_step = int(rst_step)
+            except ValueError:
+                QMessageBox.critical(self, "Error",
+                                        "Wrong format of Step")
+                return
+
+        rst_final = self.lineEdit_rstfinal.text().strip()
+        if rst_final == "":
+            rst_final = cmd.count_states()
+        else:
+            try:
+                rst_final = int(rst_final)
+            except ValueError:
+                QMessageBox.critical(self, "Error",
+                                        "Wrong format of Final rst")
+                return
+
+        rst_prefix = self.lineEdit_rstprefix.text().strip()
+        if rst_prefix == "":
+            QMessageBox.critical(self, "Error",
+                                    "No prefix for the rst files supplied")
+            return
+
+        rst_suffix = self.lineEdit_rstsuffix.text().strip()
+        if rst_suffix == "":
+            rst_suffix = '.rst'
+
+        rst_frames = np.arange(rst_init, rst_final+1, rst_step)
+        rst_frames = rst_frames[np.asarray(self.frames_list) - 1]
+
+        with open(f'{output}/frame_rst.dat', 'w') as f:
+            for frame, rst_id in zip(self.frames_list, rst_frames):
+                try:
+                    os.mkdir(f"{output}/frame_{frame}")
+                except:
+                    pass
+                
+                rst_file = "".join([rst_prefix, str(rst_id), rst_suffix])
+                try:
+                    shutil.copyfile(f"{rst_file}",
+                                    f"{output}/frame_{frame}/frame.rst")
+                    print(f"Copying {rst_file} to {output}/frame_{frame}")
+                    f.write(f"frame_{frame} -> {rst_file}\n")
+                except:
+                    QMessageBox.critical(self, "Error",
+                                        f"File {rst_file}(frame {frame}) not found")
+                    continue
+
+                shutil.copyfile(self.topo, f"{output}/frame_{frame}/top.top")
+
+                frame_ = frame - 1
+                smd.write_cv(f"{output}/frame_{frame}/cv.in", self.cv_dict,
+                            self.measure_dict, self.measures_pd, frame_)
+                smd.write_qmmm(f"{output}/frame_{frame}/qmmm.in",
+                            self.masks_list, self.theory,
+                            self.steps, self.time_step, self.charge,
+                            self.lineEdit_amber.text().strip(),
+                            300)
+                smd.write_jobrun(f"{output}/frame_{frame}/runjob.sh",
+                                self.lineEdit_amber.text().strip(),
+                                self.lineEdit_openmpi.text().strip())
+
         smd.write_jobrun(f"{output}/runjob.sh",
                          self.lineEdit_amber.text().strip(),
                          self.lineEdit_openmpi.text().strip())
@@ -870,6 +924,19 @@ class SmarTSWindow(QMainWindow):
                                      "Wrong format of the No. of residues")
                 return
         
+        interactions = []
+        if self.check_vdw.isChecked():
+            interactions.append('vdw')
+        if self.check_hbonds.isChecked():
+            interactions.append('hbonds')
+        if self.check_electrostatic.isChecked():
+            interactions.append('coulomb')
+        
+        if len(interactions) == 0:
+            QMessageBox.critical(self, "Error",
+                                 "No interactions selected")
+            return
+
         progress = QProgressDialog("Calculating Score ...", None, 0, 0, self)
         progress.setWindowModality(Qt.ApplicationModal)
         progress.setCancelButton(None)
@@ -878,7 +945,8 @@ class SmarTSWindow(QMainWindow):
         QApplication.processEvents()
         self.score, self.batches = smarTS.score(self.coupling_path,
                                                 self.matrices_path,
-                                                self.nres, self.batch)
+                                                self.nres, self.batch,
+                                                interactions)
         progress.close()
         return 
     
@@ -908,6 +976,62 @@ class SmarTSWindow(QMainWindow):
         self.canvas_smart.draw()
         return
 
+    def calculate_coupling(self):
+        if self.matrices_path == "":
+            QMessageBox.critical(self, "Error", "No path to matrices found")
+            return
+        interactions = []
+        if self.check_vdw.isChecked():
+            interactions.append('vdw')
+        if self.check_hbonds.isChecked():
+            interactions.append('hbonds')
+        if self.check_electrostatic.isChecked():
+            interactions.append('coulomb')
+        
+        if len(interactions) == 3:
+            QMessageBox.critical(self, "Error",
+                                 "The coupling with all interactions is already calculated")
+            return
+        if len(interactions) == 0:
+            QMessageBox.critical(self, "Error",
+                                 "No interactions selected")
+            return
+        catres = self.lineEdit_catres.text().strip()
+        if catres == "":
+            QMessageBox.critical(self, "Error", "No catalytic residues defined")
+            return
+        else:
+            catres = catres.split(" ")
+            try:
+                catres = [int(res) for res in catres]
+                catres = np.asarray(catres) - 1
+            except ValueError:
+                QMessageBox.critical(self, "Error",
+                                     "Wrong format of catalytic residues")
+                return
+        self.nres = self.lineEdit_nres.text().strip()
+        try:
+            self.nres = int(self.nres)
+        except ValueError:
+            QMessage.critical(self, "Error", "No number of residues provided")
+            return
+        
+        output = QFileDialog.getExistingDirectory(self, "Coupling output dir")
+        if not output:
+            QMessageBox.critical(self, "Error", "No output path selected")
+            return
+        progress = QProgressDialog("Calculating coupling ...", None, 0, 0, self)
+        progress.setWindowModality(Qt.ApplicationModal)
+        progress.setCancelButton(None)
+        progress.setMinimumDuration(0)
+        progress.show()
+        QApplication.processEvents()
+
+        smarTS.calculate_coupling(self.matrices_path, self.nres, interactions,
+                                  catres, output)
+        progress.close()
+        return
+    
     def plot_experimental(self):
         expres = self.lineEdit_expRes.text().strip().split()
         try:
@@ -957,10 +1081,15 @@ class SmarTSWindow(QMainWindow):
         # Change the beta factor
         for resid, score in zip(range(1, self.nres + 1), self.score[-1]):
             cmd.alter(f"resid {resid}", f"b={score}")
-        cmd.spectrum("b", "blue_white_red", "all", maximum=self.score.max(),
-                     minimum=self.score.min())
+        if abs(self.score.max()) > abs(self.score.min()):
+            limit_color = abs(self.score.max())
+        else:
+            limit_color = abs(self.score.min())
+
+        cmd.spectrum("b", "blue_white_red", "all", maximum=limit_color,
+                     minimum=-limit_color)
         return
-        
+
 if __name__ == '__main__':
     app = QApplication([])
     window = SmarTSWindow()
