@@ -10,8 +10,8 @@ from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QVBoxLayout,
                              QTableWidgetItem, QMessageBox, QButtonGroup,
-                             QFileDialog, QProgressDialog)
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+                             QFileDialog, QProgressDialog, QLabel)
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 from matplotlib.figure import Figure
 import os
@@ -28,13 +28,12 @@ from . import smarTS
 
 # Plots class ==================================================================
 class MplCanvas(FigureCanvasQTAgg):
-    def __init__(self, placeholder, parent=None, dpi=75):
+    def __init__(self, placeholder, parent=None, dpi=100):
         fig_width = placeholder.width()/dpi
         fig_height = placeholder.height()/dpi
-
         self.fig = Figure(figsize=(fig_width, fig_height), dpi=dpi)
         super().__init__(self.fig)
-    
+
     def update_plot(self, nrows, ncols):
         self.fig.clear()
         self.axes = []
@@ -42,8 +41,8 @@ class MplCanvas(FigureCanvasQTAgg):
             ax = self.fig.add_subplot(nrows, ncols, i+1)
             self.axes.append(ax)
         self.fig.subplots_adjust(left=0.15, right=0.99, bottom=0.15, top=0.99,
-                                 hspace=0.5) 
-        self.draw()
+                                 hspace=0.5)
+
 
 # Main Window ==================================================================
 class SmarTSWindow(QMainWindow):
@@ -148,6 +147,7 @@ class SmarTSWindow(QMainWindow):
         self.button_plottop.clicked.connect(self.plot_score)
         self.button_plotexp.clicked.connect(self.plot_experimental)
         self.button_pymoltop.clicked.connect(self.show_pymol)
+        self.button_calculatecoupling.clicked.connect(self.calculate_coupling)
 
     def measure_changed(self, index):
         # Distance by default
@@ -747,32 +747,84 @@ class SmarTSWindow(QMainWindow):
         progress.setMinimumDuration(0)
         progress.show()
         QApplication.processEvents()
-        for frame in self.frames_list:
+
+        rst_init = self.lineEdit_rstinitial.text().strip()
+        if rst_init == "":
+            rst_init = 1
+        else:
             try:
-                os.mkdir(f"{output}/frame_{frame}")
-            except:
-                pass
-
-            shutil.copyfile(self.topo, f"{output}/frame_{frame}/top.top")
-            rst_files = glob.glob(f"{self.rst_path}/*{frame}*.rst")
-            if len(rst_files) == 0:
+                rst_init = int(rst_init)
+            except ValueError:
                 QMessageBox.critical(self, "Error",
-                                     f"No rst file found for frame {frame}")
-                continue
-            shutil.copyfile(f"{rst_files[0]}",
-                            f"{output}/frame_{frame}/frame.rst")
+                                        "Wrong format of Initial rst")
+                return
 
-            frame_ = frame - 1
-            smd.write_cv(f"{output}/frame_{frame}/cv.in", self.cv_dict,
-                         self.measure_dict, self.measures_pd, frame_)
-            smd.write_qmmm(f"{output}/frame_{frame}/qmmm.in",
-                           self.masks_list, self.theory,
-                           self.steps, self.time_step, self.charge,
-                           self.lineEdit_amber.text().strip(),
-                           300)
-            smd.write_jobrun(f"{output}/frame_{frame}/runjob.sh",
-                             self.lineEdit_amber.text().strip(),
-                             self.lineEdit_openmpi.text().strip())
+        rst_step = self.lineEdit_rststep.text().strip()
+        if rst_step == "":
+            rst_step = 1
+        else:
+            try:
+                rst_step = int(rst_step)
+            except ValueError:
+                QMessageBox.critical(self, "Error",
+                                        "Wrong format of Step")
+                return
+
+        rst_final = self.lineEdit_rstfinal.text().strip()
+        if rst_final == "":
+            rst_final = cmd.count_states()
+        else:
+            try:
+                rst_final = int(rst_final)
+            except ValueError:
+                QMessageBox.critical(self, "Error",
+                                        "Wrong format of Final rst")
+                return
+
+        rst_prefix = self.lineEdit_rstprefix.text().strip()
+        if rst_prefix == "":
+            QMessageBox.critical(self, "Error",
+                                    "No prefix for the rst files supplied")
+            return
+
+        rst_suffix = self.lineEdit_rstsuffix.text().strip()
+        if rst_suffix == "":
+            rst_suffix = '.rst'
+
+        rst_frames = np.arange(rst_init, rst_final+1, rst_step)
+        rst_frames = rst_frames[self.frames_list - 1]
+
+        with open('frame_rst.dat', 'w') as f:
+            for frame, rst_id in zip(self.frames_list, rst_frames):
+                try:
+                    os.mkdir(f"{output}/frame_{frame}")
+                except:
+                    pass
+                
+                rst_file = "".join([rst_prefix, str(rst_id), rst_suffix])
+                try:
+                    shutil.copyfile(f"{rst_file}",
+                                    f"{output}/frame_{frame}/frame.rst")
+                    f.write(f"frame_{frame} -> {rst_file}")
+                except:
+                    QMessageBox.critical(self, "Error",
+                                        f"File {rst_file}(frame {frame}) not found")
+                    continue
+
+                shutil.copyfile(self.topo, f"{output}/frame_{frame}/top.top")
+
+                frame_ = frame - 1
+                smd.write_cv(f"{output}/frame_{frame}/cv.in", self.cv_dict,
+                            self.measure_dict, self.measures_pd, frame_)
+                smd.write_qmmm(f"{output}/frame_{frame}/qmmm.in",
+                            self.masks_list, self.theory,
+                            self.steps, self.time_step, self.charge,
+                            self.lineEdit_amber.text().strip(),
+                            300)
+                smd.write_jobrun(f"{output}/frame_{frame}/runjob.sh",
+                                self.lineEdit_amber.text().strip(),
+                                self.lineEdit_openmpi.text().strip())
+
         smd.write_jobrun(f"{output}/runjob.sh",
                          self.lineEdit_amber.text().strip(),
                          self.lineEdit_openmpi.text().strip())
@@ -908,6 +960,55 @@ class SmarTSWindow(QMainWindow):
         self.canvas_smart.draw()
         return
 
+    def calculate_coupling(self):
+        if self.matrices_path == "":
+            QMessageBox.critical(self, "Error", "No path to matrices found")
+            return
+        interactions = []
+        if self.check_vdw.isChecked():
+            interactions.append('vdw')
+        if self.check_hbonds.isChecked():
+            interactions.append('hbonds')
+        if self.check_electrostatic.isChecked():
+            interactions.append('coulomb')
+        
+        if len(interactions) == 3:
+            QMessageBox.critical(self, "Error",
+                                 "The coupling with all interactions is already calculated")
+            return
+        if len(interactions) == 0:
+            QMessageBox.critical(self, "Error",
+                                 "No interactions selected")
+            return
+        catres = self.lineEdit_catres.text().strip()
+        if catres == "":
+            QMessageBox.critical(self, "Error", "No catalytic residues defined")
+            return
+        else:
+            catres = catres.split(" ")
+            try:
+                catres = [int(res) for res in catres]
+            except ValueError:
+                QMessageBox.critical(self, "Error",
+                                     "Wrong format of catalytic residues")
+                return
+        
+        output = QFileDialog.getExistingDirectory(self, "Coupling output dir")
+        if not output:
+            QMessageBox.critical(self, "Error", "No output path selected")
+            return
+        progress = QProgressDialog("Calculating coupling ...", None, 0, 0, self)
+        progress.setWindowModality(Qt.ApplicationModal)
+        progress.setCancelButton(None)
+        progress.setMinimumDuration(0)
+        progress.show()
+        QApplication.processEvents()
+
+        smarTS.calculate_coupling(self.matrices_path, self.nres, interactions,
+                                  catres, output)
+        progress.close()
+        return
+    
     def plot_experimental(self):
         expres = self.lineEdit_expRes.text().strip().split()
         try:
@@ -960,7 +1061,7 @@ class SmarTSWindow(QMainWindow):
         cmd.spectrum("b", "blue_white_red", "all", maximum=self.score.max(),
                      minimum=self.score.min())
         return
-        
+
 if __name__ == '__main__':
     app = QApplication([])
     window = SmarTSWindow()
