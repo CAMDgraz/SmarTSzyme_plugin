@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>650</width>
-    <height>550</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>650</width>
-    <height>550</height>
+    <width>800</width>
+    <height>600</height>
    </size>
   </property>
   <property name="font">
@@ -171,6 +171,15 @@
             <property name="enabled">
              <bool>true</bool>
             </property>
+            <property name="frameShape">
+             <enum>QFrame::Shape::Box</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Shadow::Raised</enum>
+            </property>
+            <property name="midLineWidth">
+             <number>1</number>
+            </property>
             <property name="editTriggers">
              <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::EditKeyPressed</set>
             </property>
@@ -318,8 +327,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>580</width>
-             <height>326</height>
+             <width>760</width>
+             <height>387</height>
             </rect>
            </property>
            <attribute name="label">
@@ -334,7 +343,7 @@
                 <height>225</height>
                </size>
               </property>
-              <widget class="QWidget" name="">
+              <widget class="QWidget" name="layoutWidget">
                <property name="geometry">
                 <rect>
                  <x>10</x>
@@ -462,12 +471,12 @@
                 <height>50</height>
                </size>
               </property>
-              <widget class="QWidget" name="">
+              <widget class="QWidget" name="layoutWidget">
                <property name="geometry">
                 <rect>
                  <x>10</x>
                  <y>10</y>
-                 <width>187</width>
+                 <width>400</width>
                  <height>32</height>
                 </rect>
                </property>
@@ -479,6 +488,12 @@
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>160</width>
+                    <height>25</height>
+                   </size>
                   </property>
                   <property name="text">
                    <string>Select All</string>
@@ -492,6 +507,12 @@
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>160</width>
+                    <height>25</height>
+                   </size>
                   </property>
                   <property name="text">
                    <string>Delete Selection</string>
@@ -515,6 +536,9 @@
                 <width>270</width>
                 <height>200</height>
                </size>
+              </property>
+              <property name="midLineWidth">
+               <number>1</number>
               </property>
               <column>
                <property name="text">
@@ -560,8 +584,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>580</width>
-             <height>326</height>
+             <width>760</width>
+             <height>387</height>
             </rect>
            </property>
            <attribute name="label">
@@ -572,16 +596,16 @@
              <widget class="QWidget" name="widget_6" native="true">
               <property name="minimumSize">
                <size>
-                <width>300</width>
+                <width>400</width>
                 <height>300</height>
                </size>
               </property>
-              <widget class="QWidget" name="">
+              <widget class="QWidget" name="layoutWidget">
                <property name="geometry">
                 <rect>
                  <x>8</x>
                  <y>10</y>
-                 <width>292</width>
+                 <width>381</width>
                  <height>292</height>
                 </rect>
                </property>
@@ -758,18 +782,24 @@
                 <height>50</height>
                </size>
               </property>
-              <widget class="QWidget" name="">
+              <widget class="QWidget" name="layoutWidget">
                <property name="geometry">
                 <rect>
-                 <x>10</x>
+                 <x>0</x>
                  <y>10</y>
-                 <width>187</width>
+                 <width>331</width>
                  <height>32</height>
                 </rect>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_2">
                 <item>
                  <widget class="QCheckBox" name="check_allmask">
+                  <property name="minimumSize">
+                   <size>
+                    <width>160</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Select All</string>
                   </property>
@@ -777,6 +807,12 @@
                 </item>
                 <item>
                  <widget class="QPushButton" name="button_delmask">
+                  <property name="minimumSize">
+                   <size>
+                    <width>160</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Delete Selection</string>
                   </property>
@@ -793,6 +829,18 @@
                 <horstretch>1</horstretch>
                 <verstretch>1</verstretch>
                </sizepolicy>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Shape::Box</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Shadow::Raised</enum>
+              </property>
+              <property name="lineWidth">
+               <number>1</number>
+              </property>
+              <property name="midLineWidth">
+               <number>1</number>
               </property>
               <column>
                <property name="text">
@@ -813,8 +861,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>580</width>
-             <height>326</height>
+             <width>760</width>
+             <height>387</height>
             </rect>
            </property>
            <attribute name="label">
@@ -829,7 +877,7 @@
                 <height>300</height>
                </size>
               </property>
-              <widget class="QWidget" name="">
+              <widget class="QWidget" name="layoutWidget">
                <property name="geometry">
                 <rect>
                  <x>7</x>
@@ -958,18 +1006,24 @@
                 <height>40</height>
                </size>
               </property>
-              <widget class="QWidget" name="">
+              <widget class="QWidget" name="layoutWidget">
                <property name="geometry">
                 <rect>
                  <x>10</x>
                  <y>6</y>
-                 <width>187</width>
+                 <width>328</width>
                  <height>32</height>
                 </rect>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_3">
                 <item>
                  <widget class="QCheckBox" name="check_allfilters">
+                  <property name="minimumSize">
+                   <size>
+                    <width>160</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Select All</string>
                   </property>
@@ -977,6 +1031,12 @@
                 </item>
                 <item>
                  <widget class="QPushButton" name="button_delfilter">
+                  <property name="minimumSize">
+                   <size>
+                    <width>160</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Delete Selection</string>
                   </property>
@@ -999,6 +1059,15 @@
                 <width>200</width>
                 <height>70</height>
                </size>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Shape::Box</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Shadow::Raised</enum>
+              </property>
+              <property name="midLineWidth">
+               <number>1</number>
               </property>
               <column>
                <property name="text">
@@ -1030,18 +1099,24 @@
                 <height>40</height>
                </size>
               </property>
-              <widget class="QWidget" name="">
+              <widget class="QWidget" name="layoutWidget">
                <property name="geometry">
                 <rect>
                  <x>10</x>
                  <y>0</y>
-                 <width>187</width>
+                 <width>328</width>
                  <height>32</height>
                 </rect>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_4">
                 <item>
                  <widget class="QCheckBox" name="check_allframes">
+                  <property name="minimumSize">
+                   <size>
+                    <width>160</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Select All</string>
                   </property>
@@ -1049,6 +1124,12 @@
                 </item>
                 <item>
                  <widget class="QPushButton" name="button_delframe">
+                  <property name="minimumSize">
+                   <size>
+                    <width>160</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Delete Selection</string>
                   </property>
@@ -1072,6 +1153,15 @@
                 <height>70</height>
                </size>
               </property>
+              <property name="frameShape">
+               <enum>QFrame::Shape::Box</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Shadow::Raised</enum>
+              </property>
+              <property name="midLineWidth">
+               <number>1</number>
+              </property>
               <column>
                <property name="text">
                 <string>Select</string>
@@ -1091,8 +1181,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>580</width>
-             <height>326</height>
+             <width>760</width>
+             <height>387</height>
             </rect>
            </property>
            <attribute name="label">
@@ -1264,7 +1354,7 @@
             <height>100</height>
            </size>
           </property>
-          <widget class="QWidget" name="">
+          <widget class="QWidget" name="layoutWidget">
            <property name="geometry">
             <rect>
              <x>10</x>
@@ -1323,13 +1413,6 @@
               </property>
              </widget>
             </item>
-            <item row="7" column="1">
-             <widget class="QLabel" name="label_maximum">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
             <item row="7" column="3">
              <widget class="QLabel" name="label_33">
               <property name="text">
@@ -1341,13 +1424,6 @@
              <widget class="QLabel" name="label_34">
               <property name="text">
                <string>Time:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="1">
-             <widget class="QLabel" name="label_time">
-              <property name="text">
-               <string/>
               </property>
              </widget>
             </item>
@@ -1409,6 +1485,20 @@
              <widget class="QPushButton" name="button_plotpmf">
               <property name="text">
                <string>Plot PMF</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1" colspan="2">
+             <widget class="QLabel" name="label_maximum">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="1" colspan="2">
+             <widget class="QLabel" name="label_time">
+              <property name="text">
+               <string/>
               </property>
              </widget>
             </item>
@@ -1672,8 +1762,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>650</width>
-     <height>33</height>
+     <width>800</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>
