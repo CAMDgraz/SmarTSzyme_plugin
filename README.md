@@ -42,9 +42,7 @@ MD FILES
 
 **sMD results**. The user needs to collect the files with the work values for the explored collective variables. The name files need to be listed in a file and ping pointed with the 'List' option. It needs also to be specified the total ammount of time of the sMD (i.e., 2.0 ps), the separation between the printed values of work (i.e., 0.01 ps), and the temperature. By clicking 'PMF', the GUI prints all profiles and it calculates the average using the Jarzynski equality. There are two ways of averaging: exponential or cumulative. The GUI identifies the energy maximum and at which time point is found. 
 
-**SmarTSzyme**. This is the way to plot the results after one SmarTSzyme analysis. Before running the GUI, it is needed to calculate the matrices needed by SmarTSzyme with the command-line code. Check [SmarTSzyme](https://github.com/CAMDGraz/SmarTSzyme) to know further. 
-
-
+**SmarTSzyme**. This is the way to plot the results after one SmarTSzyme analysis. Before running the GUI, it is needed to calculate the matrices needed by SmarTSzyme with the command-line code. Please, check [SmarTSzyme](https://github.com/CAMDGraz/SmarTSzyme) to know how to run SmarTSzyme. 
 
 ## License
 *SmarTSzyme-GUI* is licensed under GNU General Public License v3.0.
