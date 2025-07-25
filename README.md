@@ -23,7 +23,7 @@ The installation of the plugin, is done via the plugin manager as follows:\
 3. In the *Install New Plugin* tab click the *Choose File...* button. Select the **plugin.zip** file created before.
 
 ## How to use
-The plugin has been designed to aid the user in the first step of the workflow followed in [SmarTSzyme](https://github.com/CAMDGraz/SmarTSzyme) along with the visualization of the results.
+The plugin has been designed to aid the user in the first step of the workflow followed in [SmarTSzyme](https://github.com/CAMDGraz/SmarTSzyme) along with the visualization of the results. It can be loaded by clicking Plugin > SmarTSzyme v1.0. A new window will open. 
 
 The initial window of the SmarTSzyme-GUI consists of four options: Measurements, sMD setup, sMD results, and SmarTSzyme. 
 
