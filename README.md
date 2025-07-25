@@ -27,7 +27,9 @@ The plugin has been designed to aid the user in the first step of the workflow f
 
 The initial window of the SmarTSzyme-GUI consists of four options: Measurements, sMD setup, sMD results, and SmarTSzyme. 
 
-
+<div align="center">
+<img src="images/GUI.png" alt="load" width="1000"/>
+</div>
 
 **Measurements**. With this menu, geometrical features like distances, angles and dihedrals can be monitores on the GUI. After loading a trajectory as an object into PyMOL, the user can select the atom IDs to be traced along the trajectory. Each of the measurements need to be labeled. The different measurements can be plotted simultaneously on the GUI. As output, the use can select to plot these data as a distribution of the value or as a evolution along the different frames of the trajectory. These data can be exported as images. 
 
